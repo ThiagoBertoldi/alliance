@@ -32,6 +32,13 @@ class MyHomePage_Login extends StatefulWidget {
 
 // ignore: camel_case_types
 class _MyHomePageState_Login extends State<MyHomePage_Login> {
+  String email = '';
+  String senha = '';
+
+  void imprimeLogin(String email, String senha) {
+    print(email + " / " + senha);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +64,9 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                 ),
 
                 TextFormField(
-                  onChanged: (text) {},
+                  onChanged: (text) {
+                    email = text;
+                  },
                   decoration: InputDecoration(
                     labelText: 'Email',
                     icon: Icon(Icons.email),
@@ -65,7 +74,9 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                 ),
 
                 TextFormField(
-                  onChanged: (text) {},
+                  onChanged: (text) {
+                    senha = text;
+                  },
                   autofocus: true,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -103,7 +114,9 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                       style: TextStyle(color: Colors.white),
                     ),
                     color: Colors.green,
-                    onPressed: () {},
+                    onPressed: () {
+                      imprimeLogin(email, senha);
+                    },
                   ),
                 ),
                 Container(
