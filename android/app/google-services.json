@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "511730493433",
+    "project_id": "pac4fase",
+    "storage_bucket": "pac4fase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511730493433:android:8c341d98980ac027157f28",
+        "android_client_info": {
+          "package_name": "com.catolica.alliance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511730493433-tkbohqq9pv0ehh2rrq48qc9ucqbngdtd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.catolica.alliance",
+            "certificate_hash": "0fa4c0ed824ead71e3ebfb1ad8df6219a3ba7c9d"
+          }
+        },
+        {
+          "client_id": "511730493433-hl1jrdc2e208n80lvhapq575ejq5fdrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxFrFsMkRdwXpxSfBbBTJK31GQ8cZjKQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511730493433-hl1jrdc2e208n80lvhapq575ejq5fdrr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
