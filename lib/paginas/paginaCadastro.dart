@@ -13,9 +13,11 @@ class PaginaCadastro extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterApp',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.orange,
       ),
-      home: MyHomePage_Cadastro(title: 'Flutter App'),
+      home: MyHomePage_Cadastro(
+        title: 'ALLIANCE',
+      ),
     );
   }
 }
@@ -61,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title, style: TextStyle(color: Colors.white)),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -76,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
                 margin: new EdgeInsets.all(15),
                 child: Text(
                   "Cadastro de Usuário",
-                  style: TextStyle(fontSize: 30, color: Colors.green),
+                  style: TextStyle(fontSize: 30, color: Colors.orange),
                 ),
               ),
               TextFormField(
@@ -157,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
                   minWidth: MediaQuery.of(context).size.width * 0.6,
                   child:
                       Text('Cadastrar', style: TextStyle(color: Colors.white)),
-                  color: Colors.green,
+                  color: Colors.orange,
                   onPressed: () {
                     Navigator.push(
                         context,

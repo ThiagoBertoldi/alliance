@@ -14,9 +14,9 @@ class PaginaLogin extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterApp',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.orange,
       ),
-      home: MyHomePage_Login(title: 'Alliance'),
+      home: MyHomePage_Login(title: 'ALLIANCE'),
     );
   }
 }
@@ -44,7 +44,7 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title, style: TextStyle(color: Colors.white)),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -59,8 +59,8 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                   margin:
                       new EdgeInsets.only(left: 10.0, right: 10.0, bottom: 50),
                   child: Text(
-                    "Login de Usuário",
-                    style: TextStyle(fontSize: 35, color: Colors.green),
+                    "ALLIANCE",
+                    style: TextStyle(fontSize: 35, color: Colors.orange),
                   ),
                 ),
 
@@ -86,24 +86,9 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                   ),
                 ),
 
-                Container(
-                  margin: new EdgeInsets.only(top: 30),
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      'Esqueci minha senha!!!',
-                      style: TextStyle(color: Colors.black54),
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
                 // ignore: deprecated_member_use
                 Container(
-                  margin: new EdgeInsets.only(top: 40),
+                  margin: new EdgeInsets.only(top: 50),
                   // ignore: deprecated_member_use
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
@@ -114,14 +99,30 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                       'Login',
                       style: TextStyle(color: Colors.white),
                     ),
-                    color: Colors.green,
+                    color: Colors.orange,
                     onPressed: () {
                       imprimeLogin(email, senha);
                     },
                   ),
                 ),
                 Container(
-                  margin: new EdgeInsets.only(top: 20),
+                  margin: new EdgeInsets.only(top: 1),
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  // ignore: deprecated_member_use
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Text(
+                      'Esqueci minha senha!!!',
+                      style: TextStyle(color: Colors.orange),
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+
+                Container(
+                  margin: new EdgeInsets.only(top: 50),
                   // ignore: deprecated_member_use
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
@@ -132,7 +133,7 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                       'Cadastrar',
                       style: TextStyle(color: Colors.white),
                     ),
-                    color: Colors.green,
+                    color: Colors.orange,
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -140,6 +141,21 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                               builder: (BuildContext context) =>
                                   PaginaCadastro()));
                     },
+                  ),
+                ),
+                Container(
+                  margin: new EdgeInsets.only(top: 1),
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  // ignore: deprecated_member_use
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Text(
+                      'Não possui uma conta?',
+                      style: TextStyle(color: Colors.orange),
+                    ),
+                    onPressed: () {},
                   ),
                 ),
               ],
