@@ -1,4 +1,4 @@
-package br.com.catolicasc.alliance;
+package com.catolica.alliance;
 
 import io.flutter.embedding.android.FlutterActivity;
 

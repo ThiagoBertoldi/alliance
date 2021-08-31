@@ -1,3 +1,4 @@
+import 'package:alliance/paginas/paginaCadastro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -133,11 +134,11 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                     ),
                     color: Colors.green,
                     onPressed: () {
-                      // Navigator.push(
-                      //  context,
-                      // MaterialPageRoute(
-                      //  builder: (BuildContext context) =>
-                      //PaginaCadastro()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  PaginaCadastro()));
                     },
                   ),
                 ),
