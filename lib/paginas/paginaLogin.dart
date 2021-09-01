@@ -1,4 +1,5 @@
 import 'package:alliance/paginas/paginaCadastro.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -8,7 +9,6 @@ main() {
 
 // ignore: camel_case_types
 class PaginaLogin extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
