@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterApp',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.orange,
       ),
-      home: PaginaProdutos(title: 'Flutter App'),
+      home: PaginaProdutos(title: 'Produtos Cadastrados'),
     );
   }
 }
@@ -35,54 +35,117 @@ class _MyHomePageState extends State<PaginaProdutos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title, style: TextStyle(color: Colors.white)),
       ),
-      body: Container(
-        padding: EdgeInsets.only(right: 10, left: 10),
-        child: ListView(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(top: 30, bottom: 30),
-              child: Center(
-                child: Text("Lista de Produtos",
-                    style: TextStyle(fontSize: 30, color: Colors.green)),
+      body: ListView(children: [
+        Center(
+          child: Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.15,
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.width * 0.04),
+                child: Card(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.width * 0.05),
+                  color: Colors.orange,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: new EdgeInsets.only(top: 10, left: 15),
+                        height: 40,
+                        child: Text("15",
+                            style:
+                                TextStyle(fontSize: 25, color: Colors.white)),
+                      ),
+                      Container(
+                        padding: new EdgeInsets.only(top: 5, left: 15),
+                        height: 40,
+                        child: Text("Produtos cadastrados",
+                            style:
+                                TextStyle(fontSize: 18, color: Colors.white)),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            Container(
-              child: ListTile(
-                  title: new Row(children: <Widget>[
-                new Expanded(
-                    flex: 2,
-                    child: Container(
-                        alignment: Alignment.centerLeft,
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        child: new Text("Descrição do Produto",
-                            style: TextStyle(fontSize: 20)))),
-                new Expanded(
-                    child: Container(
-                        alignment: Alignment.centerRight,
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        child:
-                            new Text("Preço", style: TextStyle(fontSize: 20)))),
-              ])),
-            ),
-            for (int i = 1; i <= 50; i++)
-              ListTile(
-                  title: new Row(children: <Widget>[
-                new Expanded(
-                    flex: 2,
-                    child: Container(
-                        alignment: Alignment.centerLeft,
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child: new Text("Produto $i"))),
-                new Expanded(
-                    child: Container(
-                        alignment: Alignment.centerRight,
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child: new Text("Preço"))),
-              ])),
-          ],
+              Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.width * 0.1),
+                  child: Text("Últimos produtos Cadastrados",
+                      style: TextStyle(fontSize: 26, color: Colors.orange))),
+              Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.width * 0.05),
+                child: Column(
+                  children: [
+                    for (int i = 1; i <= 10; i++)
+                      new GestureDetector(
+                        onTap: () {
+                          print("Clicou");
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: MediaQuery.of(context).size.height * 0.09,
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.width * 0.015),
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: Text("Produto $i",
+                                          style: TextStyle(
+                                            fontSize: 19,
+                                          )),
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        "R\$ 150,00",
+                                        style: TextStyle(
+                                          fontSize: 19,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.width *
+                                          0.01,
+                                      left: 2),
+                                  child: Text("Unidade"),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.width *
+                                          0.03),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  height: 1.5,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
+      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.shopping_cart, color: Colors.white),
       ),
     );
   }
