@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 main() {
   runApp(MyApp());
@@ -42,14 +43,11 @@ class _MyHomePageState extends State<PaginaProdutos> {
           child: Column(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.15,
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.width * 0.04),
+                padding: new EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.285,
                 child: Card(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.width * 0.05),
-                  color: Colors.orange,
+                  color: Colors.orange[300],
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -57,88 +55,113 @@ class _MyHomePageState extends State<PaginaProdutos> {
                         padding: new EdgeInsets.only(top: 10, left: 15),
                         height: 40,
                         child: Text("15",
-                            style:
-                                TextStyle(fontSize: 25, color: Colors.white)),
+                            style: TextStyle(
+                                fontSize: 27,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                       Container(
                         padding: new EdgeInsets.only(top: 5, left: 15),
                         height: 40,
                         child: Text("Produtos cadastrados",
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.white)),
+                            style: TextStyle(
+                                fontSize: 19,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Container(
+                        padding: new EdgeInsets.only(top: 5, left: 15),
+                        height: 40,
+                        child: Text("6",
+                            style: TextStyle(
+                                fontSize: 27,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Container(
+                        padding: new EdgeInsets.only(top: 5, left: 15),
+                        height: 40,
+                        child: Text("Representantes diferentes",
+                            style: TextStyle(
+                                fontSize: 19,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
                     ],
                   ),
                 ),
               ),
               Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  height: 40,
+                  color: Colors.orange[300],
                   margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.width * 0.1),
-                  child: Text("Últimos produtos Cadastrados",
-                      style: TextStyle(fontSize: 26, color: Colors.orange))),
+                      top: MediaQuery.of(context).size.width * 0.07),
+                  child: Text("Últimos Produtos Cadastrados",
+                      style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold))),
               Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.width * 0.05),
-                child: Column(
-                  children: [
-                    for (int i = 1; i <= 10; i++)
-                      new GestureDetector(
-                        onTap: () {
-                          print("Clicou");
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          height: MediaQuery.of(context).size.height * 0.09,
-                          margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.width * 0.015),
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      child: Text("Produto $i",
-                                          style: TextStyle(
-                                            fontSize: 19,
-                                          )),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        "R\$ 150,00",
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02)),
+              for (int i = 1; i <= 10; i++)
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  padding: new EdgeInsets.only(top: 5),
+                  child: new InkWell(
+                    onTap: () {
+                      print("Clicou");
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.02,
+                          right: MediaQuery.of(context).size.width * 0.04,
+                          left: MediaQuery.of(context).size.width * 0.04,
+                          bottom: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                    child: Text("Produto $i",
                                         style: TextStyle(
-                                          fontSize: 19,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.width *
-                                          0.01,
-                                      left: 2),
-                                  child: Text("Unidade"),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.width *
-                                          0.03),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  height: 1.5,
-                                  color: Colors.black,
-                                ),
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold))),
+                                Text('R\$ 150,00',
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.bold))
                               ],
                             ),
-                          ),
+                            Container(
+                              padding: new EdgeInsets.only(top: 10, left: 5),
+                              child: Text("Unidade",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                            Container(
+                              padding: new EdgeInsets.all(5),
+                              child: Text("Marca",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
                         ),
                       ),
-                  ],
-                ),
-              ),
+                    ),
+                  ),
+                )
             ],
           ),
         ),
