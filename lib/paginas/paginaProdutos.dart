@@ -6,10 +6,10 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 main() {
-  runApp(MyApp());
+  runApp(PaginaProdutos());
 }
 
-class MyApp extends StatelessWidget {
+class PaginaProdutos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,13 +17,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: PaginaProdutos(title: 'Produtos Cadastrados'),
+      home: PaginaProdutos_State(title: 'Produtos Cadastrados'),
     );
   }
 }
 
-class PaginaProdutos extends StatefulWidget {
-  PaginaProdutos({Key? key, required this.title}) : super(key: key);
+// ignore: camel_case_types
+class PaginaProdutos_State extends StatefulWidget {
+  PaginaProdutos_State({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -31,7 +32,7 @@ class PaginaProdutos extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<PaginaProdutos> {
+class _MyHomePageState extends State<PaginaProdutos_State> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

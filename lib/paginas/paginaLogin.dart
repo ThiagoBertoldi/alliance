@@ -1,4 +1,5 @@
 import 'package:alliance/paginas/paginaCadastro.dart';
+import 'package:alliance/paginas/paginaProdutos.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -101,7 +102,11 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                     ),
                     color: Colors.orange,
                     onPressed: () {
-                      imprimeLogin(email, senha);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  PaginaProdutos()));
                     },
                   ),
                 ),
