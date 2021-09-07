@@ -44,9 +44,6 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Colors.white)),
-      ),
       body: SingleChildScrollView(
         child: Container(
           margin: new EdgeInsets.only(left: 50.0, right: 50.0),
@@ -61,7 +58,10 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                       new EdgeInsets.only(left: 10.0, right: 10.0, bottom: 50),
                   child: Text(
                     "ALLIANCE",
-                    style: TextStyle(fontSize: 35, color: Colors.orange),
+                    style: TextStyle(
+                      fontSize: 35,
+                      color: Colors.orange[300],
+                    ),
                   ),
                 ),
 
@@ -75,21 +75,42 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                   ),
                 ),
 
-                TextFormField(
-                  onChanged: (text) {
-                    senha = text;
-                  },
-                  autofocus: true,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Senha',
-                    icon: Icon(Icons.lock),
+                Container(
+                  margin: new EdgeInsets.only(top: 20),
+                  child: TextFormField(
+                    onChanged: (text) {
+                      senha = text;
+                    },
+                    autofocus: true,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
+                      icon: Icon(Icons.lock),
+                    ),
                   ),
                 ),
-
+                Container(
+                  alignment: Alignment.centerRight,
+                  margin: new EdgeInsets.only(top: 15),
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  // ignore: deprecated_member_use
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Text(
+                      'Esqueci minha senha!!!',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.orange[300],
+                          fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
                 // ignore: deprecated_member_use
                 Container(
-                  margin: new EdgeInsets.only(top: 50),
+                  margin: new EdgeInsets.only(top: 30),
                   // ignore: deprecated_member_use
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
@@ -98,9 +119,9 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                     minWidth: MediaQuery.of(context).size.width * 0.6,
                     child: Text(
                       'Login',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    color: Colors.orange,
+                    color: Colors.orange[300],
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -111,23 +132,21 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                   ),
                 ),
                 Container(
-                  margin: new EdgeInsets.only(top: 1),
+                  alignment: Alignment.center,
+                  margin: new EdgeInsets.only(top: 30),
                   height: MediaQuery.of(context).size.height * 0.07,
                   width: MediaQuery.of(context).size.width * 0.6,
                   // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      'Esqueci minha senha!!!',
-                      style: TextStyle(color: Colors.orange),
+
+                  child: Text(
+                    'Não possui uma conta?',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.orange[300],
                     ),
-                    onPressed: () {},
                   ),
                 ),
-
                 Container(
-                  margin: new EdgeInsets.only(top: 50),
                   // ignore: deprecated_member_use
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
@@ -136,9 +155,9 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                     minWidth: MediaQuery.of(context).size.width * 0.6,
                     child: Text(
                       'Cadastrar',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
-                    color: Colors.orange,
+                    color: Colors.orange[300],
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -146,21 +165,6 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                               builder: (BuildContext context) =>
                                   PaginaCadastro()));
                     },
-                  ),
-                ),
-                Container(
-                  margin: new EdgeInsets.only(top: 1),
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      'Não possui uma conta?',
-                      style: TextStyle(color: Colors.orange),
-                    ),
-                    onPressed: () {},
                   ),
                 ),
               ],
