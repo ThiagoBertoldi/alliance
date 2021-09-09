@@ -34,7 +34,9 @@ class MenuCliente_State extends StatefulWidget {
 
 class _MyHomePageState extends State<MenuCliente_State> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
@@ -143,20 +145,105 @@ class _MyHomePageState extends State<MenuCliente_State> {
                     context: context,
                     builder: (BuildContext context) {
                       return Container(
-                        height: 200,
                         color: Colors.white,
                         child: Center(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              const Text('Modal Funcionando :D',
-                                  style: TextStyle(fontSize: 20)),
-                              ElevatedButton(
-                                child: const Text('Fechar',
-                                    style: TextStyle(color: Colors.white)),
-                                onPressed: () => Navigator.pop(context),
-                              )
+                            children: [
+                              Container(
+                                  padding: new EdgeInsets.all(14),
+                                  child: Text("Produto",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold))),
+                              Container(
+                                padding:
+                                    new EdgeInsets.only(left: 70, right: 70),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Expanded(
+                                        child: Text("Preço mais baixo:",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold))),
+                                    Text('R\$ 100,00',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green))
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: new EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.03),
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.07,
+                                child: Center(
+                                  child: Text("Empresa",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      )),
+                                ),
+                                decoration: new BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: const Radius.circular(10.0),
+                                    topRight: const Radius.circular(10.0),
+                                    bottomLeft: const Radius.circular(10.0),
+                                    bottomRight: const Radius.circular(10.0),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: new EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.01),
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.07,
+                                child: Center(
+                                  child: Text("Unidade de Medida",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      )),
+                                ),
+                                decoration: new BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: const Radius.circular(10.0),
+                                    topRight: const Radius.circular(10.0),
+                                    bottomLeft: const Radius.circular(10.0),
+                                    bottomRight: const Radius.circular(10.0),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: new EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.01),
+                                width: MediaQuery.of(context).size.width * 0.90,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.07,
+                                child: Center(
+                                  child: Text("Marca",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      )),
+                                ),
+                                decoration: new BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: const Radius.circular(10.0),
+                                    topRight: const Radius.circular(10.0),
+                                    bottomLeft: const Radius.circular(10.0),
+                                    bottomRight: const Radius.circular(10.0),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -184,18 +271,36 @@ class _MyHomePageState extends State<MenuCliente_State> {
                                     style: TextStyle(
                                         fontSize: 19,
                                         fontWeight: FontWeight.bold))),
-                            Text('R\$ 150,00',
+                            Text('R\$ 100,00',
                                 style: TextStyle(
-                                    fontSize: 19, fontWeight: FontWeight.bold))
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green))
                           ],
                         ),
-                        Container(
-                          padding: new EdgeInsets.only(top: 10, left: 5),
-                          child: Text("Unidade",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                padding: new EdgeInsets.only(left: 5, top: 7),
+                                child: Text("Unidade",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            Container(
+                              child: Container(
+                                  padding: new EdgeInsets.only(top: 5),
+                                  child: Text('R\$ 150,00',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red))),
+                            ),
+                          ],
                         ),
                         Container(
                           padding: new EdgeInsets.all(5),
