@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(PaginaCadastro());
+  runApp(PaginaCadastroUsuarios());
 }
 
 // ignore: camel_case_types
-class PaginaCadastro extends StatelessWidget {
+class PaginaCadastroUsuarios extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -46,16 +46,20 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
   int telefone = 0;
   String senha = '';
   String senhaNovamente = '';
+  int permissao = 0;
 
   void gravaDados(String nome, String email, String empresa, String cnpj,
-      int telefone, String senha, String senhaNovamente) {
-    if (nome != '' &&
-        email != '' &&
-        empresa != '' &&
-        telefone != 0 &&
-        senha != '' &&
-        senhaNovamente == senha &&
-        cnpj != '') {
+      int telefone, String senha, String senhaNovamente, int permissao) {
+    if (nome == '' ||
+        email == '' ||
+        empresa == '' ||
+        telefone == 0 ||
+        senha == '' ||
+        cnpj == '') {
+      print("Precisa Preencher Todos os Campos!!");
+    } else if (senhaNovamente != senha) {
+      print("Senhas não são iguais!!!");
+    } else {
       FirebaseFirestore.instance.collection("users_").doc("$nome").set({
         "nome": "$nome",
         "email": "$email",
@@ -63,10 +67,9 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
         "telefone": "$telefone",
         "cnpj": "$cnpj",
         "senha": "$senha",
-        "senhaNovamente": "$senhaNovamente"
+        "senhaNovamente": "$senhaNovamente",
+        "permissao": "$permissao"
       });
-    } else {
-      print("Precisa Preencher Todos os Campos!!");
     }
   }
 
@@ -173,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
                   color: Colors.orange,
                   onPressed: () {
                     gravaDados(nome, email, empresa, cnpj, telefone, senha,
-                        senhaNovamente);
+                        senhaNovamente, 2);
                   },
                 ),
               ),

@@ -1,4 +1,4 @@
-import 'package:alliance/paginas/paginaCadastro.dart';
+import 'package:alliance/paginas/paginaCadastroUsuarios.dart';
 import 'package:alliance/paginas/paginaProdutos.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
@@ -164,7 +164,7 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  PaginaCadastro()));
+                                  PaginaCadastroUsuarios()));
                     },
                   ),
                 ),
