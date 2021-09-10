@@ -1,9 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 main() {
   runApp(MenuCliente());
@@ -145,13 +140,12 @@ class _MyHomePageState extends State<MenuCliente_State> {
                     context: context,
                     builder: (BuildContext context) {
                       return Container(
-                        color: Colors.white,
                         child: Center(
                           child: Column(
                             children: [
                               Container(
                                   padding: new EdgeInsets.all(14),
-                                  child: Text("Produto",
+                                  child: Text("Fermento Seco",
                                       style: TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold))),
@@ -167,7 +161,7 @@ class _MyHomePageState extends State<MenuCliente_State> {
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold))),
-                                    Text('R\$ 100,00',
+                                    Text('R\$ 10,00',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
@@ -183,7 +177,7 @@ class _MyHomePageState extends State<MenuCliente_State> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.07,
                                 child: Center(
-                                  child: Text("Empresa",
+                                  child: Text("Produpan",
                                       style: TextStyle(
                                         fontSize: 16,
                                       )),
@@ -206,7 +200,7 @@ class _MyHomePageState extends State<MenuCliente_State> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.07,
                                 child: Center(
-                                  child: Text("Unidade de Medida",
+                                  child: Text("UN",
                                       style: TextStyle(
                                         fontSize: 16,
                                       )),
@@ -229,7 +223,7 @@ class _MyHomePageState extends State<MenuCliente_State> {
                                 height:
                                     MediaQuery.of(context).size.height * 0.07,
                                 child: Center(
-                                  child: Text("Marca",
+                                  child: Text("Fleischman",
                                       style: TextStyle(
                                         fontSize: 16,
                                       )),

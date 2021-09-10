@@ -1,5 +1,6 @@
 import 'package:alliance/paginas/paginaCadastro.dart';
 import 'package:alliance/paginas/paginaProdutos.dart';
+// ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

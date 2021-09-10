@@ -1,7 +1,12 @@
+// ignore: unused_import
 import 'package:alliance/Paginas/paginaLogin.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(PaginaCadastro());
 }
 
@@ -42,21 +47,27 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
   String senha = '';
   String senhaNovamente = '';
 
-  void gravaDados(String nome, String email, String empresa, int telefone,
-      String senha, String senhaNovamente) {
-    print(nome +
-        " / " +
-        email +
-        " / " +
-        empresa +
-        " / " +
-        cnpj +
-        " / " +
-        "$telefone" +
-        " / " +
-        senha +
-        " / " +
-        senhaNovamente);
+  void gravaDados(String nome, String email, String empresa, String cnpj,
+      int telefone, String senha, String senhaNovamente) {
+    if (nome != '' &&
+        email != '' &&
+        empresa != '' &&
+        telefone != 0 &&
+        senha != '' &&
+        senhaNovamente == senha &&
+        cnpj != '') {
+      FirebaseFirestore.instance.collection("users_").doc("$nome").set({
+        "nome": "$nome",
+        "email": "$email",
+        "empresa": "$empresa",
+        "telefone": "$telefone",
+        "cnpj": "$cnpj",
+        "senha": "$senha",
+        "senhaNovamente": "$senhaNovamente"
+      });
+    } else {
+      print("Precisa Preencher Todos os Campos!!");
+    }
   }
 
   @override
@@ -161,12 +172,8 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
                       Text('Cadastrar', style: TextStyle(color: Colors.white)),
                   color: Colors.orange,
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => PaginaLogin()));
-                    gravaDados(
-                        nome, email, empresa, telefone, senha, senhaNovamente);
+                    gravaDados(nome, email, empresa, cnpj, telefone, senha,
+                        senhaNovamente);
                   },
                 ),
               ),
