@@ -42,10 +42,11 @@ class _MyHomePageState extends State<MyHomePage_CadastroProdutos> {
   String nomeProduto = '';
   String marca = '';
   String preco = '';
+  double preco_int = 0;
   String unidadeMedida = '';
 
   void gravaDados(
-      String nomeProduto, String marca, String preco, String unidadeMedida) {
+      String nomeProduto, String marca, double preco, String unidadeMedida) {
     if (nomeProduto != '' &&
         marca != '' &&
         preco != '' &&
@@ -114,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage_CadastroProdutos> {
                       child: TextFormField(
                         onChanged: (text) {
                           preco = text;
+                          preco_int = double.parse(preco);
                         },
                         decoration: InputDecoration(
                           labelText: 'Preço',
@@ -147,7 +149,8 @@ class _MyHomePageState extends State<MyHomePage_CadastroProdutos> {
                         ),
                         color: Colors.orange[300],
                         onPressed: () {
-                          gravaDados(nomeProduto, marca, preco, unidadeMedida);
+                          gravaDados(
+                              nomeProduto, marca, preco_int, unidadeMedida);
                         },
                       ),
                     ),
