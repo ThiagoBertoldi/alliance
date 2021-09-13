@@ -1,6 +1,13 @@
+// ignore: unused_import
+import 'package:alliance/Paginas/paginaLogin.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  var db = FirebaseFirestore.instance;
   runApp(MenuCliente());
 }
 
@@ -25,6 +32,18 @@ class MenuCliente_State extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
+}
+
+Future<dynamic> imprimeDados() async {
+  var query = await FirebaseFirestore.instance.collection("produtos_").get();
+  for (var doc in query.docs) {
+    print(doc['nomeProduto']);
+    print(doc['marca']);
+    print(doc['preço']);
+    print(doc['unidadeMedida']);
+    print('//////////////////////////////////');
+    return doc;
+  }
 }
 
 class _MyHomePageState extends State<MenuCliente_State> {
@@ -131,185 +150,184 @@ class _MyHomePageState extends State<MenuCliente_State> {
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.04),
           ),
-          for (int i = 1; i <= 10; i++)
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: new InkWell(
-                onTap: () {
-                  showModalBottomSheet<void>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Container(
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Container(
-                                  padding: new EdgeInsets.all(14),
-                                  child: Text("Fermento Seco",
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold))),
-                              Container(
-                                padding:
-                                    new EdgeInsets.only(left: 70, right: 70),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Expanded(
-                                        child: Text("Preço mais baixo:",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold))),
-                                    Text('R\$ 10,00',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.green))
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: new EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.03),
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.07,
-                                child: Center(
-                                  child: Text("Produpan",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      )),
-                                ),
-                                decoration: new BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(10.0),
-                                    topRight: const Radius.circular(10.0),
-                                    bottomLeft: const Radius.circular(10.0),
-                                    bottomRight: const Radius.circular(10.0),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: new EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.01),
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.07,
-                                child: Center(
-                                  child: Text("UN",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      )),
-                                ),
-                                decoration: new BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(10.0),
-                                    topRight: const Radius.circular(10.0),
-                                    bottomLeft: const Radius.circular(10.0),
-                                    bottomRight: const Radius.circular(10.0),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: new EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.01),
-                                width: MediaQuery.of(context).size.width * 0.90,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.07,
-                                child: Center(
-                                  child: Text("Fleischman",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      )),
-                                ),
-                                decoration: new BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(10.0),
-                                    topRight: const Radius.circular(10.0),
-                                    bottomLeft: const Radius.circular(10.0),
-                                    bottomRight: const Radius.circular(10.0),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Card(
-                  color: Colors.white,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.02,
-                      right: MediaQuery.of(context).size.width * 0.04,
-                      left: MediaQuery.of(context).size.width * 0.04,
-                      bottom: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                                child: Text("Produto $i",
+
+          // ignore: unused_local_variable
+
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: new InkWell(
+              onTap: () {
+                imprimeDados();
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Container(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Container(
+                                padding: new EdgeInsets.all(14),
+                                child: Text("Produto",
                                     style: TextStyle(
-                                        fontSize: 19,
+                                        fontSize: 24,
                                         fontWeight: FontWeight.bold))),
-                            Text('R\$ 100,00',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green))
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                padding: new EdgeInsets.only(left: 5, top: 7),
-                                child: Text("Unidade",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black54,
-                                        fontWeight: FontWeight.bold)),
+                            Container(
+                              padding: new EdgeInsets.only(left: 70, right: 70),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Expanded(
+                                      child: Text("Preço mais baixo:",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold))),
+                                  Text('R\$ 10,00',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.green))
+                                ],
                               ),
                             ),
                             Container(
-                              child: Container(
-                                  padding: new EdgeInsets.only(top: 5),
-                                  child: Text('R\$ 150,00',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.red))),
+                              margin: new EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height *
+                                      0.03),
+                              width: MediaQuery.of(context).size.width * 0.90,
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              child: Center(
+                                child: Text("Produpan",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    )),
+                              ),
+                              decoration: new BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(10.0),
+                                  topRight: const Radius.circular(10.0),
+                                  bottomLeft: const Radius.circular(10.0),
+                                  bottomRight: const Radius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: new EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height *
+                                      0.01),
+                              width: MediaQuery.of(context).size.width * 0.90,
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              child: Center(
+                                child: Text("UN",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    )),
+                              ),
+                              decoration: new BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(10.0),
+                                  topRight: const Radius.circular(10.0),
+                                  bottomLeft: const Radius.circular(10.0),
+                                  bottomRight: const Radius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: new EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height *
+                                      0.01),
+                              width: MediaQuery.of(context).size.width * 0.90,
+                              height: MediaQuery.of(context).size.height * 0.07,
+                              child: Center(
+                                child: Text("Fleischman",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    )),
+                              ),
+                              decoration: new BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(10.0),
+                                  topRight: const Radius.circular(10.0),
+                                  bottomLeft: const Radius.circular(10.0),
+                                  bottomRight: const Radius.circular(10.0),
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                        Container(
-                          padding: new EdgeInsets.all(5),
-                          child: Text("Marca",
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Card(
+                color: Colors.white,
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.02,
+                    right: MediaQuery.of(context).size.width * 0.04,
+                    left: MediaQuery.of(context).size.width * 0.04,
+                    bottom: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                              child: Text("Produto ",
+                                  style: TextStyle(
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold))),
+                          Text('R\$ 100,00',
                               style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ],
-                    ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green))
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              padding: new EdgeInsets.only(left: 5, top: 7),
+                              child: Text("Unidade",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                          Container(
+                            child: Container(
+                                padding: new EdgeInsets.only(top: 5),
+                                child: Text('R\$ 150,00',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red))),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: new EdgeInsets.all(5),
+                        child: Text("Marca",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            )
+            ),
+          )
         ],
       ),
     );

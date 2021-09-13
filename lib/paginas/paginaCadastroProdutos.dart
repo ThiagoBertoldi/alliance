@@ -39,6 +39,7 @@ class MyHomePage_CadastroProdutos extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage_CadastroProdutos> {
+  var db = FirebaseFirestore.instance;
   String nomeProduto = '';
   String marca = '';
   String preco = '';
@@ -51,17 +52,30 @@ class _MyHomePageState extends State<MyHomePage_CadastroProdutos> {
         marca != '' &&
         preco != '' &&
         unidadeMedida != '') {
-      FirebaseFirestore.instance
+      db
           .collection("produtos_")
           .doc("$nomeProduto")
           .set({
-        "nomeProduto": "$nomeProduto",
-        "marca": "$marca",
-        "preço": "$preco",
-        "unidadeMedida": "$unidadeMedida",
-      });
+            "nomeProduto": "$nomeProduto",
+            "marca": "$marca",
+            "preço": "$preco",
+            "unidadeMedida": "$unidadeMedida",
+          })
+          .then((value) => print("Cadastrado!!!"))
+          .catchError((error) => print("Produto não cadastrado: $error"));
     } else {
       print("Precisa Preencher Todos os Campos!!");
+    }
+  }
+
+  void imprimeDados() async {
+    var query = await db.collection("produtos_").get();
+    for (var doc in query.docs) {
+      print(doc['nomeProduto']);
+      print(doc['marca']);
+      print(doc['preço']);
+      print(doc['unidadeMedida']);
+      print('//////////////////////////////////');
     }
   }
 
@@ -151,6 +165,7 @@ class _MyHomePageState extends State<MyHomePage_CadastroProdutos> {
                         onPressed: () {
                           gravaDados(
                               nomeProduto, marca, preco_int, unidadeMedida);
+                          imprimeDados();
                         },
                       ),
                     ),
