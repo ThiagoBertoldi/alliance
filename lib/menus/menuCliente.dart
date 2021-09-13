@@ -31,10 +31,10 @@ class MenuCliente_State extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState_MenuCliente createState() => _MyHomePageState_MenuCliente();
 }
 
-Future<dynamic> imprimeDados() async {
+dynamic imprimeDados() async {
   var query = await FirebaseFirestore.instance.collection("produtos_").get();
   for (var doc in query.docs) {
     print(doc['nomeProduto']);
@@ -42,11 +42,11 @@ Future<dynamic> imprimeDados() async {
     print(doc['preço']);
     print(doc['unidadeMedida']);
     print('//////////////////////////////////');
-    return doc;
+    return query;
   }
 }
 
-class _MyHomePageState extends State<MenuCliente_State> {
+class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
   @override
   Widget build(
     BuildContext context,
@@ -150,14 +150,10 @@ class _MyHomePageState extends State<MenuCliente_State> {
             margin:
                 EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.04),
           ),
-
-          // ignore: unused_local_variable
-
           Container(
             width: MediaQuery.of(context).size.width * 0.9,
             child: new InkWell(
               onTap: () {
-                imprimeDados();
                 showModalBottomSheet<void>(
                   context: context,
                   builder: (BuildContext context) {

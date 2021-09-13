@@ -1,3 +1,4 @@
+import 'package:alliance/menus/menuCliente.dart';
 import 'package:alliance/paginas/paginaCadastroUsuarios.dart';
 import 'package:alliance/paginas/paginaProdutos.dart';
 // ignore: unused_import
@@ -55,8 +56,8 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  margin:
-                      new EdgeInsets.only(left: 10.0, right: 10.0, bottom: 50),
+                  margin: new EdgeInsets.only(
+                      left: 10.0, right: 10.0, bottom: 50, top: 30),
                   child: Text(
                     "ALLIANCE",
                     style: TextStyle(
@@ -128,7 +129,7 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  PaginaProdutos()));
+                                  MenuCliente()));
                     },
                   ),
                 ),

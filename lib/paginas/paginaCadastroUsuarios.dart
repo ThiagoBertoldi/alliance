@@ -177,6 +177,10 @@ class _MyHomePageState extends State<MyHomePage_Cadastro> {
                   onPressed: () {
                     gravaDados(nome, email, empresa, cnpj, telefone, senha,
                         senhaNovamente, 2);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => PaginaLogin()));
                   },
                 ),
               ),

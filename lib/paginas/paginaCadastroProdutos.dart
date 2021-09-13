@@ -71,11 +71,11 @@ class _MyHomePageState extends State<MyHomePage_CadastroProdutos> {
   void imprimeDados() async {
     var query = await db.collection("produtos_").get();
     for (var doc in query.docs) {
+      print('//////////////////////////////////');
       print(doc['nomeProduto']);
       print(doc['marca']);
       print(doc['preço']);
       print(doc['unidadeMedida']);
-      print('//////////////////////////////////');
     }
   }
 
