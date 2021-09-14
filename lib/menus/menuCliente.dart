@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  var db = FirebaseFirestore.instance;
+
   runApp(MenuCliente());
 }
 
