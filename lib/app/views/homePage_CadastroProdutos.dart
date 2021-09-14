@@ -1,5 +1,5 @@
 // ignore: unused_import
-import 'package:alliance/Paginas/paginaLogin.dart';
+import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class PaginaCadastroUsuarios extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: MyHomePage_CadastroProdutos(
+      home: HomePage_CadastroProdutos(
         title: 'ALLIANCE',
       ),
     );
@@ -28,9 +28,8 @@ class PaginaCadastroUsuarios extends StatelessWidget {
 }
 
 // ignore: camel_case_types
-class MyHomePage_CadastroProdutos extends StatefulWidget {
-  MyHomePage_CadastroProdutos({Key? key, required this.title})
-      : super(key: key);
+class HomePage_CadastroProdutos extends StatefulWidget {
+  HomePage_CadastroProdutos({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -38,7 +37,7 @@ class MyHomePage_CadastroProdutos extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage_CadastroProdutos> {
+class _MyHomePageState extends State<HomePage_CadastroProdutos> {
   var db = FirebaseFirestore.instance;
   String nomeProduto = '';
   String marca = '';

@@ -1,15 +1,15 @@
 // ignore: unused_import
-import 'package:alliance/Paginas/paginaLogin.dart';
+import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MenuCliente());
+  runApp(HomePage_MenuCliente());
 }
 
-class MenuCliente extends StatelessWidget {
+class HomePage_MenuCliente extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +17,7 @@ class MenuCliente extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: MenuCliente_State(title: 'Menu Principal'),
+      home: MenuCliente_State(title: "ALLIANCE"),
     );
   }
 }
@@ -322,6 +322,11 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             ),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add_rounded, color: Colors.white),
+        backgroundColor: Colors.orange[300],
       ),
     );
   }

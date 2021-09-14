@@ -13,13 +13,13 @@ class PaginaVendedor extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: MyHomePage(title: 'Flutter App'),
+      home: HomePage_CotacoesResponder(title: 'Flutter App'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+class HomePage_CotacoesResponder extends StatefulWidget {
+  HomePage_CotacoesResponder({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -27,7 +27,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<HomePage_CotacoesResponder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
