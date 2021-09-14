@@ -20,15 +20,3 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
     );
   }
 }
-
-class _MyHomePageState extends State<HomePage_MenuRepresentante> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Colors.white)),
-      ),
-      body: Center(),
-    );
-  }
-}
