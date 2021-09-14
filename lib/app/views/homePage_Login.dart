@@ -1,31 +1,15 @@
-import 'package:alliance/menus/menuCliente.dart';
-import 'package:alliance/paginas/paginaCadastroUsuarios.dart';
+import 'package:alliance/app/views/homePage_MenuCliente.dart';
+import 'package:alliance/app/views/homePage_CadastroUser.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-main() {
-  runApp(PaginaLogin());
-}
+import 'homePage_MenuRepresentante.dart';
 
 // ignore: camel_case_types
-class PaginaLogin extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FlutterApp',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: MyHomePage_Login(title: 'ALLIANCE'),
-    );
-  }
-}
-
-// ignore: camel_case_types
-class MyHomePage_Login extends StatefulWidget {
-  MyHomePage_Login({Key? key, required this.title}) : super(key: key);
+class HomePage_Login extends StatefulWidget {
+  HomePage_Login({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -34,13 +18,9 @@ class MyHomePage_Login extends StatefulWidget {
 }
 
 // ignore: camel_case_types
-class _MyHomePageState_Login extends State<MyHomePage_Login> {
+class _MyHomePageState_Login extends State<HomePage_Login> {
   String email = '';
   String senha = '';
-
-  void imprimeLogin(String email, String senha) {
-    print(email + " / " + senha);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,11 +104,35 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                     ),
                     color: Colors.orange[300],
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  MenuCliente()));
+                      if (senha == '1') {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    HomePage_MenuCliente()));
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    HomePage_MenuRepresentante(
+                                        title: 'Alliance')));
+                      }
+                      /* if (permissao == 1) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    HomePageState_MenuCliente()));
+                      } else if (permissao == 2) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    MyHomePage_MenuRepresentante(
+                                      title: 'ALLIANCE',
+                                    )));
+                      }*/
                     },
                   ),
                 ),
@@ -164,7 +168,9 @@ class _MyHomePageState_Login extends State<MyHomePage_Login> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  PaginaCadastroUsuarios()));
+                                  HomePage_Cadastro(
+                                    title: 'ALLIANCE',
+                                  )));
                     },
                   ),
                 ),

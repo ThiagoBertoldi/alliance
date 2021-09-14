@@ -13,14 +13,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: PaginaInfoUsuario(title: 'Flutter App'),
+      home: HomePage_InfoUser(title: 'Flutter App'),
     );
   }
 }
 
 // ignore: camel_case_types
-class PaginaInfoUsuario extends StatefulWidget {
-  PaginaInfoUsuario({Key? key, required this.title}) : super(key: key);
+class HomePage_InfoUser extends StatefulWidget {
+  HomePage_InfoUser({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -28,7 +28,7 @@ class PaginaInfoUsuario extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<PaginaInfoUsuario> {
+class _MyHomePageState extends State<HomePage_InfoUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

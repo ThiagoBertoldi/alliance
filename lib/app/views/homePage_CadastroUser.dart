@@ -1,35 +1,13 @@
 // ignore: unused_import
-import 'package:alliance/Paginas/paginaLogin.dart';
+import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(PaginaCadastroUsuarios());
-}
+import '../paginaLogin.dart';
 
 // ignore: camel_case_types
-class PaginaCadastroUsuarios extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FlutterApp',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: MyHomePage_Cadastro(
-        title: 'ALLIANCE',
-      ),
-    );
-  }
-}
-
-// ignore: camel_case_types
-class MyHomePage_Cadastro extends StatefulWidget {
-  MyHomePage_Cadastro({Key? key, required this.title}) : super(key: key);
+class HomePage_Cadastro extends StatefulWidget {
+  HomePage_Cadastro({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -37,7 +15,7 @@ class MyHomePage_Cadastro extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage_Cadastro> {
+class _MyHomePageState extends State<HomePage_Cadastro> {
   String nome = '';
   String email = '';
   String empresa = '';
