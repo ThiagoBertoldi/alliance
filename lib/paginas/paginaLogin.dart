@@ -1,6 +1,5 @@
 import 'package:alliance/menus/menuCliente.dart';
 import 'package:alliance/paginas/paginaCadastroUsuarios.dart';
-import 'package:alliance/paginas/paginaProdutos.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

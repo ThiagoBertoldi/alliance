@@ -1,13 +1,11 @@
 // ignore: unused_import
 import 'package:alliance/Paginas/paginaLogin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  var db = FirebaseFirestore.instance;
+
   runApp(MenuCliente());
 }
 
@@ -41,8 +39,8 @@ dynamic imprimeDados() async {
     print(doc['marca']);
     print(doc['preço']);
     print(doc['unidadeMedida']);
-    print('//////////////////////////////////');
-    return query;
+    print("///////////////////////");
+    print("///////////////////////");
   }
 }
 
