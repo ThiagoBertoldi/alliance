@@ -4,8 +4,6 @@ main() {
   runApp(PaginaProdutos());
 }
 
- print("#test")
-
 class PaginaProdutos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
