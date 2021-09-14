@@ -11,7 +11,7 @@ class PaginaVendedor extends StatelessWidget {
     return MaterialApp(
       title: 'FlutterApp',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.orange,
       ),
       home: HomePage_CotacoesResponder(title: 'Flutter App'),
     );
@@ -32,74 +32,146 @@ class _MyHomePageState extends State<HomePage_CotacoesResponder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title, style: TextStyle(color: Colors.white)),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Container(
-          child: Container(
-            margin: new EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.22),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: Text(
-                    "Olá, \"%User%\"",
-                    style: TextStyle(color: Colors.green, fontSize: 40.0),
-                  ),
-                ),
-
-                // ignore: deprecated_member_use
-                Container(
-                  padding: const EdgeInsets.only(top: 30),
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    height: MediaQuery.of(context).size.height * 0.08,
-                    minWidth: MediaQuery.of(context).size.width * 0.75,
-                    child: Text('Pedidos de Cotação',
-                        style: TextStyle(color: Colors.white, fontSize: 17)),
-                    color: Colors.green,
-                    onPressed: () {},
-                  ),
-                ),
-
-                Container(
-                  padding: const EdgeInsets.only(top: 10),
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    height: MediaQuery.of(context).size.height * 0.08,
-                    minWidth: MediaQuery.of(context).size.width * 0.75,
-                    child: Text("Dados de '%Empresa%'",
-                        style: TextStyle(color: Colors.white, fontSize: 17)),
-                    color: Colors.green,
-                    onPressed: () {},
-                  ),
-                ),
-
-                Container(
-                  padding: const EdgeInsets.only(top: 10),
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    height: MediaQuery.of(context).size.height * 0.08,
-                    minWidth: MediaQuery.of(context).size.width * 0.75,
-                    child: Text('Minhas Informações Cadastrais',
-                        style: TextStyle(color: Colors.white, fontSize: 17)),
-                    color: Colors.green,
-                    onPressed: () {},
-                  ),
-                ),
-              ],
+      body: ListView(
+        children: [
+          Container(
+            padding: new EdgeInsets.all(30),
+            child: Center(
+              child: Text("Cotações para Responder",
+                  style: TextStyle(fontSize: 30, color: Colors.orange[300])),
             ),
           ),
-        ),
+          Container(
+            child: new InkWell(
+              onTap: () {},
+              child: Card(
+                color: Colors.white,
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.02,
+                    right: MediaQuery.of(context).size.width * 0.04,
+                    left: MediaQuery.of(context).size.width * 0.04,
+                    bottom: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                              child: Text("Produto ",
+                                  style: TextStyle(
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold))),
+                          Text('Enviado em',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87))
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              padding: new EdgeInsets.only(left: 5, top: 7),
+                              child: Text("35 Produtos para responder",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                          Container(
+                            child: Container(
+                                padding: new EdgeInsets.only(top: 5),
+                                child: Text('14/09/2021',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red))),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            padding: new EdgeInsets.all(30),
+            child: Center(
+              child: Text("Cotações Respondidas",
+                  style: TextStyle(fontSize: 30, color: Colors.orange[300])),
+            ),
+          ),
+          for (int i = 0; i < 10; i++)
+            Container(
+              child: new InkWell(
+                onTap: () {},
+                child: Card(
+                  color: Colors.white,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.02,
+                      right: MediaQuery.of(context).size.width * 0.04,
+                      left: MediaQuery.of(context).size.width * 0.04,
+                      bottom: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                                child: Text("Produto ",
+                                    style: TextStyle(
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.bold))),
+                            Text('Enviado em',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                padding: new EdgeInsets.only(left: 5, top: 7),
+                                child: Text("35 Produtos para responder",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            Container(
+                              child: Container(
+                                  padding: new EdgeInsets.only(top: 5),
+                                  child: Text('14/09/2021',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.green))),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
