@@ -39,6 +39,7 @@ dynamic imprimeDados() async {
     print(doc['marca']);
     print(doc['preço']);
     print(doc['unidadeMedida']);
+    print("///////////////////////");
   }
 }
 
