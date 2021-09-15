@@ -21,7 +21,7 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
           Container(
             padding: new EdgeInsets.all(30),
             child: Center(
-              child: Text("Cotações para Responder",
+              child: Text("Cotações Pendentes",
                   style: TextStyle(fontSize: 30, color: Colors.orange[300])),
             ),
           ),
