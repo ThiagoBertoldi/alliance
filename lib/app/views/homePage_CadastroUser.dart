@@ -38,7 +38,7 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
     } else if (senhaNovamente != senha) {
       print("Senhas não são iguais!!!");
     } else {
-      FirebaseFirestore.instance.collection("users_").doc("$nome").set({
+      FirebaseFirestore.instance.collection("vendedor_").doc("$nome").set({
         "nome": "$nome",
         "email": "$email",
         "empresa": "$empresa",
