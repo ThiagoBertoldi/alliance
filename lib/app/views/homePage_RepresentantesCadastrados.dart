@@ -34,6 +34,29 @@ class HomePage_InfoUser extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage_InfoUser> {
+  var db = FirebaseFirestore.instance;
+
+  String telefone = '';
+  String empresa = '';
+  String email = '';
+  String nome = '';
+  String cnpj = '';
+
+  void atualizaDados(
+      String empresa, String cnpj, String email, String telefone, String nome) {
+    db.collection("vendedor_").doc(nome).set({
+      "nome": nome,
+      "empresa": empresa,
+      "cnpj": cnpj,
+      "email": email,
+      "telefone": telefone
+    });
+  }
+
+  void deletaUsuario(String nome) {
+    db.collection("vendedor_").doc(nome).delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,9 +94,7 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
             ),
           ),
           StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("vendedor_")
-                  .snapshots(),
+              stream: db.collection("vendedor_").snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -120,29 +141,19 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
                                                         .height *
                                                     0.07,
                                                 child: Center(
-                                                  child:
-                                                      Text(docSnapshot['cnpj'],
-                                                          style: TextStyle(
-                                                            fontSize: 16,
-                                                          )),
+                                                  child: TextFormField(
+                                                    textAlign: TextAlign.center,
+                                                    onChanged: (text) {
+                                                      empresa = text;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      hintText: docSnapshot[
+                                                          'empresa'],
+                                                    ),
+                                                  ),
                                                 ),
                                                 decoration: new BoxDecoration(
                                                   color: Colors.grey[200],
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    topRight:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    bottomLeft:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    bottomRight:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -160,29 +171,19 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
                                                         .height *
                                                     0.07,
                                                 child: Center(
-                                                  child: Text(
-                                                      docSnapshot['empresa'],
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                      )),
+                                                  child: TextFormField(
+                                                    textAlign: TextAlign.center,
+                                                    onChanged: (text) {
+                                                      cnpj = text;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      hintText:
+                                                          docSnapshot['cnpj'],
+                                                    ),
+                                                  ),
                                                 ),
                                                 decoration: new BoxDecoration(
                                                   color: Colors.grey[200],
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    topRight:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    bottomLeft:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    bottomRight:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -200,29 +201,19 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
                                                         .height *
                                                     0.07,
                                                 child: Center(
-                                                  child:
-                                                      Text(docSnapshot['email'],
-                                                          style: TextStyle(
-                                                            fontSize: 16,
-                                                          )),
+                                                  child: TextFormField(
+                                                    textAlign: TextAlign.center,
+                                                    onChanged: (text) {
+                                                      email = text;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      hintText:
+                                                          docSnapshot['email'],
+                                                    ),
+                                                  ),
                                                 ),
                                                 decoration: new BoxDecoration(
                                                   color: Colors.grey[200],
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    topRight:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    bottomLeft:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    bottomRight:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -240,29 +231,19 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
                                                         .height *
                                                     0.07,
                                                 child: Center(
-                                                  child: Text(
-                                                      docSnapshot['telefone'],
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                      )),
+                                                  child: TextFormField(
+                                                    textAlign: TextAlign.center,
+                                                    onChanged: (text) {
+                                                      telefone = text;
+                                                    },
+                                                    decoration: InputDecoration(
+                                                      hintText: docSnapshot[
+                                                          'telefone'],
+                                                    ),
+                                                  ),
                                                 ),
                                                 decoration: new BoxDecoration(
                                                   color: Colors.grey[200],
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    topRight:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    bottomLeft:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                    bottomRight:
-                                                        const Radius.circular(
-                                                            10.0),
-                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -272,24 +253,57 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
                                                           .spaceEvenly,
                                                   children: [
                                                     Container(
-                                                        padding:
-                                                            new EdgeInsets.only(
-                                                                top: 20),
-                                                        width: 75,
-                                                        height: 75,
-                                                        child: Icon(Icons.save,
-                                                            color: Colors.black,
-                                                            size: 50)),
+                                                      padding:
+                                                          new EdgeInsets.only(
+                                                              top: 20),
+                                                      width: 75,
+                                                      height: 75,
+                                                      child: Ink(
+                                                        decoration:
+                                                            const ShapeDecoration(
+                                                          color: Colors.orange,
+                                                          shape: CircleBorder(),
+                                                        ),
+                                                        child: IconButton(
+                                                          icon: const Icon(
+                                                              Icons.save),
+                                                          color: Colors.white,
+                                                          onPressed: () {
+                                                            atualizaDados(
+                                                                empresa,
+                                                                cnpj,
+                                                                email,
+                                                                telefone,
+                                                                docSnapshot[
+                                                                    'nome']);
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
                                                     Container(
-                                                        padding:
-                                                            new EdgeInsets.only(
-                                                                top: 20),
-                                                        width: 75,
-                                                        height: 75,
-                                                        child: Icon(
-                                                            Icons.delete,
-                                                            color: Colors.black,
-                                                            size: 50)),
+                                                      padding:
+                                                          new EdgeInsets.only(
+                                                              top: 20),
+                                                      width: 75,
+                                                      height: 75,
+                                                      child: Ink(
+                                                        decoration:
+                                                            const ShapeDecoration(
+                                                          color: Colors.black,
+                                                          shape: CircleBorder(),
+                                                        ),
+                                                        child: IconButton(
+                                                          icon: const Icon(
+                                                              Icons.delete),
+                                                          color: Colors.white,
+                                                          onPressed: () {
+                                                            deletaUsuario(
+                                                                docSnapshot[
+                                                                    'nome']);
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               )
@@ -314,6 +328,8 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Container(
                                                 padding: new EdgeInsets.only(
