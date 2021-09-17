@@ -7,12 +7,11 @@ import 'package:flutter/material.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(PaginaCadastroUsuarios());
+  runApp(PaginaCadastroProdutos());
 }
 
 // ignore: camel_case_types
-class PaginaCadastroUsuarios extends StatelessWidget {
-  // This widget is the root of your application.
+class PaginaCadastroProdutos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -64,17 +63,6 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
           .catchError((error) => print("Produto não cadastrado: $error"));
     } else {
       print("Precisa Preencher Todos os Campos!!");
-    }
-  }
-
-  void imprimeDados() async {
-    var query = await db.collection("produtos_").get();
-    for (var doc in query.docs) {
-      print('//////////////////////////////////');
-      print(doc['nomeProduto']);
-      print(doc['marca']);
-      print(doc['preço']);
-      print(doc['unidadeMedida']);
     }
   }
 
@@ -164,7 +152,6 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                         onPressed: () {
                           gravaDados(
                               nomeProduto, marca, preco_int, unidadeMedida);
-                          imprimeDados();
                         },
                       ),
                     ),
