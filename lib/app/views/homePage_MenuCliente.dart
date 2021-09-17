@@ -83,7 +83,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         children: [
           StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection("produtos_")
+                  .collection("vendedor_")
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -95,15 +95,14 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot docSnapshot =
                                 snapshot.data!.docs[index];
-                            return AnimationConfiguration.staggeredList(
+                            return AnimationConfiguration.staggeredGrid(
                                 position: index,
-                                delay: Duration(milliseconds: 100),
-                                child: SlideAnimation(
-                                    duration: Duration(milliseconds: 2500),
+                                duration: Duration(milliseconds: 500),
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                    duration: Duration(milliseconds: 900),
                                     curve: Curves.fastLinearToSlowEaseIn,
                                     child: FadeInAnimation(
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                      duration: Duration(milliseconds: 2500),
                                       child: Container(
                                         margin: EdgeInsets.only(
                                             top: MediaQuery.of(context)
