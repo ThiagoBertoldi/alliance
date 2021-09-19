@@ -4,7 +4,6 @@ import 'package:alliance/app/views/homePage_CadastroUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'homePage_MenuRepresentante.dart';
 
 // ignore: camel_case_types
@@ -21,6 +20,21 @@ class HomePage_Login extends StatefulWidget {
 class _MyHomePageState_Login extends State<HomePage_Login> {
   String email = '';
   String senha = '';
+
+  void autenticacaoLogin(String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      print(email + " / " + password);
+      print(userCredential.additionalUserInfo);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +118,9 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                     ),
                     color: Colors.orange[300],
                     onPressed: () {
-                      if (senha == '1') {
+                      autenticacaoLogin(email, senha);
+
+                      /* if (senha == '1') {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -117,7 +133,8 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                                 builder: (BuildContext context) =>
                                     HomePage_MenuRepresentante(
                                         title: 'Alliance')));
-                      }
+                      }*/
+                      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                       /* if (permissao == 1) {
                         Navigator.push(
                             context,

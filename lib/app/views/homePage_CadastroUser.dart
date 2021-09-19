@@ -1,6 +1,7 @@
 // ignore: unused_import
 import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../paginaLogin.dart';
@@ -26,8 +27,15 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
   String senhaNovamente = '';
   int permissao = 0;
 
-  void gravaDados(String nome, String email, String empresa, String cnpj,
-      int telefone, String senha, String senhaNovamente, int permissao) {
+  Future<void> gravaDados(
+    String nome,
+    String email,
+    String empresa,
+    String cnpj,
+    int telefone,
+    String senha,
+    String senhaNovamente,
+  ) async {
     if (nome == '' ||
         email == '' ||
         empresa == '' ||
@@ -38,16 +46,27 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
     } else if (senhaNovamente != senha) {
       print("Senhas não são iguais!!!");
     } else {
-      FirebaseFirestore.instance.collection("vendedor_").doc("$nome").set({
-        "nome": "$nome",
-        "email": "$email",
-        "empresa": "$empresa",
-        "telefone": "$telefone",
-        "cnpj": "$cnpj",
-        "senha": "$senha",
-        "senhaNovamente": "$senhaNovamente",
-        "permissao": "$permissao"
-      });
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: senha);
+
+        FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
+          "nome": nome,
+          "email": email,
+          "empresa": empresa,
+          "telefone": telefone,
+          "cnpj": cnpj,
+          "permissao": 2
+        });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print('The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          print('The account already exists for that email.');
+        }
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -154,7 +173,7 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
                   color: Colors.orange,
                   onPressed: () {
                     gravaDados(nome, email, empresa, cnpj, telefone, senha,
-                        senhaNovamente, 2);
+                        senhaNovamente);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

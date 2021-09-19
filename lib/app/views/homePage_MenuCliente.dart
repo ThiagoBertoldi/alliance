@@ -103,53 +103,15 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                     duration: Duration(milliseconds: 900),
                                     curve: Curves.fastLinearToSlowEaseIn,
                                     child: FadeInAnimation(
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.025),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.35,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.225,
-                                              child: Card(
-                                                child: Container(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        'Produtos',
-                                                        style: TextStyle(
-                                                            fontSize: 16),
-                                                      ),
-                                                      Text(
-                                                        "60",
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Column(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                top: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.025),
+                                            child: Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               mainAxisAlignment:
@@ -159,11 +121,11 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width *
-                                                      0.6,
+                                                      0.35,
                                                   height: MediaQuery.of(context)
                                                           .size
                                                           .height *
-                                                      0.1125,
+                                                      0.225,
                                                   child: Card(
                                                     child: Container(
                                                       child: Column(
@@ -175,12 +137,12 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                 .center,
                                                         children: [
                                                           Text(
-                                                            'Cotações respondidas',
+                                                            'Produtos',
                                                             style: TextStyle(
                                                                 fontSize: 16),
                                                           ),
                                                           Text(
-                                                            '16',
+                                                            "60",
                                                             style: TextStyle(
                                                                 fontSize: 19),
                                                           ),
@@ -189,44 +151,135 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                     ),
                                                   ),
                                                 ),
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.6,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.1125,
-                                                  child: Card(
-                                                    child: Container(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text(
-                                                            'Fornecedores cadastrados',
-                                                            style: TextStyle(
-                                                                fontSize: 16),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.6,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.1125,
+                                                      child: Card(
+                                                        child: Container(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                'Cotações respondidas',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16),
+                                                              ),
+                                                              Text(
+                                                                '16',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        19),
+                                                              ),
+                                                            ],
                                                           ),
-                                                          Text(
-                                                            "16",
-                                                            style: TextStyle(
-                                                                fontSize: 19),
-                                                          )
-                                                        ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.6,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.1125,
+                                                      child: Card(
+                                                        child: Container(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                'Fornecedores cadastrados',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16),
+                                                              ),
+                                                              Text(
+                                                                "16",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        19),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          Container(
+                                              margin: EdgeInsets.only(
+                                                  top: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.06),
+                                              child: Center(
+                                                child: Text(
+                                                    'Produtos Cadastrados',
+                                                    style: TextStyle(
+                                                        fontSize: 24,
+                                                        color: Colors.orange)),
+                                              )),
+                                          Container(
+                                            height: 40,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.9,
+                                            child: ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              HomePage_CadastroProdutos(
+                                                                title:
+                                                                    'ALLIANCE',
+                                                              )));
+                                                },
+                                                child: Text("Adicionar Produto",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 17))),
+                                            margin: EdgeInsets.only(
+                                                top: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04),
+                                          ),
+                                        ],
                                       ),
                                     )));
                           }));
@@ -236,30 +289,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                       child: CircularProgressIndicator());
                 }
               }),
-          Container(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width * 0.06),
-              child: Center(
-                child: Text('Produtos Cadastrados',
-                    style: TextStyle(fontSize: 24, color: Colors.orange)),
-              )),
-          Container(
-            height: 40,
-            child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              HomePage_CadastroProdutos(
-                                title: 'ALLIANCE',
-                              )));
-                },
-                child: Text("Adicionar Produto",
-                    style: TextStyle(color: Colors.white, fontSize: 17))),
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.04),
-          ),
           Container(
             padding: new EdgeInsets.only(top: 20),
             child: StreamBuilder<QuerySnapshot>(
@@ -730,7 +759,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                     top: 7),
                                                             child: Text(
                                                                 docSnapshot[
-                                                                    'unidadeMedida'],
+                                                                    'marca'],
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         16,
@@ -766,7 +795,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                       padding:
                                                           new EdgeInsets.all(5),
                                                       child: Text(
-                                                          docSnapshot['marca'],
+                                                          docSnapshot[
+                                                              'unidadeMedida'],
                                                           style: TextStyle(
                                                               fontSize: 16,
                                                               color: Colors
