@@ -49,10 +49,26 @@ class _MyHomePageState extends State<HomePage_InfoCadastradas> {
               Container(
                 padding: new EdgeInsets.all(40),
                 child: Center(
-                  child: Text("Alliance",
+                  child: Text("Michel",
                       style:
-                          TextStyle(fontSize: 30, color: Colors.orange[300])),
+                          TextStyle(fontSize: 30, color: Colors.orange[300]))),
+              Container(
+              child: Row(
+            children: [
+              new Image.asset(
+                'images/user.png',
+                width: 75.0,
+                height: 75.0,
+                fit: BoxFit.cover,
+              ),
+              Container(
+                padding: new EdgeInsets.all(40),
+                child: Center(
+                  child: Text("Michel",
+                      style:
+                          TextStyle(fontSize: 30, color: Colors.orange[300]))))),
                 ),
+             }
               ),
             ],
           )),
