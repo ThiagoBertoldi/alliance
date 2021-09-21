@@ -25,8 +25,11 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      print(email + " / " + password);
-      print(userCredential.additionalUserInfo);
+
+      var currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        print(currentUser.uid);
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('Não existe um usuário com este email!!!');
@@ -119,7 +122,11 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                     color: Colors.orange[300],
                     onPressed: () {
                       autenticacaoLogin(email, senha);
-
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  HomePage_MenuCliente()));
                       /* if (senha == '1') {
                         Navigator.push(
                             context,

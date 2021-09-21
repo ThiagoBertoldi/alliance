@@ -1,6 +1,7 @@
 // ignore: unused_import
 import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -41,10 +42,13 @@ void atualizaDados() async {
   var db = FirebaseFirestore.instance;
   var query = await db.collection("produtos_").get();
   for (var doc in query.docs) {
-    print(doc['nomeProduto']);
-    print(doc['marca']);
-    print(doc['preço']);
-    print(doc['unidadeMedida']);
+    print(doc['nomeProduto'] +
+        " / " +
+        doc['marca'] +
+        " / " +
+        doc['preço'] +
+        " / " +
+        doc['unidadeMedida']);
     print("///////////////////////");
   }
 }
@@ -69,6 +73,11 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
       "unidadeMedida": unidadeMedida,
       "preço": preco
     }).then((value) => print("Atualizado com Sucesso!!"));
+
+    var currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      print("$currentUser.uid" + "$currentUser");
+    }
   }
 
   @override
@@ -78,6 +87,18 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HomePage_Login(
+                          title: 'ALLIANCE',
+                        )));
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        ),
       ),
       body: ListView(
         children: [
