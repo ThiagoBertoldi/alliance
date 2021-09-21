@@ -29,9 +29,9 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
       print(userCredential.additionalUserInfo);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        print('Não existe um usuário com este email!!!');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        print('Senha não confere!!!');
       }
     }
   }
@@ -135,21 +135,6 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                                         title: 'Alliance')));
                       }*/
                       /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                      /* if (permissao == 1) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    HomePageState_MenuCliente()));
-                      } else if (permissao == 2) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    MyHomePage_MenuRepresentante(
-                                      title: 'ALLIANCE',
-                                    )));
-                      }*/
                     },
                   ),
                 ),
