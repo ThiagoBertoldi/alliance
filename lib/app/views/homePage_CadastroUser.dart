@@ -21,18 +21,17 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
   String email = '';
   String empresa = '';
   String cnpj = '';
-  String tel = '';
-  int telefone = 0;
+  String telefone = '';
   String senha = '';
   String senhaNovamente = '';
-  int permissao = 0;
+  String permissao = '';
 
   Future<void> gravaDados(
     String nome,
     String email,
     String empresa,
     String cnpj,
-    int telefone,
+    String telefone,
     String senha,
     String senhaNovamente,
   ) async {
@@ -130,8 +129,7 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
               ),
               TextFormField(
                 onChanged: (text) {
-                  tel = text;
-                  telefone = int.parse(tel);
+                  telefone = text;
                 },
                 decoration: InputDecoration(
                   labelText: 'Telefone',

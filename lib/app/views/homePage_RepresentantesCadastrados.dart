@@ -36,14 +36,14 @@ class HomePage_InfoUser extends StatefulWidget {
 class _MyHomePageState extends State<HomePage_InfoUser> {
   var db = FirebaseFirestore.instance;
 
-  String telefone = '';
+  int telefone = 0;
   String empresa = '';
   String email = '';
   String nome = '';
   String cnpj = '';
 
   void atualizaDados(
-      String empresa, String cnpj, String email, String telefone, String nome) {
+      String empresa, String cnpj, String email, int telefone, String nome) {
     db.collection("vendedor_").doc(nome).set({
       "nome": nome,
       "empresa": empresa,
@@ -234,7 +234,9 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
                                                   child: TextFormField(
                                                     textAlign: TextAlign.center,
                                                     onChanged: (text) {
-                                                      telefone = text;
+                                                      var telefone_ = text;
+                                                      telefone =
+                                                          int.parse(telefone_);
                                                     },
                                                     decoration: InputDecoration(
                                                       hintText: docSnapshot[
@@ -268,15 +270,7 @@ class _MyHomePageState extends State<HomePage_InfoUser> {
                                                           icon: const Icon(
                                                               Icons.save),
                                                           color: Colors.white,
-                                                          onPressed: () {
-                                                            atualizaDados(
-                                                                empresa,
-                                                                cnpj,
-                                                                email,
-                                                                telefone,
-                                                                docSnapshot[
-                                                                    'nome']);
-                                                          },
+                                                          onPressed: () {},
                                                         ),
                                                       ),
                                                     ),

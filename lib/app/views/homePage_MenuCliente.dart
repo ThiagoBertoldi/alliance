@@ -55,7 +55,7 @@ void atualizaDados() async {
 
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
   var db = FirebaseFirestore.instance;
-
+  String procuraProduto = '';
   String preco = '';
   String empresa = '';
   String marca = '';
@@ -76,7 +76,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
 
     var currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      print("$currentUser.uid" + "$currentUser");
+      print("$currentUser.uid");
     }
   }
 
@@ -273,32 +273,20 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                         color: Colors.orange)),
                                               )),
                                           Container(
-                                            height: 40,
+                                            height: 60,
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.9,
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              HomePage_CadastroProdutos(
-                                                                title:
-                                                                    'ALLIANCE',
-                                                              )));
-                                                },
-                                                child: Text("Adicionar Produto",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 17))),
-                                            margin: EdgeInsets.only(
-                                                top: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.04),
+                                                0.8,
+                                            child: TextField(
+                                              onChanged: (text) {
+                                                procuraProduto = text;
+                                              },
+                                              decoration: InputDecoration(
+                                                labelText:
+                                                    'Pesquise um Produto',
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -844,7 +832,14 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => HomePage_CadastroProdutos(
+                        title: 'ALLIANCE',
+                      )));
+        },
         child: const Icon(Icons.add_rounded, color: Colors.white),
         backgroundColor: Colors.orange[300],
       ),
