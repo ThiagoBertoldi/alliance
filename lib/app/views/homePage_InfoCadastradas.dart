@@ -51,7 +51,7 @@ class _MyHomePageState extends State<HomePage_InfoCadastradas> {
                 child: Center(
                   child: Text("Michel",
                       style:
-                          TextStyle(fontSize: 30, color: Colors.orange[300]))),
+                          TextStyle(fontSize: 30, color: Colors.orange[300])))),
               Container(
               child: Row(
             children:[
