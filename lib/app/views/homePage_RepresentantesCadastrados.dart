@@ -18,14 +18,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: HomePage_InfoUser(title: 'Flutter App'),
+      home: HomePage_RepresentantesCadastrados(title: 'Flutter App'),
     );
   }
 }
 
 // ignore: camel_case_types
-class HomePage_InfoUser extends StatefulWidget {
-  HomePage_InfoUser({Key? key, required this.title}) : super(key: key);
+class HomePage_RepresentantesCadastrados extends StatefulWidget {
+  HomePage_RepresentantesCadastrados({Key? key, required this.title})
+      : super(key: key);
 
   final String title;
 
@@ -33,7 +34,7 @@ class HomePage_InfoUser extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<HomePage_InfoUser> {
+class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
   var db = FirebaseFirestore.instance;
 
   int telefone = 0;

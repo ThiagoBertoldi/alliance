@@ -40,23 +40,19 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
   var db = FirebaseFirestore.instance;
   String nomeProduto = '';
   String marca = '';
-  String preco = '';
   double preco_int = 0;
   String unidadeMedida = '';
 
-  void gravaDados(
-      String nomeProduto, String marca, double preco, String unidadeMedida) {
-    if (nomeProduto != '' &&
-        marca != '' &&
-        preco != '' &&
-        unidadeMedida != '') {
+  void gravaDados(String nomeProduto, String marca, String unidadeMedida) {
+    if (nomeProduto != '' && marca != '' && unidadeMedida != '') {
       db
           .collection("produtos_")
           .doc("$nomeProduto")
           .set({
             "nomeProduto": "$nomeProduto",
             "marca": "$marca",
-            "preço": "$preco",
+            "precoMaisBaixo": "-/-",
+            "precoMaisAlto": "-/-",
             "unidadeMedida": "$unidadeMedida",
           })
           .then((value) => print("Cadastrado!!!"))
@@ -65,6 +61,7 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
       print("Precisa Preencher Todos os Campos!!");
     }
   }
+  ///////////////////////////
 
   @override
   Widget build(BuildContext context) {
@@ -115,19 +112,6 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                       padding: new EdgeInsets.all(5),
                       child: TextFormField(
                         onChanged: (text) {
-                          preco = text;
-                          preco_int = double.parse(preco);
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Preço',
-                          icon: Icon(Icons.attach_money),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: new EdgeInsets.all(5),
-                      child: TextFormField(
-                        onChanged: (text) {
                           unidadeMedida = text;
                         },
                         decoration: InputDecoration(
@@ -150,8 +134,7 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                         ),
                         color: Colors.orange[300],
                         onPressed: () {
-                          gravaDados(
-                              nomeProduto, marca, preco_int, unidadeMedida);
+                          gravaDados(nomeProduto, marca, unidadeMedida);
                         },
                       ),
                     ),

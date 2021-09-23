@@ -25,10 +25,11 @@ class HomePage_InfoCadastradas extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState_InfoCadastradas createState() =>
+      _HomePageState_InfoCadastradas();
 }
 
-class _MyHomePageState extends State<HomePage_InfoCadastradas> {
+class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
