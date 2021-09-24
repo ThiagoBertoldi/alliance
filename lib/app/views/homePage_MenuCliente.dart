@@ -74,6 +74,16 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         .set({"nomeProduto": nomeProduto});
   }
 
+  String nomeUser() {
+    var currentUser = FirebaseAuth.instance.currentUser;
+    String nomeUsuario = '';
+    if (currentUser != null) {
+      nomeUsuario = currentUser.displayName.toString();
+      print(nomeUsuario);
+    }
+    return nomeUsuario;
+  }
+
   @override
   Widget build(
     BuildContext context,
@@ -84,6 +94,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
+              FirebaseAuth.instance.signOut();
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -120,6 +131,15 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                       child: FadeInAnimation(
                                         child: Column(
                                           children: [
+                                            Container(
+                                              padding: new EdgeInsets.all(15),
+                                              child: Text(
+                                                  "Como vai, " +
+                                                      nomeUser() +
+                                                      "?",
+                                                  style:
+                                                      TextStyle(fontSize: 25)),
+                                            ),
                                             Container(
                                               margin: EdgeInsets.only(
                                                   top: MediaQuery.of(context)

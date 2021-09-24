@@ -1,4 +1,6 @@
 // ignore: unused_import
+// ignore_for_file: unused_local_variable
+
 import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,7 +40,7 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
     if (nome == '' ||
         email == '' ||
         empresa == '' ||
-        telefone == 0 ||
+        telefone == '' ||
         senha == '' ||
         cnpj == '') {
       print("Precisa Preencher Todos os Campos!!");
@@ -49,19 +51,23 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: senha);
 
+        var currentUser = FirebaseAuth.instance.currentUser;
+
+        currentUser!.updateDisplayName(nome);
+
         FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
           "nome": nome,
           "email": email,
           "empresa": empresa,
           "telefone": telefone,
           "cnpj": cnpj,
-          "permissao": 2
+          "permissao": "2"
         });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
+          print('Senha muito fraca!!!');
         } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
+          print('Este email já está cadastrado!!!');
         }
       } catch (e) {
         print(e);

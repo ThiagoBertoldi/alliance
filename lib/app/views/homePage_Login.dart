@@ -1,7 +1,9 @@
 import 'package:alliance/app/views/homePage_MenuCliente.dart';
 import 'package:alliance/app/views/homePage_CadastroUser.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'homePage_MenuRepresentante.dart';
@@ -26,10 +28,7 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
-      var currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser != null) {
-        print(currentUser.uid);
-      }
+      print(userCredential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('Não existe um usuário com este email!!!');
@@ -127,21 +126,6 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   HomePage_MenuCliente()));
-                      /* if (senha == '1') {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    HomePage_MenuCliente()));
-                      } else {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    HomePage_MenuRepresentante(
-                                        title: 'Alliance')));
-                      }*/
-                      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     },
                   ),
                 ),
