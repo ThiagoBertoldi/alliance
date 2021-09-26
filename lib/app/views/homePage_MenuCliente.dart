@@ -60,11 +60,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
       "unidadeMedida": unidadeMedida,
       "preço": preco
     }).then((value) => print("Atualizado com Sucesso!!"));
-
-    var currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      print("$currentUser.uid");
-    }
   }
 
   void enviaParaCotacao(String nomeProduto) {
@@ -72,16 +67,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         .collection("produtosParaCotacao")
         .doc(nomeProduto)
         .set({"nomeProduto": nomeProduto});
-  }
-
-  String nomeUser() {
-    var currentUser = FirebaseAuth.instance.currentUser;
-    String nomeUsuario = '';
-    if (currentUser != null) {
-      nomeUsuario = currentUser.displayName.toString();
-      print(nomeUsuario);
-    }
-    return nomeUsuario;
   }
 
   @override
@@ -131,15 +116,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                       child: FadeInAnimation(
                                         child: Column(
                                           children: [
-                                            Container(
-                                              padding: new EdgeInsets.all(15),
-                                              child: Text(
-                                                  "Como vai, " +
-                                                      nomeUser() +
-                                                      "?",
-                                                  style:
-                                                      TextStyle(fontSize: 25)),
-                                            ),
                                             Container(
                                               margin: EdgeInsets.only(
                                                   top: MediaQuery.of(context)
@@ -711,7 +687,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         } else {
                           return Align(
                               alignment: FractionalOffset.bottomCenter,
-                              child: CircularProgressIndicator());
+                              child:
+                                  Center(child: CircularProgressIndicator()));
                         }
                       }),
                 ),
