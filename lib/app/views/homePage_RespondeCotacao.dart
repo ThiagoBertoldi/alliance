@@ -36,6 +36,39 @@ class HomePageState_ResponderCotacao extends StatefulWidget {
 }
 
 class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
+  String marca = '';
+  String preco = '';
+  String unidadeMedida = '';
+
+  void respondeCotacao(
+      String nomeProduto, String preco, String marca, String unidadeMedida) {
+    if (marca == '') {
+      marca = '-/-';
+    }
+    if (preco == '') {
+      preco = '-/-';
+    }
+    if (unidadeMedida == '') {
+      unidadeMedida = '-/-';
+    }
+
+    FirebaseFirestore.instance
+        .collection("produtosRespondidos")
+        .doc("Thiago") //Nome no Vendedor
+        .collection("produtos")
+        .doc(nomeProduto)
+        .set({
+      "nomeProduto": nomeProduto,
+      "marca": marca,
+      "unidadeMedida": unidadeMedida,
+      "preço": preco
+    }).then((value) => print("Envia com Sucesso!!!"));
+
+    preco == '';
+    marca == '';
+    unidadeMedida == '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +157,8 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                               TextAlign.center,
                                                                           onChanged:
                                                                               (text) {
-                                                                            //preco = text;
+                                                                            preco =
+                                                                                text;
                                                                           },
                                                                           decoration:
                                                                               InputDecoration(
@@ -172,7 +206,8 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                               TextAlign.center,
                                                                           onChanged:
                                                                               (text) {
-                                                                            // marca = text;
+                                                                            marca =
+                                                                                text;
                                                                           },
                                                                           decoration:
                                                                               InputDecoration(
@@ -221,7 +256,8 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                               TextAlign.center,
                                                                           onChanged:
                                                                               (text) {
-                                                                            //unidadeMedida = text;
+                                                                            unidadeMedida =
+                                                                                text;
                                                                           },
                                                                           decoration:
                                                                               InputDecoration(
@@ -261,6 +297,17 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                             .orange,
                                                                         onPressed:
                                                                             () {
+                                                                          respondeCotacao(
+                                                                              docSnapshot['nomeProduto'],
+                                                                              preco,
+                                                                              marca,
+                                                                              unidadeMedida);
+                                                                          marca =
+                                                                              '';
+                                                                          preco =
+                                                                              '';
+                                                                          unidadeMedida =
+                                                                              '';
                                                                           Navigator.of(context)
                                                                               .pop();
                                                                         },
