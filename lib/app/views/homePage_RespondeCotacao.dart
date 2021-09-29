@@ -7,6 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(PaginaRepondeCotacao());
+  //test
 }
 
 class PaginaRepondeCotacao extends StatelessWidget {
