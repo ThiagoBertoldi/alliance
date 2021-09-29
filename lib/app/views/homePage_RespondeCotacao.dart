@@ -51,7 +51,7 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
     if (unidadeMedida == '') {
       unidadeMedida = '-/-';
     }
-
+    ///////////////////////dfgdfgdfgdg
     FirebaseFirestore.instance
         .collection("produtosRespondidos")
         .doc("Thiago") //Nome no Vendedor
