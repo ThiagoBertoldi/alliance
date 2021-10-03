@@ -1,12 +1,9 @@
-import 'package:alliance/app/views/homePage_MenuCliente.dart';
+import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
 import 'package:alliance/app/views/homePage_CadastroUser.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'homePage_MenuRepresentante.dart';
 
 // ignore: camel_case_types
 class HomePage_Login extends StatefulWidget {
