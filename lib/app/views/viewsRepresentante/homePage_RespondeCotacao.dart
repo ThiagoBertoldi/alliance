@@ -303,6 +303,7 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                               preco,
                                                                               marca,
                                                                               unidadeMedida);
+
                                                                           marca =
                                                                               '';
                                                                           preco =

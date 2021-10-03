@@ -1,6 +1,6 @@
 // ignore: unused_import
 import 'package:alliance/app/views/homePage_Login.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_CotacoesResponder.dart';
+import 'package:alliance/app/views/viewsRepresentante/homePage_CotacoesAResponder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'homePage_CotacoesAEnviar.dart';
 import 'homePage_CadastroProdutos.dart';
 import '../homePage_InfoCadastradas.dart';
+import 'homePage_ProdutosRespondidos.dart';
 import 'homePage_RepresentantesCadastrados.dart';
 
 main() async {
@@ -777,6 +778,23 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
                           HomePage_CotacoesResponder(title: "ALLIANCE")));
+            },
+            heroTag: null,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(
+            child: Icon(
+              Icons.all_inbox,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          HomePage_ProdutosRespondidos(title: "ALLIANCE")));
             },
             heroTag: null,
           ),
