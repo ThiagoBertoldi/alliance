@@ -40,7 +40,7 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
           Container(
             child: Column(
               children: [
-                new Image.asset(
+                /*new Image.asset(
                   'images/user.png',
                   width: 75.0,
                   height: 75.0,
@@ -51,25 +51,27 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                     child: Center(
                         child: Text("Michel",
                             style: TextStyle(
-                                fontSize: 30, color: Colors.orange[300])))),
+                                fontSize: 30, color: Colors.orange[300])))),*/
                 Container(
+                    padding: new EdgeInsets.all(40),
                     child: Row(
-                  children: [
-                    new Image.asset(
-                      'images/user.png',
-                      width: 75.0,
-                      height: 75.0,
-                      fit: BoxFit.cover,
-                    ),
-                    Container(
-                      padding: new EdgeInsets.all(40),
-                      child: Center(
-                          child: Text("Michel",
-                              style: TextStyle(
-                                  fontSize: 30, color: Colors.orange[300]))),
-                    ),
-                  ],
-                )),
+                      children: [
+                        new Image.asset(
+                          'images/user.png',
+                          width: 75.0,
+                          height: 75.0,
+                          fit: BoxFit.cover,
+                        ),
+                        Container(
+                          padding: new EdgeInsets.all(40),
+                          child: Center(
+                              child: Text("Alliance",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.orange[300]))),
+                        ),
+                      ],
+                    )),
               ],
             ),
           )

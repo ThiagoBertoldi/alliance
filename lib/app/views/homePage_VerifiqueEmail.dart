@@ -100,44 +100,27 @@ class _MyHomePageState_VerifiqueEmail extends State<VerifiqueEmail_State> {
                         ),
                       ),
                     ),
-
                     Container(
                       margin: new EdgeInsets.only(
-                          left: 0.0, right: 0.0, bottom: 50, top: 25),
+                          left: 0.0, right: 0.0, bottom: 10, top: 25),
                       child: Text(
-                        "Para redefinir sua senha, informe o e-mail cadastrado na sua conta e lhe enviaremos um e-mail com as instruções.",
+                        "Verifique seu e-mail",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: new EdgeInsets.only(
+                          left: 0.0, right: 0.0, bottom: 50, top: 10),
+                      child: Text(
+                        "Nós enviamos um e-mail com as instruções.",
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[500],
                         ),
-                      ),
-                    ),
-
-                    TextFormField(
-                      onChanged: (text) {
-                        email = text;
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        icon: Icon(Icons.email),
-                      ),
-                    ),
-
-                    // ignore: deprecated_member_use
-                    Container(
-                      margin: new EdgeInsets.only(top: 30),
-                      // ignore: deprecated_member_use
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        minWidth: MediaQuery.of(context).size.width * 0.6,
-                        child: Text(
-                          'Redefinir senha',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                        color: Colors.orange[300],
-                        onPressed: () {},
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ],
@@ -148,13 +131,14 @@ class _MyHomePageState_VerifiqueEmail extends State<VerifiqueEmail_State> {
               margin: new EdgeInsets.only(top: 80),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.1,
-              color: Colors.black,
+              //color: Colors.black,
               child: Text(
-                "Para redefinir sua senha, informe o e-mail cadastrado na sua conta e lhe enviaremos um e-mail com as instruções.",
+                "Não recebeu o e-mail? Cheque a sua caixa de spam.",
                 style: TextStyle(
                   fontSize: 15,
                   color: Colors.grey[500],
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
           ],
