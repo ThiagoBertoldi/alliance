@@ -142,6 +142,22 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
           ),
         ),
       ),
+      bottomNavigationBar: new BottomNavigationBar(
+        items: [
+          new BottomNavigationBarItem(
+            icon: new Icon(Icons.add),
+            title: new Text("Add"),
+          ),
+          new BottomNavigationBarItem(
+            icon: new Icon(Icons.edit),
+            title: new Text("Edit"),
+          ),
+          new BottomNavigationBarItem(
+            icon: new Icon(Icons.delete),
+            title: new Text("Delete"),
+          ),
+        ],
+      ),
     );
   }
 }
