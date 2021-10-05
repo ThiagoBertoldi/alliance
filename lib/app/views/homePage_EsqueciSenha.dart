@@ -98,6 +98,18 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                   ),
                 ),
 
+                Container(
+                  margin: new EdgeInsets.only(
+                      left: 0.0, right: 0.0, bottom: 50, top: 25),
+                  child: Text(
+                    "Para redefinir sua senha, informe o e-mail cadastrado na sua conta e lhe enviaremos um e-mail com as instruções.",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ),
+
                 TextFormField(
                   onChanged: (text) {
                     email = text;
@@ -108,25 +120,6 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                   ),
                 ),
 
-                Container(
-                  alignment: Alignment.centerRight,
-                  margin: new EdgeInsets.only(top: 15),
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      'Esqueci minha senha!!!',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.orange[300],
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
                 // ignore: deprecated_member_use
                 Container(
                   margin: new EdgeInsets.only(top: 30),
@@ -137,7 +130,7 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                     height: MediaQuery.of(context).size.height * 0.07,
                     minWidth: MediaQuery.of(context).size.width * 0.6,
                     child: Text(
-                      'Login',
+                      'Redefinir senha',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     color: Colors.orange[300],
