@@ -16,6 +16,8 @@ class _MyHomePageState_Login extends State<HomePage_EsqueciSenha> {
   String email = '';
   String senha = '';
 
+  //teste
+
   void autenticacaoLogin(String email, String password) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
