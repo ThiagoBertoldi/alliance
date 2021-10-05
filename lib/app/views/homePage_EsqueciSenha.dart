@@ -20,7 +20,7 @@ class HomePage_EsqueciSenha extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: EsqueciSenha_State(title: "A"),
+      home: EsqueciSenha_State(title: "ALLIANCE"),
     );
   }
 }
@@ -71,7 +71,7 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => HomePage_Login(
-                          title: 'ALLIANCE',
+                          title: 'Redefinir Senha',
                         )));
           },
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
@@ -138,36 +138,6 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                     minWidth: MediaQuery.of(context).size.width * 0.6,
                     child: Text(
                       'Login',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    color: Colors.orange[300],
-                    onPressed: () {},
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  margin: new EdgeInsets.only(top: 30),
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  // ignore: deprecated_member_use
-
-                  child: Text(
-                    'Não possui uma conta?',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.orange[300],
-                    ),
-                  ),
-                ),
-                Container(
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    minWidth: MediaQuery.of(context).size.width * 0.6,
-                    child: Text(
-                      'Cadastrar',
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     color: Colors.orange[300],
