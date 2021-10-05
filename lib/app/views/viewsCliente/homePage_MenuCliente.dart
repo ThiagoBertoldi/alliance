@@ -53,13 +53,28 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
     db.collection("produtos_").doc(nomeProduto).delete();
   }
 
-  void atualizaProduto(
-      String nomeProduto, String preco, String unidadeMedida, String marca) {
+  void atualizaProduto(String nomeProduto, String unidadeMedida, String marca,
+      String precoMaisAlto, String precoMaisBaixo) {
+    if (unidadeMedida == '') {
+      unidadeMedida = "sem unidade de medida";
+    }
+    if (marca == '') {
+      marca = "sem marca";
+    }
+    if (precoMaisAlto == '') {
+      precoMaisAlto = "sem preço";
+    }
+    if (precoMaisBaixo == '') {
+      precoMaisBaixo = "sem preço";
+    }
+
+    print(marca);
     db.collection("produtos_").doc(nomeProduto).set({
       "nomeProduto": nomeProduto,
       "marca": marca,
       "unidadeMedida": unidadeMedida,
-      "preço": preco
+      "precoMaisAlto": precoMaisAlto,
+      "precoMaisBaixo": precoMaisBaixo
     }).then((value) => print("Atualizado com Sucesso!!"));
   }
 
@@ -507,7 +522,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                 icon: const Icon(Icons.save),
                                                                                 color: Colors.white,
                                                                                 onPressed: () {
-                                                                                  atualizaProduto(docSnapshot['nomeProduto'], preco, unidadeMedida, marca);
+                                                                                  atualizaProduto(docSnapshot['nomeProduto'], unidadeMedida, marca, docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo']);
                                                                                 },
                                                                               ),
                                                                             ),

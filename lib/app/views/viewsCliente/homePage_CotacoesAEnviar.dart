@@ -44,6 +44,17 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
           .doc(doc["nomeProduto"])
           .delete();
     }
+
+    var prod2 = await FirebaseFirestore.instance
+        .collection("produtosParaCotacao")
+        .get();
+
+    for (var doc in prod2.docs) {
+      FirebaseFirestore.instance
+          .collection("produtosParaCotacao")
+          .doc(doc["nomeProduto"])
+          .delete();
+    }
   }
 
   @override
