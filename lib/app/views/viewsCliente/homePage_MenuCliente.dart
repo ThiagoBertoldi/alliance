@@ -15,7 +15,6 @@ import 'homePage_RepresentantesCadastrados.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
-
   runApp(HomePage_MenuCliente());
 }
 
