@@ -31,6 +31,9 @@ class HomePage_InfoCadastradas extends StatefulWidget {
 
 class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
   @override
+
+  //double_width = MediaQuery.of(context).size.width
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -73,35 +76,41 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                       ],
                     )),
                 Container(
-                    padding: new EdgeInsets.all(40),
+                    //padding: new EdgeInsets.only(top: 40),
+                    padding: new EdgeInsets.only(left: 40),
                     child: Row(
                       children: [
                         Container(
+                          width: 330,
+                          height: 80,
                           child: Card(
                             child: Container(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Cotações respondidas',
-                                    style: TextStyle(fontSize: 16),
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 15),
+                                    child: Text(
+                                      'E-mail',
+                                      style: TextStyle(fontSize: 14),
+                                      textAlign: TextAlign.left,
+                                    ),
                                   ),
-                                  Text(
-                                    '16',
-                                    style: TextStyle(fontSize: 19),
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 4),
+                                    child: Text(
+                                      'alliance@gmail.com',
+                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.left,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          child: Center(
-                              child: Text("Alliance",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.orange[300]))),
                         ),
                       ],
                     )),
