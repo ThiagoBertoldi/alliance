@@ -1,4 +1,3 @@
-import 'package:alliance/app/views/homePage_VerifiqueEmail.dart';
 import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,10 +9,10 @@ import 'package:alliance/app/views/homePage_Login.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
-  runApp(HomePage_EsqueciSenha());
+  runApp(HomePage_VerifiqueEmail());
 }
 
-class HomePage_EsqueciSenha extends StatelessWidget {
+class HomePage_VerifiqueEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,24 +20,24 @@ class HomePage_EsqueciSenha extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: EsqueciSenha_State(title: "ALLIANCE"),
+      home: VerifiqueEmail_State(title: "ALLIANCE"),
     );
   }
 }
 
 // ignore: camel_case_types
-class EsqueciSenha_State extends StatefulWidget {
-  EsqueciSenha_State({Key? key, required this.title}) : super(key: key);
+class VerifiqueEmail_State extends StatefulWidget {
+  VerifiqueEmail_State({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState_EsqueciSenha createState() =>
-      _MyHomePageState_EsqueciSenha();
+  _MyHomePageState_VerifiqueEmail createState() =>
+      _MyHomePageState_VerifiqueEmail();
 }
 
 // ignore: camel_case_types
-class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
+class _MyHomePageState_VerifiqueEmail extends State<VerifiqueEmail_State> {
   String email = '';
   String senha = '';
 
@@ -135,13 +134,7 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     color: Colors.orange[300],
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HomePage_VerifiqueEmail()));
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ],
