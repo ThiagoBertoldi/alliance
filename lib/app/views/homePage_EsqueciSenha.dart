@@ -78,76 +78,78 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: new EdgeInsets.only(left: 50.0, right: 50.0),
-          child: Container(
-            margin: new EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  margin: new EdgeInsets.only(
-                      left: 10.0, right: 10.0, bottom: 50, top: 30),
-                  child: Text(
-                    "ALLIANCE",
-                    style: TextStyle(
-                      fontSize: 35,
-                      color: Colors.orange[300],
-                    ),
-                  ),
-                ),
-
-                Container(
-                  margin: new EdgeInsets.only(
-                      left: 0.0, right: 0.0, bottom: 50, top: 25),
-                  child: Text(
-                    "Para redefinir sua senha, informe o e-mail cadastrado na sua conta e lhe enviaremos um e-mail com as instruções.",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.grey[500],
-                    ),
-                  ),
-                ),
-
-                TextFormField(
-                  onChanged: (text) {
-                    email = text;
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    icon: Icon(Icons.email),
-                  ),
-                ),
-
-                // ignore: deprecated_member_use
-                Container(
-                  margin: new EdgeInsets.only(top: 30),
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    minWidth: MediaQuery.of(context).size.width * 0.6,
+      body: ListView(
+        children: [
+          Container(
+            margin: new EdgeInsets.only(left: 50.0, right: 50.0),
+            child: Container(
+              margin: new EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    margin: new EdgeInsets.only(
+                        left: 10.0, right: 10.0, bottom: 50, top: 30),
                     child: Text(
-                      'Redefinir senha',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      "ALLIANCE",
+                      style: TextStyle(
+                        fontSize: 35,
+                        color: Colors.orange[300],
+                      ),
                     ),
-                    color: Colors.orange[300],
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HomePage_VerifiqueEmail()));
-                    },
                   ),
-                ),
-              ],
+
+                  Container(
+                    margin: new EdgeInsets.only(
+                        left: 0.0, right: 0.0, bottom: 50, top: 25),
+                    child: Text(
+                      "Para redefinir sua senha, informe o e-mail cadastrado na sua conta e lhe enviaremos um e-mail com as instruções.",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                  ),
+
+                  TextFormField(
+                    onChanged: (text) {
+                      email = text;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      icon: Icon(Icons.email),
+                    ),
+                  ),
+
+                  // ignore: deprecated_member_use
+                  Container(
+                    margin: new EdgeInsets.only(top: 30),
+                    // ignore: deprecated_member_use
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      minWidth: MediaQuery.of(context).size.width * 0.6,
+                      child: Text(
+                        'Redefinir senha',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                      color: Colors.orange[300],
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    HomePage_VerifiqueEmail()));
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
