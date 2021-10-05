@@ -114,6 +114,178 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                         ),
                       ],
                     )),
+                Container(
+                    //padding: new EdgeInsets.only(top: 40),
+                    padding: new EdgeInsets.only(left: 40),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 330,
+                          height: 80,
+                          child: Card(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 15),
+                                    child: Text(
+                                      'Password',
+                                      style: TextStyle(fontSize: 14),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 4),
+                                    child: Text(
+                                      '*********',
+                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+                Container(
+                    //padding: new EdgeInsets.only(top: 40),
+                    padding: new EdgeInsets.only(left: 40),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 330,
+                          height: 80,
+                          child: Card(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 15),
+                                    child: Text(
+                                      'Telefone',
+                                      style: TextStyle(fontSize: 14),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 4),
+                                    child: Text(
+                                      '(47) 9 9783-7553',
+                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+                Container(
+                    //padding: new EdgeInsets.only(top: 40),
+                    padding: new EdgeInsets.only(left: 40),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 330,
+                          height: 80,
+                          child: Card(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 15),
+                                    child: Text(
+                                      'Empresa',
+                                      style: TextStyle(fontSize: 14),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 4),
+                                    child: Text(
+                                      'Panif. Aliança',
+                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+                Container(
+                    //padding: new EdgeInsets.only(top: 40),
+                    padding: new EdgeInsets.only(left: 40),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 330,
+                          height: 80,
+                          child: Card(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 15),
+                                    child: Text(
+                                      'Empresa',
+                                      style: TextStyle(fontSize: 14),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  Container(
+                                    padding:
+                                        new EdgeInsets.only(left: 15, top: 4),
+                                    child: Text(
+                                      'Panif. Aliança',
+                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+                Container(
+                  margin: new EdgeInsets.only(top: 30),
+                  // ignore: deprecated_member_use
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50)),
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    minWidth: MediaQuery.of(context).size.width * 0.6,
+                    child: Text(
+                      'Editar',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                    color: Colors.orange[300],
+                    onPressed: () {},
+                  ),
+                ),
               ],
             ),
           )
