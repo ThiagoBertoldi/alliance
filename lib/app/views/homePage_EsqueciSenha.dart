@@ -1,18 +1,43 @@
 import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
-import 'package:alliance/app/views/homePage_CadastroUser.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:alliance/app/views/homePage_Login.dart';
 
-// ignore: camel_case_types
-class HomePage_EsqueciSenha extends StatefulWidget {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+  runApp(HomePage_MenuCliente());
+}
+
+class HomePage_EsqueciSenha extends StatelessWidget {
   @override
-  _MyHomePageState_Login createState() => _MyHomePageState_Login();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'FlutterApp',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+      ),
+      home: MenuCliente_State(title: "ALLIANCE"),
+    );
+  }
 }
 
 // ignore: camel_case_types
-class _MyHomePageState_Login extends State<HomePage_EsqueciSenha> {
+class EsqueciSenha_State extends StatefulWidget {
+  EsqueciSenha_State({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState_EsqueciSenha createState() =>
+      _MyHomePageState_EsqueciSenha();
+}
+
+// ignore: camel_case_types
+class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
   String email = '';
   String senha = '';
 
@@ -36,6 +61,22 @@ class _MyHomePageState_Login extends State<HomePage_EsqueciSenha> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HomePage_Login(
+                          title: 'ALLIANCE',
+                        )));
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           margin: new EdgeInsets.only(left: 50.0, right: 50.0),
@@ -67,20 +108,6 @@ class _MyHomePageState_Login extends State<HomePage_EsqueciSenha> {
                   ),
                 ),
 
-                Container(
-                  margin: new EdgeInsets.only(top: 20),
-                  child: TextFormField(
-                    onChanged: (text) {
-                      senha = text;
-                    },
-                    autofocus: true,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                      icon: Icon(Icons.lock),
-                    ),
-                  ),
-                ),
                 Container(
                   alignment: Alignment.centerRight,
                   margin: new EdgeInsets.only(top: 15),
@@ -114,14 +141,7 @@ class _MyHomePageState_Login extends State<HomePage_EsqueciSenha> {
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     color: Colors.orange[300],
-                    onPressed: () {
-                      autenticacaoLogin(email, senha);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HomePage_MenuCliente()));
-                    },
+                    onPressed: () {},
                   ),
                 ),
                 Container(
@@ -151,15 +171,7 @@ class _MyHomePageState_Login extends State<HomePage_EsqueciSenha> {
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                     color: Colors.orange[300],
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HomePage_Cadastro(
-                                    title: 'ALLIANCE',
-                                  )));
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ],

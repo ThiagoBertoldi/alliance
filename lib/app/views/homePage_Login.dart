@@ -1,3 +1,4 @@
+import 'package:alliance/app/views/homePage_EsqueciSenha.dart';
 import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
 import 'package:alliance/app/views/homePage_CadastroUser.dart';
 // ignore: unused_import
@@ -99,7 +100,13 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                           color: Colors.orange[300],
                           fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  HomePage_EsqueciSenha()));
+                    },
                   ),
                 ),
                 // ignore: deprecated_member_use
