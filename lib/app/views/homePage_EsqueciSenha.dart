@@ -71,7 +71,7 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                 context,
                 MaterialPageRoute(
                     builder: (BuildContext context) => HomePage_Login(
-                          title: 'Redefinir Senha',
+                          title: 'ALLIANCE',
                         )));
           },
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
