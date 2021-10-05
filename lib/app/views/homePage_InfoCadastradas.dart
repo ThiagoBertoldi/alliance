@@ -72,6 +72,39 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                         ),
                       ],
                     )),
+                Container(
+                    padding: new EdgeInsets.all(40),
+                    child: Row(
+                      children: [
+                        Container(
+                          child: Card(
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Cotações respondidas',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    '16',
+                                    style: TextStyle(fontSize: 19),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Center(
+                              child: Text("Alliance",
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.orange[300]))),
+                        ),
+                      ],
+                    )),
               ],
             ),
           )
