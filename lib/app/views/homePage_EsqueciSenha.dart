@@ -20,7 +20,7 @@ class HomePage_EsqueciSenha extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: EsqueciSenha_State(title: "A"),
+      home: EsqueciSenha_State(title: "ALLIANCE"),
     );
   }
 }
