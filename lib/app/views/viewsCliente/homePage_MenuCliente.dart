@@ -43,6 +43,7 @@ class MenuCliente_State extends StatefulWidget {
 
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
   var db = FirebaseFirestore.instance;
+  int count = 0;
   String procuraProduto = '';
   String preco = '';
   String empresa = '';
@@ -169,7 +170,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                   fontSize: 16),
                                                             ),
                                                             Text(
-                                                              "60",
+                                                              "$count",
                                                               style: TextStyle(
                                                                   fontSize: 19),
                                                             ),
@@ -214,7 +215,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                           16),
                                                                 ),
                                                                 Text(
-                                                                  '16',
+                                                                  '$count',
                                                                   style: TextStyle(
                                                                       fontSize:
                                                                           19),
@@ -252,7 +253,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                           16),
                                                                 ),
                                                                 Text(
-                                                                  "16",
+                                                                  "$count",
                                                                   style: TextStyle(
                                                                       fontSize:
                                                                           19),
@@ -304,7 +305,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                   } else {
                     return Align(
                         alignment: FractionalOffset.bottomCenter,
-                        child: CircularProgressIndicator());
+                        child: Container(child: CircularProgressIndicator()));
                   }
                 }),
             Column(

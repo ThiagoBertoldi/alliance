@@ -68,7 +68,7 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                         Container(
                           padding: new EdgeInsets.all(40),
                           child: Center(
-                              child: Text("Alliance",
+                              child: Text("Nome",
                                   style: TextStyle(
                                       fontSize: 30,
                                       color: Colors.orange[300]))),
