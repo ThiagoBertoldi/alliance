@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'homePage_MenuCliente.dart';
 
-// ignore: camel_case_types
 class HomePage_ProdutosRespondidos extends StatefulWidget {
   HomePage_ProdutosRespondidos({Key? key, required this.title})
       : super(key: key);

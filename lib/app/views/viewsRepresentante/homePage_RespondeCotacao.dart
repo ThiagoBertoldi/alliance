@@ -1,3 +1,4 @@
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -37,39 +38,6 @@ class HomePageState_ResponderCotacao extends StatefulWidget {
 }
 
 class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
-  String marca = '';
-  String preco = '';
-  String unidadeMedida = '';
-
-  void respondeCotacao(
-      String nomeProduto, String preco, String marca, String unidadeMedida) {
-    if (marca == '') {
-      marca = '-/-';
-    }
-    if (preco == '') {
-      preco = '-/-';
-    }
-    if (unidadeMedida == '') {
-      unidadeMedida = '-/-';
-    }
-
-    FirebaseFirestore.instance
-        .collection("produtosRespondidos")
-        .doc("Thiago") //Nome no Vendedor
-        .collection("produtos")
-        .doc(nomeProduto)
-        .set({
-      "nomeProduto": nomeProduto,
-      "marca": marca,
-      "unidadeMedida": unidadeMedida,
-      "preço": preco
-    }).then((value) => print("Envia com Sucesso!!!"));
-
-    preco == '';
-    marca == '';
-    unidadeMedida == '';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -304,12 +272,6 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                               marca,
                                                                               unidadeMedida);
 
-                                                                          marca =
-                                                                              '';
-                                                                          preco =
-                                                                              '';
-                                                                          unidadeMedida =
-                                                                              '';
                                                                           Navigator.of(context)
                                                                               .pop();
                                                                         },

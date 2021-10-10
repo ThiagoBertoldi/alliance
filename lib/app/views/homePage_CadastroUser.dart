@@ -1,8 +1,4 @@
-// ignore: unused_import
-// ignore_for_file: unused_local_variable
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:flutter/material.dart';
 
 import '../paginaLogin.dart';
@@ -18,62 +14,6 @@ class HomePage_Cadastro extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage_Cadastro> {
-  String nome = '';
-  String email = '';
-  String empresa = '';
-  String cnpj = '';
-  String telefone = '';
-  String senha = '';
-  String senhaNovamente = '';
-  String permissao = '';
-
-  Future<void> gravaDados(
-    String nome,
-    String email,
-    String empresa,
-    String cnpj,
-    String telefone,
-    String senha,
-    String senhaNovamente,
-  ) async {
-    if (nome == '' ||
-        email == '' ||
-        empresa == '' ||
-        telefone == '' ||
-        senha == '' ||
-        cnpj == '') {
-      print("Precisa Preencher Todos os Campos!!");
-    } else if (senhaNovamente != senha) {
-      print("Senhas não são iguais!!!");
-    } else {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: senha);
-
-        var currentUser = FirebaseAuth.instance.currentUser;
-
-        currentUser!.updateDisplayName(nome);
-
-        FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
-          "nome": nome,
-          "email": email,
-          "empresa": empresa,
-          "telefone": telefone,
-          "cnpj": cnpj,
-          "permissao": "2"
-        });
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          print('Senha muito fraca!!!');
-        } else if (e.code == 'email-already-in-use') {
-          print('Este email já está cadastrado!!!');
-        }
-      } catch (e) {
-        print(e);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,8 +115,8 @@ class _MyHomePageState extends State<HomePage_Cadastro> {
                       Text('Cadastrar', style: TextStyle(color: Colors.white)),
                   color: Colors.orange,
                   onPressed: () {
-                    gravaDados(nome, email, empresa, cnpj, telefone, senha,
-                        senhaNovamente);
+                    gravaNovoUsuario(nome, email, empresa, cnpj, telefone,
+                        senha, senhaNovamente);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

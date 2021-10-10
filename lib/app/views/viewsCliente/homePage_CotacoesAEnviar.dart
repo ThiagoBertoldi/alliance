@@ -1,8 +1,32 @@
 // ignore: unused_import
 import 'package:alliance/app/views/homePage_Login.dart';
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(PaginaCadastroProdutos());
+}
+
+// ignore: camel_case_types
+class PaginaCadastroProdutos extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'FlutterApp',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+      ),
+      home: HomePage_Cotacoes(
+        title: 'ALLIANCE',
+      ),
+    );
+  }
+}
 
 class HomePage_Cotacoes extends StatefulWidget {
   HomePage_Cotacoes({Key? key, required this.title}) : super(key: key);
@@ -14,49 +38,6 @@ class HomePage_Cotacoes extends StatefulWidget {
 }
 
 class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
-  void reomoveDaCotacao(String nomeProduto) {
-    FirebaseFirestore.instance
-        .collection("produtosParaCotacao")
-        .doc(nomeProduto)
-        .delete();
-  }
-
-  void enviaParaCotacao() async {
-    var prod = await FirebaseFirestore.instance
-        .collection("produtosParaCotacao")
-        .get();
-
-    for (var doc in prod.docs) {
-      FirebaseFirestore.instance
-          .collection("produtosEmCotacao")
-          .doc(doc['nomeProduto'])
-          .set({"nomeProduto": doc['nomeProduto']});
-    }
-  }
-
-  void resetarCotacao() async {
-    var prod =
-        await FirebaseFirestore.instance.collection("produtosEmCotacao").get();
-
-    for (var doc in prod.docs) {
-      FirebaseFirestore.instance
-          .collection("produtosEmCotacao")
-          .doc(doc["nomeProduto"])
-          .delete();
-    }
-
-    var prod2 = await FirebaseFirestore.instance
-        .collection("produtosParaCotacao")
-        .get();
-
-    for (var doc in prod2.docs) {
-      FirebaseFirestore.instance
-          .collection("produtosParaCotacao")
-          .doc(doc["nomeProduto"])
-          .delete();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,7 +139,7 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                                                                               Colors.white,
                                                                           onPressed:
                                                                               () {
-                                                                            reomoveDaCotacao(docSnapshot['nomeProduto']);
+                                                                            reomoveDaPreCotacao(docSnapshot['nomeProduto']);
                                                                           },
                                                                         ),
                                                                       ),
@@ -230,7 +211,7 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                   onPressed: () {
-                    resetarCotacao();
+                    resetaCotacao();
                   },
                 ),
               ),
