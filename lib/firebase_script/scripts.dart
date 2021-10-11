@@ -111,7 +111,7 @@ void atualizaProduto(String nomeProduto, String unidadeMedida, String marca,
     String precoMaisAlto, String precoMaisBaixo) {
   if (unidadeMedida != '') {
     db
-        .collection("vendedor_")
+        .collection("produtos_")
         .doc(nomeProduto)
         .update({"unidadeMedida": unidadeMedida}).then(
             (value) => "Alterado com sucesso!");
@@ -122,28 +122,6 @@ void atualizaProduto(String nomeProduto, String unidadeMedida, String marca,
         .doc(nomeProduto)
         .update({"marca": marca}).then((value) => "Alterado com sucesso!");
   }
-  if (precoMaisAlto != '') {
-    db
-        .collection("produtos_")
-        .doc(nomeProduto)
-        .update({"precoMaisAlto": precoMaisAlto}).then(
-            (value) => "Alterado com sucesso!");
-  }
-  if (precoMaisBaixo != '') {
-    db
-        .collection("produtos_")
-        .doc(nomeProduto)
-        .update({"precoMaisBaixo": precoMaisBaixo}).then(
-            (value) => "Alterado com sucesso!");
-  }
-
-  db.collection("produtos_").doc(nomeProduto).set({
-    "nomeProduto": nomeProduto,
-    "marca": marca,
-    "unidadeMedida": unidadeMedida,
-    "precoMaisAlto": precoMaisAlto,
-    "precoMaisBaixo": precoMaisBaixo
-  }).then((value) => print("Atualizado com Sucesso!!"));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -187,7 +165,8 @@ void resetaCotacao() async {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void atualizaDadosRepresentante(String empresa, String cnpj, String telefone, String nome) {
+void atualizaDadosRepresentante(
+    String empresa, String cnpj, String telefone, String nome) {
   if (empresa != '') {
     db
         .collection("vendedor_")

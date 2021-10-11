@@ -327,7 +327,11 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                 style: TextStyle(fontSize: 15, color: Colors.green),
                                                                               )
                                                                             ]),
-                                                                            Container(child: Text("{{Empresa}}")),
+                                                                            Container(
+                                                                                child: Text(
+                                                                              "--Empresa--",
+                                                                              style: TextStyle(fontSize: 15),
+                                                                            ))
                                                                           ],
                                                                         ),
                                                                       ),
@@ -437,6 +441,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                 color: Colors.white,
                                                                                 onPressed: () {
                                                                                   atualizaProduto(docSnapshot['nomeProduto'], unidadeMedida, marca, docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo']);
+                                                                                  unidadeMedida = '';
+                                                                                  marca = '';
                                                                                 },
                                                                               ),
                                                                             ),
