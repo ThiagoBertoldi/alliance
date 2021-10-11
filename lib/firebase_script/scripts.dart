@@ -207,7 +207,7 @@ void respondeCotacao(
 
   db
       .collection("produtosRespondidos")
-      .doc("Thiago") //Nome no Vendedor
+      .doc("Hayana") //Nome no Vendedor
       .collection("produtos")
       .doc(nomeProduto)
       .set({
@@ -216,10 +216,6 @@ void respondeCotacao(
     "unidadeMedida": unidadeMedida,
     "preço": preco
   }).then((value) => print("Enviada com Sucesso!!!"));
-
-  preco = '';
-  marca = '';
-  unidadeMedida = '';
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

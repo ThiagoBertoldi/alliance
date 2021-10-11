@@ -271,7 +271,12 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                               preco,
                                                                               marca,
                                                                               unidadeMedida);
-
+                                                                          preco =
+                                                                              '';
+                                                                          marca =
+                                                                              '';
+                                                                          unidadeMedida =
+                                                                              '';
                                                                           Navigator.of(context)
                                                                               .pop();
                                                                         },

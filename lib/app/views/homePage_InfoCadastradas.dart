@@ -56,7 +56,7 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                             style: TextStyle(
                                 fontSize: 30, color: Colors.orange[300])))),*/
                 Container(
-                    padding: new EdgeInsets.all(40),
+                    padding: new EdgeInsets.all(10),
                     child: Row(
                       children: [
                         new Image.asset(
@@ -271,7 +271,7 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                       ],
                     )),
                 Container(
-                  margin: new EdgeInsets.only(top: 30),
+                  margin: new EdgeInsets.only(top: 15),
                   // ignore: deprecated_member_use
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
