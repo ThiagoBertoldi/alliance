@@ -1,4 +1,3 @@
-// ignore: unused_import
 import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:alliance/app/views/viewsRepresentante/homePage_CotacoesAResponder.dart';
 import 'package:alliance/firebase_script/scripts.dart';
