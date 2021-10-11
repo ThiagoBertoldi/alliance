@@ -86,7 +86,7 @@ void gravaNovoProduto(String nomeProduto, String marca, String unidadeMedida) {
   if (nomeProduto != '' && marca != '' && unidadeMedida != '') {
     db
         .collection("produtos_")
-        .doc("$nomeProduto")
+        .doc(nomeProduto)
         .set({
           "nomeProduto": "$nomeProduto",
           "marca": "$marca",
