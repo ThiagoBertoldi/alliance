@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -195,6 +197,7 @@ void deletaUsuario(String nome) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void respondeCotacao(
     String nomeProduto, String preco, String marca, String unidadeMedida) {
+  db.collection("produtosRespondidos").doc("Hayana").set({"nome": "Hayana"});
   if (marca == '') {
     marca = '-/-';
   }
@@ -207,7 +210,7 @@ void respondeCotacao(
 
   db
       .collection("produtosRespondidos")
-      .doc("Hayana") //Nome no Vendedor
+      .doc("Matheus") //Nome no Vendedor
       .collection("produtos")
       .doc(nomeProduto)
       .set({
@@ -217,6 +220,14 @@ void respondeCotacao(
     "preço": preco
   }).then((value) => print("Enviada com Sucesso!!!"));
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+Future<List> recebeVendedores() async {
+  var recebeDados = await db.collection("produtosRespondidos").get();
+  List lista = [];
+  for (var teste in recebeDados.docs) {
+    lista.add(teste);
+    print(lista.length);
+  }
+  return lista;
+}

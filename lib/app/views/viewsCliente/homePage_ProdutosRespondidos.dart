@@ -1,3 +1,4 @@
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +15,7 @@ class HomePage_ProdutosRespondidos extends StatefulWidget {
 
 class _HomePageState_ProdutosRespondidos
     extends State<HomePage_ProdutosRespondidos> {
-  var db = FirebaseFirestore.instance;
   List<String> dataList = ["Thiago", "Michel", "Hayana"];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,6 +158,11 @@ class _HomePageState_ProdutosRespondidos
                         child: CircularProgressIndicator());
                   }
                 }),
+          ElevatedButton(
+              onPressed: () {
+                recebeVendedores();
+              },
+              child: Text("OlA"))
         ],
       ),
     );
