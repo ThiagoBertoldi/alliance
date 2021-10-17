@@ -1,7 +1,8 @@
-import 'dart:ffi';
-
+import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
+import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentante.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 var db = FirebaseFirestore.instance;
 
@@ -19,18 +20,18 @@ String unidadeMedida = '';
 int count = 0;
 String procuraProduto = '';
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void autenticacaoLogin(String email, String password) async {
-  try {
-    UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+void validaLogin(String email) async {
+  var query = await db.collection("vendedor_").get();
 
-    print(userCredential);
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      print('Não existe um usuário com este email!!!');
-    } else if (e.code == 'wrong-password') {
-      print('Senha não confere!!!');
+  for (var dados in query.docs) {
+    if (dados['email'] == email) {
+      if (dados['permissao'] == 1) {
+        MaterialPageRoute(builder: (context) => HomePage_MenuCliente());
+      } else {
+        MaterialPageRoute(
+            builder: (context) =>
+                HomePage_MenuRepresentante(title: "ALLIANCE"));
+      }
     }
   }
 }
@@ -56,7 +57,7 @@ void gravaNovoUsuario(
     print("Senhas não são iguais!!!");
   } else {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: senha);
 
       var currentUser = FirebaseAuth.instance.currentUser;
@@ -210,7 +211,7 @@ void respondeCotacao(
 
   db
       .collection("produtosRespondidos")
-      .doc("Matheus") //Nome no Vendedor
+      .doc("Thiago") //Nome no Vendedor
       .collection("produtos")
       .doc(nomeProduto)
       .set({
@@ -225,9 +226,13 @@ void respondeCotacao(
 Future<List> recebeVendedores() async {
   var recebeDados = await db.collection("produtosRespondidos").get();
   List lista = [];
-  for (var teste in recebeDados.docs) {
-    lista.add(teste);
+  int i = 0;
+  for (var dados in recebeDados.docs) {
+    lista.add(dados['nome']);
     print(lista.length);
+    print(lista[i]);
+    i++;
   }
+
   return lista;
 }
