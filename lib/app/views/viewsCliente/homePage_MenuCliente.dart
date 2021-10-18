@@ -52,216 +52,123 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.push(
+              FirebaseAuth.instance.signOut().then((value) => Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => HomePage_Login(
                             title: 'ALLIANCE',
-                          )));
+                          ))));
             },
             tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           ),
         ),
         body: ListView(
           children: [
-            StreamBuilder<QuerySnapshot>(
-                stream: db.collection("produtos_").snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Container(
-                        child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: 1,
-                            itemBuilder: (context, index) {
-                              return AnimationConfiguration.staggeredGrid(
-                                  position: index,
-                                  duration: Duration(milliseconds: 500),
-                                  columnCount: 2,
-                                  child: ScaleAnimation(
-                                      duration: Duration(milliseconds: 900),
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                      child: FadeInAnimation(
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.025),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.35,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.225,
-                                                    child: Card(
-                                                      child: Container(
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              'Produtos',
-                                                              style: TextStyle(
-                                                                  fontSize: 16),
-                                                            ),
-                                                            Text(
-                                                              "$count",
-                                                              style: TextStyle(
-                                                                  fontSize: 19),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.6,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.1125,
-                                                        child: Card(
-                                                          child: Container(
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Text(
-                                                                  'Cotações respondidas',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16),
-                                                                ),
-                                                                Text(
-                                                                  '$count',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          19),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.6,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.1125,
-                                                        child: Card(
-                                                          child: Container(
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Text(
-                                                                  'Fornecedores cadastrados',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          16),
-                                                                ),
-                                                                Text(
-                                                                  "$count",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          19),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                                margin: EdgeInsets.only(
-                                                    top: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.06),
-                                                child: Center(
-                                                  child: Text(
-                                                      'Produtos Cadastrados',
-                                                      style: TextStyle(
-                                                          fontSize: 24,
-                                                          color:
-                                                              Colors.orange)),
-                                                )),
-                                            Container(
-                                              height: 60,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.8,
-                                              child: TextField(
-                                                onChanged: (text) {
-                                                  procuraProduto = text;
-                                                },
-                                                decoration: InputDecoration(
-                                                  labelText:
-                                                      'Pesquise um Produto',
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )));
-                            }));
-                  } else {
-                    return Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: Container(child: CircularProgressIndicator()));
-                  }
-                }),
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.width * 0.025),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.35,
+                        height: MediaQuery.of(context).size.height * 0.225,
+                        child: Card(
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Produtos',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Text(
+                                  "0",
+                                  style: TextStyle(fontSize: 16),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            height: MediaQuery.of(context).size.height * 0.1125,
+                            child: Card(
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Cotações respondidas',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    Text(
+                                      '$count',
+                                      style: TextStyle(fontSize: 19),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            height: MediaQuery.of(context).size.height * 0.1125,
+                            child: Card(
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Fornecedores cadastrados',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    Text(
+                                      "$count",
+                                      style: TextStyle(fontSize: 19),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.width * 0.06),
+                    child: Center(
+                      child: Text('Produtos Cadastrados',
+                          style: TextStyle(fontSize: 24, color: Colors.orange)),
+                    )),
+                Container(
+                  height: 60,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: TextField(
+                    onChanged: (text) {
+                      procuraProduto = text;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Pesquise um Produto',
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Column(
               children: [
                 Container(

@@ -20,22 +20,6 @@ String unidadeMedida = '';
 int count = 0;
 String procuraProduto = '';
 
-void validaLogin(String email) async {
-  var query = await db.collection("vendedor_").get();
-
-  for (var dados in query.docs) {
-    if (dados['email'] == email) {
-      if (dados['permissao'] == 1) {
-        MaterialPageRoute(builder: (context) => HomePage_MenuCliente());
-      } else {
-        MaterialPageRoute(
-            builder: (context) =>
-                HomePage_MenuRepresentante(title: "ALLIANCE"));
-      }
-    }
-  }
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoUsuario(
   String nome,
@@ -236,3 +220,5 @@ Future<List> recebeVendedores() async {
 
   return lista;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

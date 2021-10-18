@@ -2,6 +2,7 @@ import 'package:alliance/app/views/homePage_EsqueciSenha.dart';
 import 'package:alliance/app/views/viewsCliente/homePage_CadastroProdutos.dart';
 import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
 import 'package:alliance/app/views/homePage_CadastroUser.dart';
+import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentante.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,6 +31,27 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
         print('Não existe um usuário com este email!!!');
       } else if (e.code == 'wrong-password') {
         print('Senha não confere!!!');
+      }
+    }
+  }
+
+  void validaLogin(String email) async {
+    var query = await db.collection("vendedor_").get();
+
+    for (var dados in query.docs) {
+      if (dados['email'] == email) {
+        if (dados['permissao'] == '1') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage_MenuCliente()),
+          );
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HomePage_MenuRepresentante(title: "ALLIANCE")));
+        }
       }
     }
   }
@@ -123,6 +145,11 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                     color: Colors.orange[300],
                     onPressed: () {
                       autenticacaoLogin(email, senha);
+                      /* Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  HomePage_MenuCliente()));*/
                     },
                   ),
                 ),
