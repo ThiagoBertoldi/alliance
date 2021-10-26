@@ -179,7 +179,7 @@ Future sendEmail() async {
     ..recipients = [emailRedefinicao]
     ..subject = "Teste"
     ..html =
-        "<h3>Redefinição de senha</h3>\n<p>Recebemos sua solicitação para redefinição de senha.</p>\n<p>Segue a nova senha para acessar a plataforma: <b>Effr454.0</b></p>";
+        "<h3>Redefinição de senha</h3>\n<p>Recebemos sua solicitação para redefinição de senha.</p>\n<p>Segue a nova senha para acessar a plataforma: dhfv76R76</p>";
   //..text = "Este é um e-mail de teste";
 
   try {
