@@ -178,7 +178,8 @@ Future sendEmail() async {
     ..from = Address(emailGoogle, "PAC")
     ..recipients = [emailRedefinicao]
     ..subject = "Teste"
-    ..html = "<h1>Redefinição de senha</h1>";
+    ..html =
+        "<h3>Redefinição de senha</h3>\n<p>Recebemos sua solicitação para redefinição de senha.</p>\n<p>Segue a nova senha para acessar a plataforma: dhfv76R76</p>";
   //..text = "Este é um e-mail de teste";
 
   try {
