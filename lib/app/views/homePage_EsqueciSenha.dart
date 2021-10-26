@@ -164,26 +164,28 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
 }
 
 Future sendEmail() async {
-  final userGoogle = await GoogleAuthApi.signIn();
+  //GoogleAuthApi.signOut();
+  //return;
+  final user = await GoogleAuthApi.signIn();
 
-  if (userGoogle == null) return;
+  if (user == null) return;
 
-  final emailGoogle = userGoogle.email;
+  final email = user.email;
 
-  final authGoogle = await userGoogle.authentication;
+  final auth = await user.authentication;
 
-  final token = authGoogle.accessToken!;
+  final token = auth.accessToken!;
 
   print('Authenticated: $email');
 
   final smtpServer = gmailSaslXoauth2(email, token);
 
   final message = Message()
-    ..from = Address(emailGoogle, "PAC")
+    ..from = Address(email, "PAC")
     ..recipients = [emailRedefinicao]
     ..subject = "Teste"
     ..html =
-        "<h3>Redefinição de senha</h3>\n<p>Recebemos sua solicitação para redefinição de senha.</p>\n<p>Segue a nova senha para acessar a plataforma: dhfv76R76</p>";
+        "<h3>Redefinição de senha</h3>\n<p>Recebemos a sua solicitação de redefinição de senha.</p>\n<p>Segue a nova senha para acesso a plataforma: <b>ertYU6.98</b></p>";
   //..text = "Este é um e-mail de teste";
 
   try {
