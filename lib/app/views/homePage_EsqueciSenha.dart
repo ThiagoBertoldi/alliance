@@ -1,4 +1,5 @@
 import 'package:alliance/app/views/google_auth_api.dart';
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -115,7 +116,7 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
 
                   TextFormField(
                     onChanged: (text) {
-                      email = text;
+                      emailRedefinicao = text;
                     },
                     decoration: InputDecoration(
                       labelText: 'Email',
