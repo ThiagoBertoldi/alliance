@@ -67,6 +67,10 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             Column(
               children: [
                 Container(
+                    margin: new EdgeInsets.only(top: 15),
+                    child: Text("Olá, " + userName,
+                        style: TextStyle(fontSize: 23))),
+                Container(
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.width * 0.025),
                   child: Row(
@@ -129,8 +133,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     Text(
-                                      "$count",
-                                      style: TextStyle(fontSize: 19),
+                                      "0",
                                     )
                                   ],
                                 ),

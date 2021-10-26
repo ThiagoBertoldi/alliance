@@ -1,8 +1,5 @@
-import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentante.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 var db = FirebaseFirestore.instance;
 
@@ -21,10 +18,8 @@ int count = 0;
 String procuraProduto = '';
 var userCredential;
 String userName = '';
+String userEmail = '';
 int i = 0;
-
-int countVendedor = 0;
-int countProdutos = 0;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoUsuario(
   String nome,
@@ -52,6 +47,7 @@ void gravaNovoUsuario(
       var currentUser = FirebaseAuth.instance.currentUser;
 
       currentUser!.updateDisplayName(nome);
+      currentUser.updateEmail(email);
 
       FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
         "nome": nome,
@@ -75,16 +71,22 @@ void gravaNovoUsuario(
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoProduto(String nomeProduto, String marca, String unidadeMedida) {
-  if (nomeProduto != '' && marca != '' && unidadeMedida != '') {
+  if (nomeProduto != '') {
+    if (marca == '') {
+      marca = '-/-';
+    }
+    if (unidadeMedida == '') {
+      unidadeMedida = '-/-';
+    }
     db
         .collection("produtos_")
         .doc(nomeProduto)
         .set({
-          "nomeProduto": "$nomeProduto",
-          "marca": "$marca",
+          "nomeProduto": nomeProduto,
+          "marca": marca,
           "precoMaisBaixo": "-/-",
           "precoMaisAlto": "-/-",
-          "unidadeMedida": "$unidadeMedida",
+          "unidadeMedida": unidadeMedida,
         })
         .then((value) => print("Cadastrado!!!"))
         .catchError((error) => print("Produto não cadastrado: $error"));

@@ -41,7 +41,6 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
   var db = FirebaseFirestore.instance;
   String nomeProduto = '';
   String marca = '';
-  double preco_int = 0;
   String unidadeMedida = '';
 
   @override

@@ -42,7 +42,9 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
         if (dados['permissao'] == '1') {
           userCredential = FirebaseAuth.instance.currentUser;
           userName = userCredential.displayName;
+          userEmail = userCredential.email;
           empresa = dados['empresa'];
+          telefone = dados['telefone'];
 
           Navigator.push(
             context,
@@ -51,7 +53,9 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
         } else {
           userCredential = FirebaseAuth.instance.currentUser;
           userName = userCredential.displayName;
+          userEmail = userCredential.email;
           empresa = dados['empresa'];
+          telefone = dados['telefone'];
           Navigator.push(
               context,
               MaterialPageRoute(
