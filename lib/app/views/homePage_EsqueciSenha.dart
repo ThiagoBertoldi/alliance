@@ -46,7 +46,7 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
 
   //teste
 
-  void autenticacaoLogin(String email, String password) async {
+  /*void autenticacaoLogin(String email, String password) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
@@ -59,7 +59,7 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
         print('Senha não confere!!!');
       }
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -175,10 +175,11 @@ Future sendEmail() async {
   final smtpServer = gmailSaslXoauth2(email, token);
 
   final message = Message()
-    ..from = Address(email, "PAS")
-    ..recipients = ['hayana.hayana@gmail.com']
+    ..from = Address(email, "PAC")
+    ..recipients = ['hayana.vieira46@gmail.com']
     ..subject = "Teste"
-    ..text = "Este é um -mail de teste";
+    ..html = "<h1>Redefinição de senha</h1>";
+  //..text = "Este é um e-mail de teste";
 
   try {
     await send(message, smtpServer);
