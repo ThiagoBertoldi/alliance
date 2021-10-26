@@ -1,7 +1,6 @@
 import 'package:alliance/app/views/google_auth_api.dart';
 import 'package:alliance/app/views/homePage_VerifiqueEmail.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
-// ignore: unused_import
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -46,6 +45,21 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
   String senha = '';
 
   //teste
+
+  void autenticacaoLogin(String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      print(userCredential);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('Não existe um usuário com este email!!!');
+      } else if (e.code == 'wrong-password') {
+        print('Senha não confere!!!');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

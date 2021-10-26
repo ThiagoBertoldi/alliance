@@ -1,7 +1,4 @@
-import 'package:alliance/app/views/viewsCliente/homePage_CotacoesAEnviar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'homePage_RespondeCotacao.dart';
 

@@ -1,3 +1,4 @@
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: HomePage_RepresentantesCadastrados(title: 'Flutter App'),
+      home: HomePage_RepresentantesCadastrados(title: 'ALLIANCE'),
     );
   }
 }
@@ -37,26 +38,11 @@ class HomePage_RepresentantesCadastrados extends StatefulWidget {
 class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
   var db = FirebaseFirestore.instance;
 
-  int telefone = 0;
+  String telefone = '';
   String empresa = '';
   String email = '';
   String nome = '';
   String cnpj = '';
-
-  void atualizaDados(
-      String empresa, String cnpj, String email, int telefone, String nome) {
-    db.collection("vendedor_").doc(nome).set({
-      "nome": nome,
-      "empresa": empresa,
-      "cnpj": cnpj,
-      "email": email,
-      "telefone": telefone
-    });
-  }
-
-  void deletaUsuario(String nome) {
-    db.collection("vendedor_").doc(nome).delete();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,9 +190,6 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                 child: Center(
                                                   child: TextFormField(
                                                     textAlign: TextAlign.center,
-                                                    onChanged: (text) {
-                                                      email = text;
-                                                    },
                                                     decoration: InputDecoration(
                                                       hintText:
                                                           docSnapshot['email'],
@@ -235,9 +218,7 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                   child: TextFormField(
                                                     textAlign: TextAlign.center,
                                                     onChanged: (text) {
-                                                      var telefone_ = text;
-                                                      telefone =
-                                                          int.parse(telefone_);
+                                                      telefone = text;
                                                     },
                                                     decoration: InputDecoration(
                                                       hintText: docSnapshot[
@@ -271,7 +252,14 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                           icon: const Icon(
                                                               Icons.save),
                                                           color: Colors.white,
-                                                          onPressed: () {},
+                                                          onPressed: () {
+                                                            atualizaDadosRepresentante(
+                                                                empresa,
+                                                                cnpj,
+                                                                telefone,
+                                                                docSnapshot[
+                                                                    'nome']);
+                                                          },
                                                         ),
                                                       ),
                                                     ),

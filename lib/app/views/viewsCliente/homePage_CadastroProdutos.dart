@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:alliance/app/views/homePage_Login.dart';
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -42,26 +43,6 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
   String marca = '';
   double preco_int = 0;
   String unidadeMedida = '';
-
-  void gravaDados(String nomeProduto, String marca, String unidadeMedida) {
-    if (nomeProduto != '' && marca != '' && unidadeMedida != '') {
-      db
-          .collection("produtos_")
-          .doc("$nomeProduto")
-          .set({
-            "nomeProduto": "$nomeProduto",
-            "marca": "$marca",
-            "precoMaisBaixo": "-/-",
-            "precoMaisAlto": "-/-",
-            "unidadeMedida": "$unidadeMedida",
-          })
-          .then((value) => print("Cadastrado!!!"))
-          .catchError((error) => print("Produto não cadastrado: $error"));
-    } else {
-      print("Precisa Preencher Todos os Campos!!");
-    }
-  }
-  ///////////////////////////
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +115,7 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                         ),
                         color: Colors.orange[300],
                         onPressed: () {
-                          gravaDados(nomeProduto, marca, unidadeMedida);
+                          gravaNovoProduto(nomeProduto, marca, unidadeMedida);
                         },
                       ),
                     ),
