@@ -160,6 +160,8 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
 }
 
 Future sendEmail() async {
+  //GoogleAuthApi.signOut();
+  //return;
   final user = await GoogleAuthApi.signIn();
 
   if (user == null) return;
@@ -177,9 +179,9 @@ Future sendEmail() async {
   final message = Message()
     ..from = Address(email, "PAC")
     ..recipients = [emailRedefinicao]
-    ..subject = "Teste"
+    ..subject = "Redefinição de senha"
     ..html =
-        "<h3>Redefinição de senha</h3>\n<p>Recebemos sua solicitação para redefinição de senha.</p>\n<p>Segue a nova senha para acessar a plataforma: dhfv76R76</p>";
+        "<h3>Redefinição de senha</h3>\n<p>Recebemos a sua solicitação de redefinição de senha.</p>\n<p>Segue a nova senha para acesso a plataforma: <b>ertYU6.98</b></p>";
   //..text = "Este é um e-mail de teste";
 
   try {
