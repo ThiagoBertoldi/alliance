@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:alliance/app/views/google_auth_api.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -146,7 +148,9 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                                 builder: (BuildContext context) =>
                                     HomePage_VerifiqueEmail()));
                       },*/
-                      onPressed: sendEmail,
+                      onPressed: () {
+                        sendEmail();
+                      },
                     ),
                   ),
                 ],
