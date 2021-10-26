@@ -1,5 +1,4 @@
 import 'package:alliance/app/views/homePage_EsqueciSenha.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_CadastroProdutos.dart';
 import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
 import 'package:alliance/app/views/homePage_CadastroUser.dart';
 import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentante.dart';
@@ -41,11 +40,18 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
     for (var dados in query.docs) {
       if (dados['email'] == email) {
         if (dados['permissao'] == '1') {
+          userCredential = FirebaseAuth.instance.currentUser;
+          userName = userCredential.displayName;
+          empresa = dados['empresa'];
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomePage_MenuCliente()),
           );
         } else {
+          userCredential = FirebaseAuth.instance.currentUser;
+          userName = userCredential.displayName;
+          empresa = dados['empresa'];
           Navigator.push(
               context,
               MaterialPageRoute(

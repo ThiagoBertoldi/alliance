@@ -15,8 +15,7 @@ class HomePage_ProdutosRespondidos extends StatefulWidget {
 
 class _HomePageState_ProdutosRespondidos
     extends State<HomePage_ProdutosRespondidos> {
-  List<String> dataList = ["Thiago", "Michel", "Hayana"];
-
+  List<String> dataList = ["Catolica", "Aliança"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

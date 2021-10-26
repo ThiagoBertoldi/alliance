@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.catolica.alliance">
+    
    <application
         android:label="alliance"
         android:icon="@mipmap/ic_launcher">

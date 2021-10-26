@@ -86,10 +86,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                   'Produtos',
                                   style: TextStyle(fontSize: 16),
                                 ),
-                                Text(
-                                  "0",
-                                  style: TextStyle(fontSize: 16),
-                                )
+                                Text("0"),
                               ],
                             ),
                           ),
@@ -112,10 +109,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                       'Cotações respondidas',
                                       style: TextStyle(fontSize: 16),
                                     ),
-                                    Text(
-                                      '$count',
-                                      style: TextStyle(fontSize: 19),
-                                    ),
+                                    Text("0"),
                                   ],
                                 ),
                               ),
@@ -371,6 +365,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                 color: Colors.white,
                                                                                 onPressed: () {
                                                                                   deletaProduto(docSnapshot['nomeProduto']);
+                                                                                  Navigator.pop(context);
                                                                                 },
                                                                               ),
                                                                             ),

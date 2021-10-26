@@ -19,7 +19,12 @@ String preco = '';
 String unidadeMedida = '';
 int count = 0;
 String procuraProduto = '';
+var userCredential;
+String userName = '';
+int i = 0;
 
+int countVendedor = 0;
+int countProdutos = 0;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoUsuario(
   String nome,
@@ -180,9 +185,9 @@ void deletaUsuario(String nome) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void respondeCotacao(
-    String nomeProduto, String preco, String marca, String unidadeMedida) {
-  db.collection("produtosRespondidos").doc("Hayana").set({"nome": "Hayana"});
+void respondeCotacao(String nomeProduto, String preco, String marca,
+    String unidadeMedida, var empresa) {
+  db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
   if (marca == '') {
     marca = '-/-';
   }
@@ -195,7 +200,7 @@ void respondeCotacao(
 
   db
       .collection("produtosRespondidos")
-      .doc("Thiago") //Nome no Vendedor
+      .doc(empresa) //Nome no Vendedor
       .collection("produtos")
       .doc(nomeProduto)
       .set({
@@ -209,10 +214,12 @@ void respondeCotacao(
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Future<List> recebeVendedores() async {
   var recebeDados = await db.collection("produtosRespondidos").get();
-  List lista = [];
-  int i = 0;
+  List<String> lista = [];
+
+  i = 0;
   for (var dados in recebeDados.docs) {
-    lista.add(dados['nome']);
+    lista.add(dados['empresa']);
+
     print(lista.length);
     print(lista[i]);
     i++;
