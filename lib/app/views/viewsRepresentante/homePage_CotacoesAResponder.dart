@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'homePage_RespondeCotacao.dart';
 
 main() {
@@ -20,6 +19,7 @@ class PaginaVendedor extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class HomePage_CotacoesResponder extends StatefulWidget {
   HomePage_CotacoesResponder({Key? key, required this.title}) : super(key: key);
 

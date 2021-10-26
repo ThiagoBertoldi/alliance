@@ -27,6 +27,7 @@ class PaginaRepondeCotacao extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class HomePageState_ResponderCotacao extends StatefulWidget {
   HomePageState_ResponderCotacao({Key? key, required this.title})
       : super(key: key);
@@ -37,6 +38,7 @@ class HomePageState_ResponderCotacao extends StatefulWidget {
   HomePage_ResponderCotacao createState() => HomePage_ResponderCotacao();
 }
 
+// ignore: camel_case_types
 class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
   @override
   Widget build(BuildContext context) {
@@ -270,7 +272,8 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                               docSnapshot['nomeProduto'],
                                                                               preco,
                                                                               marca,
-                                                                              unidadeMedida);
+                                                                              unidadeMedida,
+                                                                              empresa);
                                                                           preco =
                                                                               '';
                                                                           marca =

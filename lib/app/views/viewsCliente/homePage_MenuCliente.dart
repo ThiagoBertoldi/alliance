@@ -18,6 +18,7 @@ main() async {
   runApp(HomePage_MenuCliente());
 }
 
+// ignore: camel_case_types
 class HomePage_MenuCliente extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,7 @@ class MenuCliente_State extends StatefulWidget {
   _MyHomePageState_MenuCliente createState() => _MyHomePageState_MenuCliente();
 }
 
+// ignore: camel_case_types
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
   @override
   Widget build(
@@ -67,6 +69,10 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             Column(
               children: [
                 Container(
+                    margin: new EdgeInsets.only(top: 15),
+                    child: Text("Olá, " + userName,
+                        style: TextStyle(fontSize: 23))),
+                Container(
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.width * 0.025),
                   child: Row(
@@ -86,10 +92,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                   'Produtos',
                                   style: TextStyle(fontSize: 16),
                                 ),
-                                Text(
-                                  "0",
-                                  style: TextStyle(fontSize: 16),
-                                )
+                                Text("0"),
                               ],
                             ),
                           ),
@@ -112,10 +115,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                       'Cotações respondidas',
                                       style: TextStyle(fontSize: 16),
                                     ),
-                                    Text(
-                                      '$count',
-                                      style: TextStyle(fontSize: 19),
-                                    ),
+                                    Text("0"),
                                   ],
                                 ),
                               ),
@@ -135,8 +135,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     Text(
-                                      "$count",
-                                      style: TextStyle(fontSize: 19),
+                                      "0",
                                     )
                                   ],
                                 ),
@@ -371,6 +370,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                 color: Colors.white,
                                                                                 onPressed: () {
                                                                                   deletaProduto(docSnapshot['nomeProduto']);
+                                                                                  Navigator.pop(context);
                                                                                 },
                                                                               ),
                                                                             ),

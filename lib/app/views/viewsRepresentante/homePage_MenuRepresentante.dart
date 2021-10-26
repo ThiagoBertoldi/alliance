@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'homePage_RespondeCotacao.dart';
 
 void main() async {
@@ -25,6 +24,7 @@ class PaginaRepresentante extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class HomePage_MenuRepresentante extends StatefulWidget {
   HomePage_MenuRepresentante({Key? key, required this.title}) : super(key: key);
 

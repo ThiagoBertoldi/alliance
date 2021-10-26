@@ -1,8 +1,5 @@
-import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentante.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 var db = FirebaseFirestore.instance;
 
@@ -19,7 +16,12 @@ String preco = '';
 String unidadeMedida = '';
 int count = 0;
 String procuraProduto = '';
+var userCredential;
+String userName = '';
+String userEmail = '';
+int i = 0;
 
+String emailRedefinicao = '';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoUsuario(
   String nome,
@@ -47,6 +49,7 @@ void gravaNovoUsuario(
       var currentUser = FirebaseAuth.instance.currentUser;
 
       currentUser!.updateDisplayName(nome);
+      currentUser.updateEmail(email);
 
       FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
         "nome": nome,
@@ -70,16 +73,22 @@ void gravaNovoUsuario(
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoProduto(String nomeProduto, String marca, String unidadeMedida) {
-  if (nomeProduto != '' && marca != '' && unidadeMedida != '') {
+  if (nomeProduto != '') {
+    if (marca == '') {
+      marca = '-/-';
+    }
+    if (unidadeMedida == '') {
+      unidadeMedida = '-/-';
+    }
     db
         .collection("produtos_")
         .doc(nomeProduto)
         .set({
-          "nomeProduto": "$nomeProduto",
-          "marca": "$marca",
+          "nomeProduto": nomeProduto,
+          "marca": marca,
           "precoMaisBaixo": "-/-",
           "precoMaisAlto": "-/-",
-          "unidadeMedida": "$unidadeMedida",
+          "unidadeMedida": unidadeMedida,
         })
         .then((value) => print("Cadastrado!!!"))
         .catchError((error) => print("Produto não cadastrado: $error"));
@@ -180,9 +189,9 @@ void deletaUsuario(String nome) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void respondeCotacao(
-    String nomeProduto, String preco, String marca, String unidadeMedida) {
-  db.collection("produtosRespondidos").doc("Hayana").set({"nome": "Hayana"});
+void respondeCotacao(String nomeProduto, String preco, String marca,
+    String unidadeMedida, var empresa) {
+  db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
   if (marca == '') {
     marca = '-/-';
   }
@@ -195,7 +204,7 @@ void respondeCotacao(
 
   db
       .collection("produtosRespondidos")
-      .doc("Thiago") //Nome no Vendedor
+      .doc(empresa) //Nome no Vendedor
       .collection("produtos")
       .doc(nomeProduto)
       .set({
@@ -209,10 +218,12 @@ void respondeCotacao(
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Future<List> recebeVendedores() async {
   var recebeDados = await db.collection("produtosRespondidos").get();
-  List lista = [];
-  int i = 0;
+  List<String> lista = [];
+
+  i = 0;
   for (var dados in recebeDados.docs) {
-    lista.add(dados['nome']);
+    lista.add(dados['empresa']);
+
     print(lista.length);
     print(lista[i]);
     i++;

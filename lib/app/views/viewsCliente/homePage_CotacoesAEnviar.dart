@@ -28,6 +28,7 @@ class PaginaCadastroProdutos extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class HomePage_Cotacoes extends StatefulWidget {
   HomePage_Cotacoes({Key? key, required this.title}) : super(key: key);
 
@@ -37,6 +38,7 @@ class HomePage_Cotacoes extends StatefulWidget {
   _MyHomePageState_Cotacoes createState() => _MyHomePageState_Cotacoes();
 }
 
+// ignore: camel_case_types
 class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
   @override
   Widget build(BuildContext context) {

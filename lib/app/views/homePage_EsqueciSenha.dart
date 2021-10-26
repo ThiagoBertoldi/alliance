@@ -1,6 +1,4 @@
 import 'package:alliance/app/views/google_auth_api.dart';
-import 'package:alliance/app/views/homePage_VerifiqueEmail.dart';
-import 'package:alliance/firebase_script/scripts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +13,7 @@ main() async {
   runApp(HomePage_EsqueciSenha());
 }
 
+// ignore: camel_case_types
 class HomePage_EsqueciSenha extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
