@@ -13,6 +13,7 @@ main() async {
   runApp(HomePage_VerifiqueEmail());
 }
 
+// ignore: camel_case_types
 class HomePage_VerifiqueEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -18,6 +18,7 @@ main() async {
   runApp(HomePage_MenuCliente());
 }
 
+// ignore: camel_case_types
 class HomePage_MenuCliente extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,7 @@ class MenuCliente_State extends StatefulWidget {
   _MyHomePageState_MenuCliente createState() => _MyHomePageState_MenuCliente();
 }
 
+// ignore: camel_case_types
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
   @override
   Widget build(

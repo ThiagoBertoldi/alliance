@@ -1,6 +1,5 @@
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -28,6 +27,7 @@ class PaginaRepondeCotacao extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class HomePageState_ResponderCotacao extends StatefulWidget {
   HomePageState_ResponderCotacao({Key? key, required this.title})
       : super(key: key);
@@ -38,6 +38,7 @@ class HomePageState_ResponderCotacao extends StatefulWidget {
   HomePage_ResponderCotacao createState() => HomePage_ResponderCotacao();
 }
 
+// ignore: camel_case_types
 class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
   @override
   Widget build(BuildContext context) {

@@ -30,6 +30,7 @@ class HomePage_InfoCadastradas extends StatefulWidget {
       _HomePageState_InfoCadastradas();
 }
 
+// ignore: camel_case_types
 class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
   @override
 

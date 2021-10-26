@@ -19,6 +19,7 @@ class PaginaVendedor extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class HomePage_CotacoesResponder extends StatefulWidget {
   HomePage_CotacoesResponder({Key? key, required this.title}) : super(key: key);
 
