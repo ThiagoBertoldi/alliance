@@ -176,7 +176,7 @@ Future sendEmail() async {
 
   final message = Message()
     ..from = Address(email, "PAC")
-    ..recipients = ['hayana.vieira46@gmail.com']
+    ..recipients = [emailRedefinicao]
     ..subject = "Teste"
     ..html = "<h1>Redefinição de senha</h1>";
   //..text = "Este é um e-mail de teste";
