@@ -45,7 +45,7 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
           userEmail = userCredential.email;
           empresa = dados['empresa'];
           telefone = dados['telefone'];
-
+          recebeVendedores();
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomePage_MenuCliente()),

@@ -17,7 +17,11 @@ class HomePage_ProdutosRespondidos extends StatefulWidget {
 // ignore: camel_case_types
 class _HomePageState_ProdutosRespondidos
     extends State<HomePage_ProdutosRespondidos> {
-  List<String> dataList = ["Catolica", "Aliança"];
+  Future<List> dataList = recebeVendedores();
+  void teste() {
+    print(dataList);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,13 +46,68 @@ class _HomePageState_ProdutosRespondidos
           ),
         ),
         StreamBuilder<QuerySnapshot>(
+            stream: db.collection("produtosRespondidos").snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot docSnapshot = snapshot.data!.docs[index];
+                      return Column(
+                        children: [
+                          Text(docSnapshot['empresa'],
+                              style: TextStyle(fontSize: 30)),
+                          StreamBuilder<QuerySnapshot>(
+                              stream: db
+                                  .collection("produtosRespondidos")
+                                  .doc(docSnapshot['empresa'])
+                                  .collection("produtos")
+                                  .snapshots(),
+                              builder: (context, snapshot2) {
+                                if (snapshot2.hasData) {
+                                  return ListView.builder(
+                                      physics: BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot2.data!.docs.length,
+                                      itemBuilder: (context, index2) {
+                                        DocumentSnapshot docSnapshot2 =
+                                            snapshot2.data!.docs[index2];
+                                        return Container(
+                                          padding: new EdgeInsets.only(top: 40),
+                                          child: Column(
+                                            children: [
+                                              Text(docSnapshot2['nomeProduto']),
+                                              Text(docSnapshot2['preço']),
+                                              Text(docSnapshot2[
+                                                  'unidadeMedida']),
+                                              Text(docSnapshot2['marca']),
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              }),
+                        ],
+                      );
+                    });
+              } else {
+                return CircularProgressIndicator();
+              }
+            })
+
+        /*StreamBuilder<QuerySnapshot>(
             stream: db
                 .collection("produtosRespondidos")
-                .doc("Aliança")
+                .doc()
                 .collection("produtos")
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                teste();
                 return Container(
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
@@ -71,7 +130,8 @@ class _HomePageState_ProdutosRespondidos
                                           MediaQuery.of(context).size.height *
                                               0.1,
                                       child: ListTile(
-                                        title: Text(docSnapshot['nomeProduto']),
+                                        title: /*Text(docSnapshot['nomeProduto'])*/ Text(
+                                            "Oi"),
                                         subtitle: Text(docSnapshot['marca']),
                                         trailing: Text(docSnapshot['preço'] +
                                             '  ' +
@@ -85,7 +145,8 @@ class _HomePageState_ProdutosRespondidos
               } else {
                 return CircularProgressIndicator();
               }
-            }),
+            }),*/
+
         /*ElevatedButton(
               onPressed: () {
                 recebeVendedores();

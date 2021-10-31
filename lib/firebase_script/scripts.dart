@@ -20,6 +20,7 @@ var userCredential;
 String userName = '';
 String userEmail = '';
 int i = 0;
+int iRecebe = 0;
 
 String emailRedefinicao = '';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,7 +212,8 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
     "nomeProduto": nomeProduto,
     "marca": marca,
     "unidadeMedida": unidadeMedida,
-    "preço": preco
+    "preço": preco,
+    "empresa": empresa
   }).then((value) => print("Enviada com Sucesso!!!"));
 }
 
@@ -222,11 +224,12 @@ Future<List> recebeVendedores() async {
 
   i = 0;
   for (var dados in recebeDados.docs) {
-    lista.add(dados['empresa']);
+    String stringQuery = dados['empresa'];
+    lista.add(stringQuery);
 
     print(lista.length);
     print(lista[i]);
-    i++;
+    iRecebe++;
   }
 
   return lista;
