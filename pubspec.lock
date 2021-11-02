@@ -154,12 +154,12 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_speed_dial:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_speed_dial
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.0"
+    version: "4.6.6"
   flutter_staggered_animations:
     dependency: "direct main"
     description:

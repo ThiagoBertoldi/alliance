@@ -1,6 +1,7 @@
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 // ignore: camel_case_types
 class HomePage_ProdutosRespondidos extends StatefulWidget {
@@ -27,23 +28,30 @@ class _HomePageState_ProdutosRespondidos
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {},
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
-        ],
       ),
       body: ListView(children: [
         Container(
-          padding: new EdgeInsets.all(40),
+          padding: new EdgeInsets.only(top: 35, bottom: 20),
           child: Center(
             child: Text("Produtos Respondidos",
                 style: TextStyle(fontSize: 30, color: Colors.orange[300])),
           ),
+        ),
+        Column(
+          children: [
+            Container(
+              height: 60,
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: TextField(
+                onChanged: (text) {
+                  procuraProduto = text;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Pesquise um Produto',
+                ),
+              ),
+            ),
+          ],
         ),
         StreamBuilder<QuerySnapshot>(
             stream: db.collection("produtosRespondidos").snapshots(),
@@ -57,8 +65,14 @@ class _HomePageState_ProdutosRespondidos
                       DocumentSnapshot docSnapshot = snapshot.data!.docs[index];
                       return Column(
                         children: [
-                          Text(docSnapshot['empresa'],
-                              style: TextStyle(fontSize: 30)),
+                          Container(
+                            padding: EdgeInsets.only(top: 25),
+                            child: Text(docSnapshot['empresa'],
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange)),
+                          ),
                           StreamBuilder<QuerySnapshot>(
                               stream: db
                                   .collection("produtosRespondidos")
@@ -74,18 +88,78 @@ class _HomePageState_ProdutosRespondidos
                                       itemBuilder: (context, index2) {
                                         DocumentSnapshot docSnapshot2 =
                                             snapshot2.data!.docs[index2];
-                                        return Container(
-                                          padding: new EdgeInsets.only(top: 40),
-                                          child: Column(
-                                            children: [
-                                              Text(docSnapshot2['nomeProduto']),
-                                              Text(docSnapshot2['preço']),
-                                              Text(docSnapshot2[
-                                                  'unidadeMedida']),
-                                              Text(docSnapshot2['marca']),
-                                            ],
-                                          ),
-                                        );
+                                        return AnimationConfiguration
+                                            .staggeredList(
+                                                position: index,
+                                                delay:
+                                                    Duration(milliseconds: 100),
+                                                child: SlideAnimation(
+                                                    duration: Duration(
+                                                        milliseconds: 2500),
+                                                    curve: Curves
+                                                        .fastLinearToSlowEaseIn,
+                                                    child: FadeInAnimation(
+                                                        curve: Curves
+                                                            .fastLinearToSlowEaseIn,
+                                                        duration: Duration(
+                                                            milliseconds: 2500),
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.95,
+                                                                child: Card(
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20.0),
+                                                                  ),
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        new EdgeInsets
+                                                                            .all(5),
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Container(
+                                                                          padding:
+                                                                              new EdgeInsets.only(top: 7),
+                                                                          child: Text(
+                                                                              docSnapshot2['nomeProduto'],
+                                                                              style: TextStyle(fontSize: 18)),
+                                                                        ),
+                                                                        Container(
+                                                                          padding:
+                                                                              new EdgeInsets.all(2),
+                                                                          child: Text(
+                                                                              docSnapshot2['marca'],
+                                                                              style: TextStyle(fontSize: 15)),
+                                                                        ),
+                                                                        Container(
+                                                                          padding:
+                                                                              new EdgeInsets.all(2),
+                                                                          child: Text(
+                                                                              docSnapshot2['preço'],
+                                                                              style: TextStyle(fontSize: 15)),
+                                                                        ),
+                                                                        Container(
+                                                                          padding:
+                                                                              new EdgeInsets.all(2),
+                                                                          child: Text(
+                                                                              docSnapshot2['unidadeMedida'],
+                                                                              style: TextStyle(fontSize: 15)),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                )),
+                                                          ],
+                                                        ))));
                                       });
                                 } else {
                                   return CircularProgressIndicator();
@@ -98,60 +172,6 @@ class _HomePageState_ProdutosRespondidos
                 return CircularProgressIndicator();
               }
             })
-
-        /*StreamBuilder<QuerySnapshot>(
-            stream: db
-                .collection("produtosRespondidos")
-                .doc()
-                .collection("produtos")
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                teste();
-                return Container(
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot docSnapshot =
-                              snapshot.data!.docs[index];
-                          return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: 1,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.9,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.1,
-                                      child: ListTile(
-                                        title: /*Text(docSnapshot['nomeProduto'])*/ Text(
-                                            "Oi"),
-                                        subtitle: Text(docSnapshot['marca']),
-                                        trailing: Text(docSnapshot['preço'] +
-                                            '  ' +
-                                            docSnapshot['unidadeMedida']),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              });
-                        }));
-              } else {
-                return CircularProgressIndicator();
-              }
-            }),*/
-
-        /*ElevatedButton(
-              onPressed: () {
-                recebeVendedores();
-              },
-              child: Text("OlA"))*/
       ]),
     );
   }
