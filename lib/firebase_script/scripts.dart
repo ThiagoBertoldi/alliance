@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 var db = FirebaseFirestore.instance;
 
@@ -131,18 +132,60 @@ void enviaParaPreCotacao(String nomeProduto) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void enviaParaCotacao() async {
-  var prod = await db.collection("produtosParaCotacao").get();
+  var produtoEmPreCotacao = await db.collection("produtosParaCotacao").get();
+  var produtoEmCotacaoAntiga = await db.collection("produtosEmCotacao").get();
 
-  for (var doc in prod.docs) {
+  for (var doc in produtoEmCotacaoAntiga.docs) {
+    db.collection("produtosEmCotacao").doc(doc['nomeProduto']).delete();
+  }
+  for (var doc in produtoEmPreCotacao.docs) {
     db
         .collection("produtosEmCotacao")
         .doc(doc['nomeProduto'])
         .set({"nomeProduto": doc['nomeProduto']});
+
+    db.collection("produtosParaCotacao").doc(doc['nomeProduto']).delete();
+  }
+  gravaCotacoesAntigas();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void gravaCotacoesAntigas() async {
+  List lista = [];
+  final DateTime date = DateTime.now();
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final String dateFormatted = formatter.format(date);
+  var produtosRespondidos = await db.collection("produtosRespondidos").get();
+
+  for (var doc in produtosRespondidos.docs) {
+    lista.add(doc['empresa']);
+  }
+  for (int i = 0; i < lista.length; i++) {
+    var recebeDados = await db
+        .collection("produtosRespondidos")
+        .doc(lista[i])
+        .collection("produtos")
+        .get();
+
+    for (var doc in recebeDados.docs) {
+      db
+          .collection("cotacoesPassadas")
+          .doc("$dateFormatted")
+          .collection(doc['empresa'])
+          .doc(doc['nomeProduto'])
+          .set({
+        "nomeProduto": doc['nomeProduto'],
+        "empresa": doc['empresa'],
+        "marca": doc['marca'],
+        "preço": doc['preço'],
+        "unidadeMedida": doc['unidadeMedida']
+      });
+    }
   }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void reomoveDaPreCotacao(String nomeProduto) {
+void removeDaPreCotacao(String nomeProduto) {
   db.collection("produtosParaCotacao").doc(nomeProduto).delete();
 }
 
