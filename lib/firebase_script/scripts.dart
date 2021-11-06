@@ -181,6 +181,7 @@ void gravaCotacoesAntigas() async {
         "unidadeMedida": doc['unidadeMedida']
       });
     }
+    db.collection("produtosRespondidos").doc(lista[i]).delete();
   }
 }
 
