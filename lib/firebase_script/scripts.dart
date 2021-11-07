@@ -153,13 +153,17 @@ void enviaParaCotacao() async {
 void gravaCotacoesAntigas() async {
   List lista = [];
   final DateTime date = DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
   final String dateFormatted = formatter.format(date);
   var produtosRespondidos = await db.collection("produtosRespondidos").get();
 
   for (var doc in produtosRespondidos.docs) {
     lista.add(doc['empresa']);
   }
+  db
+      .collection("cotacoesPassadas")
+      .doc("$dateFormatted")
+      .set({"dataHora": dateFormatted});
   for (int i = 0; i < lista.length; i++) {
     var recebeDados = await db
         .collection("produtosRespondidos")
@@ -168,6 +172,12 @@ void gravaCotacoesAntigas() async {
         .get();
 
     for (var doc in recebeDados.docs) {
+      db
+          .collection("produtosRespondidos")
+          .doc(lista[i])
+          .collection("produtos")
+          .doc(doc['nomeProduto'])
+          .delete();
       db
           .collection("cotacoesPassadas")
           .doc("$dateFormatted")
@@ -181,7 +191,6 @@ void gravaCotacoesAntigas() async {
         "unidadeMedida": doc['unidadeMedida']
       });
     }
-    db.collection("produtosRespondidos").doc(lista[i]).delete();
   }
 }
 
@@ -249,7 +258,7 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
 
   db
       .collection("produtosRespondidos")
-      .doc(empresa) //Nome no Vendedor
+      .doc(empresa)
       .collection("produtos")
       .doc(nomeProduto)
       .set({

@@ -230,11 +230,13 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                     style: TextStyle(fontSize: 15, color: Colors.green),
                                                                                   )
                                                                                 ]),
-                                                                                Container(
-                                                                                    child: Text(
-                                                                                  "--Empresa--",
-                                                                                  style: TextStyle(fontSize: 15),
-                                                                                ))
+                                                                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                                                  Text("Preço mais alto", style: TextStyle(fontSize: 15)),
+                                                                                  Text(
+                                                                                    docSnapshot['precoMaisAlto'],
+                                                                                    style: TextStyle(fontSize: 15, color: Colors.red),
+                                                                                  )
+                                                                                ]),
                                                                               ],
                                                                             ),
                                                                           ),
