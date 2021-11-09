@@ -162,6 +162,7 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
 Future sendEmail() async {
   //GoogleAuthApi.signOut();
   //return;
+
   final user = await GoogleAuthApi.signIn();
 
   if (user == null) return;
