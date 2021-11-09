@@ -7,6 +7,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'dart:convert';
+import 'dart:math';
+
+import 'homePage_VerifiqueEmail.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -138,16 +142,13 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),
                       color: Colors.orange[300],
-                      /*onPressed: () {
-                        
+                      onPressed: () {
+                        sendEmail();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
                                     HomePage_VerifiqueEmail()));
-                      },*/
-                      onPressed: () {
-                        sendEmail();
                       },
                     ),
                   ),
@@ -179,12 +180,25 @@ Future sendEmail() async {
 
   final smtpServer = gmailSaslXoauth2(email, token);
 
+  var _random = Random.secure();
+  var random = List<int>.generate(8, (i) => _random.nextInt(256));
+  var verificador = base64Url.encode(random);
+  verificador =
+      verificador.replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
+  print(verificador);
+
+  /*currentUser.updatePassword("newpassword").then((){
+    // Password has been updated.
+  }).catchError((err){
+    // An error has occured.
+  })*/
+
   final message = Message()
     ..from = Address(email, "PAC")
     ..recipients = [emailRedefinicao]
     ..subject = "Teste"
     ..html =
-        "<h3>Redefinição de senha</h3>\n<p>Recebemos a sua solicitação de redefinição de senha.</p>\n<p>Segue a nova senha para acesso a plataforma: <b>ertYU6.98</b></p>";
+        "<h3>Redefinição de senha</h3>\n<p>Recebemos a sua solicitação de redefinição de senha.</p>\n<p>Segue a nova senha para acesso a plataforma: <b>$verificador</b></p>";
   //..text = "Este é um e-mail de teste";
 
   try {

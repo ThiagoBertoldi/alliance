@@ -1,6 +1,9 @@
+import 'package:alliance/app/views/google_auth_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 
 var db = FirebaseFirestore.instance;
 
@@ -52,6 +55,9 @@ void gravaNovoUsuario(
 
       currentUser!.updateDisplayName(nome);
       currentUser.updateEmail(email);
+
+      // EMAIL
+      sendEmail();
 
       FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
         "nome": nome,
@@ -289,3 +295,34 @@ Future<List> recebeVendedores() async {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Future sendEmail() async {
+  //GoogleAuthApi.signOut();
+  //return;
+
+  final user = await GoogleAuthApi.signIn();
+
+  if (user == null) return;
+
+  final email = user.email;
+
+  final auth = await user.authentication;
+
+  final token = auth.accessToken!;
+
+  print('Authenticated: $email');
+
+  final smtpServer = gmailSaslXoauth2(email, token);
+
+  final message = Message()
+    ..from = Address(email, "PAC")
+    ..recipients = [emailRedefinicao]
+    ..subject = "Seja bem-vindo!"
+    ..html = "<h3>Seja bem-vindo</h3>\n<p>Agradecemos o seu cadastro!</p>";
+  //..text = "Este é um e-mail de teste";
+
+  try {
+    await send(message, smtpServer);
+  } on MailerException catch (e) {
+    print(e);
+  }
+}
