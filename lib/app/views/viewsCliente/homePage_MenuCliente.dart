@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'homePage_CotacoesAEnviar.dart';
 import 'homePage_CadastroProdutos.dart';
@@ -198,330 +199,261 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                               duration:
                                                   Duration(milliseconds: 2500),
                                               child: Container(
-                                                child: new InkWell(
-                                                  onTap: () {
-                                                    showModalBottomSheet<void>(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return ListView(
-                                                            children: [
-                                                              Container(
-                                                                child: Center(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Container(
-                                                                          padding: new EdgeInsets.all(
-                                                                              14),
-                                                                          child: Text(
-                                                                              docSnapshot['nomeProduto'],
-                                                                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-                                                                      Container(
-                                                                        padding: new EdgeInsets.only(
-                                                                            left:
-                                                                                70,
-                                                                            right:
-                                                                                70),
-                                                                        child:
-                                                                            Column(
-                                                                          children: [
-                                                                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                                                              Text("Preço mais baixo", style: TextStyle(fontSize: 15)),
-                                                                              Text(
-                                                                                docSnapshot['precoMaisBaixo'],
-                                                                                style: TextStyle(fontSize: 15, color: Colors.green),
-                                                                              )
-                                                                            ]),
-                                                                            Container(
-                                                                                child: Text(
-                                                                              "--Empresa--",
-                                                                              style: TextStyle(fontSize: 15),
-                                                                            ))
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        margin: EdgeInsets.only(
-                                                                            top:
-                                                                                10),
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.90,
-                                                                        height: MediaQuery.of(context).size.height *
-                                                                            0.07,
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              TextFormField(
-                                                                            textAlign:
-                                                                                TextAlign.center,
-                                                                            onChanged:
-                                                                                (text) {
-                                                                              marca = text;
-                                                                            },
-                                                                            decoration:
-                                                                                InputDecoration(
-                                                                              hintText: docSnapshot['marca'],
-                                                                              border: InputBorder.none,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        decoration:
-                                                                            new BoxDecoration(
-                                                                          color:
-                                                                              Colors.grey[200],
-                                                                          borderRadius:
-                                                                              BorderRadius.only(
-                                                                            topLeft:
-                                                                                const Radius.circular(15.0),
-                                                                            topRight:
-                                                                                const Radius.circular(15.0),
-                                                                            bottomLeft:
-                                                                                const Radius.circular(15.0),
-                                                                            bottomRight:
-                                                                                const Radius.circular(15.0),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        margin: new EdgeInsets.only(
-                                                                            top:
-                                                                                10),
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.90,
-                                                                        height: MediaQuery.of(context).size.height *
-                                                                            0.07,
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              TextFormField(
-                                                                            textAlign:
-                                                                                TextAlign.center,
-                                                                            onChanged:
-                                                                                (text) {
-                                                                              unidadeMedida = text;
-                                                                            },
-                                                                            decoration:
-                                                                                InputDecoration(
-                                                                              hintText: docSnapshot['unidadeMedida'],
-                                                                              border: InputBorder.none,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                        decoration:
-                                                                            new BoxDecoration(
-                                                                          color:
-                                                                              Colors.grey[200],
-                                                                          borderRadius:
-                                                                              BorderRadius.only(
-                                                                            topLeft:
-                                                                                const Radius.circular(15.0),
-                                                                            topRight:
-                                                                                const Radius.circular(15.0),
-                                                                            bottomLeft:
-                                                                                const Radius.circular(15.0),
-                                                                            bottomRight:
-                                                                                const Radius.circular(15.0),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceEvenly,
+                                                  child: new InkWell(
+                                                      onTap: () {
+                                                        showModalBottomSheet<
+                                                            void>(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return ListView(
+                                                                children: [
+                                                                  Container(
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Column(
                                                                         children: [
                                                                           Container(
+                                                                              padding: new EdgeInsets.all(14),
+                                                                              child: Text(docSnapshot['nomeProduto'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+                                                                          Container(
                                                                             padding:
-                                                                                new EdgeInsets.only(top: 20),
-                                                                            width:
-                                                                                75,
-                                                                            height:
-                                                                                75,
+                                                                                new EdgeInsets.only(left: 70, right: 70),
                                                                             child:
-                                                                                Ink(
-                                                                              decoration: const ShapeDecoration(
-                                                                                color: Colors.orange,
-                                                                                shape: CircleBorder(),
-                                                                              ),
-                                                                              child: IconButton(
-                                                                                icon: const Icon(Icons.save),
-                                                                                color: Colors.white,
-                                                                                onPressed: () {
-                                                                                  atualizaProduto(docSnapshot['nomeProduto'], unidadeMedida, marca, docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo']);
-                                                                                  unidadeMedida = '';
-                                                                                  marca = '';
+                                                                                Column(
+                                                                              children: [
+                                                                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                                                  Text("Preço mais baixo", style: TextStyle(fontSize: 15)),
+                                                                                  Text(
+                                                                                    docSnapshot['precoMaisBaixo'],
+                                                                                    style: TextStyle(fontSize: 15, color: Colors.green),
+                                                                                  )
+                                                                                ]),
+                                                                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                                                  Text("Preço mais alto", style: TextStyle(fontSize: 15)),
+                                                                                  Text(
+                                                                                    docSnapshot['precoMaisAlto'],
+                                                                                    style: TextStyle(fontSize: 15, color: Colors.red),
+                                                                                  )
+                                                                                ]),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          Container(
+                                                                            margin:
+                                                                                EdgeInsets.only(top: 10),
+                                                                            width:
+                                                                                MediaQuery.of(context).size.width * 0.90,
+                                                                            height:
+                                                                                MediaQuery.of(context).size.height * 0.07,
+                                                                            child:
+                                                                                Center(
+                                                                              child: TextFormField(
+                                                                                textAlign: TextAlign.center,
+                                                                                onChanged: (text) {
+                                                                                  marca = text;
                                                                                 },
+                                                                                decoration: InputDecoration(
+                                                                                  hintText: docSnapshot['marca'],
+                                                                                  border: InputBorder.none,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            decoration:
+                                                                                new BoxDecoration(
+                                                                              color: Colors.grey[200],
+                                                                              borderRadius: BorderRadius.only(
+                                                                                topLeft: const Radius.circular(15.0),
+                                                                                topRight: const Radius.circular(15.0),
+                                                                                bottomLeft: const Radius.circular(15.0),
+                                                                                bottomRight: const Radius.circular(15.0),
                                                                               ),
                                                                             ),
                                                                           ),
                                                                           Container(
-                                                                            padding:
-                                                                                new EdgeInsets.only(top: 20),
+                                                                            margin:
+                                                                                new EdgeInsets.only(top: 10),
                                                                             width:
-                                                                                75,
+                                                                                MediaQuery.of(context).size.width * 0.90,
                                                                             height:
-                                                                                75,
+                                                                                MediaQuery.of(context).size.height * 0.07,
                                                                             child:
-                                                                                Ink(
-                                                                              decoration: const ShapeDecoration(
-                                                                                color: Colors.black,
-                                                                                shape: CircleBorder(),
-                                                                              ),
-                                                                              child: IconButton(
-                                                                                icon: const Icon(Icons.delete),
-                                                                                color: Colors.white,
-                                                                                onPressed: () {
-                                                                                  deletaProduto(docSnapshot['nomeProduto']);
-                                                                                  Navigator.pop(context);
+                                                                                Center(
+                                                                              child: TextFormField(
+                                                                                textAlign: TextAlign.center,
+                                                                                onChanged: (text) {
+                                                                                  unidadeMedida = text;
                                                                                 },
+                                                                                decoration: InputDecoration(
+                                                                                  hintText: docSnapshot['unidadeMedida'],
+                                                                                  border: InputBorder.none,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            decoration:
+                                                                                new BoxDecoration(
+                                                                              color: Colors.grey[200],
+                                                                              borderRadius: BorderRadius.only(
+                                                                                topLeft: const Radius.circular(15.0),
+                                                                                topRight: const Radius.circular(15.0),
+                                                                                bottomLeft: const Radius.circular(15.0),
+                                                                                bottomRight: const Radius.circular(15.0),
                                                                               ),
                                                                             ),
                                                                           ),
-                                                                          Container(
-                                                                            padding:
-                                                                                new EdgeInsets.only(top: 20),
-                                                                            width:
-                                                                                75,
-                                                                            height:
-                                                                                75,
-                                                                            child:
-                                                                                Ink(
-                                                                              decoration: const ShapeDecoration(
-                                                                                color: Colors.orange,
-                                                                                shape: CircleBorder(),
+                                                                          Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceEvenly,
+                                                                            children: [
+                                                                              Container(
+                                                                                padding: new EdgeInsets.only(top: 20),
+                                                                                width: 75,
+                                                                                height: 75,
+                                                                                child: Ink(
+                                                                                  decoration: const ShapeDecoration(
+                                                                                    color: Colors.orange,
+                                                                                    shape: CircleBorder(),
+                                                                                  ),
+                                                                                  child: IconButton(
+                                                                                    icon: const Icon(Icons.save),
+                                                                                    color: Colors.white,
+                                                                                    onPressed: () {
+                                                                                      atualizaProduto(docSnapshot['nomeProduto'], unidadeMedida, marca, docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo']);
+                                                                                      unidadeMedida = '';
+                                                                                      marca = '';
+                                                                                    },
+                                                                                  ),
+                                                                                ),
                                                                               ),
-                                                                              child: IconButton(
-                                                                                icon: const Icon(Icons.send),
-                                                                                color: Colors.white,
-                                                                                onPressed: () {
-                                                                                  enviaParaPreCotacao(docSnapshot['nomeProduto']);
-                                                                                },
+                                                                              Container(
+                                                                                padding: new EdgeInsets.only(top: 20),
+                                                                                width: 75,
+                                                                                height: 75,
+                                                                                child: Ink(
+                                                                                  decoration: const ShapeDecoration(
+                                                                                    color: Colors.black,
+                                                                                    shape: CircleBorder(),
+                                                                                  ),
+                                                                                  child: IconButton(
+                                                                                    icon: const Icon(Icons.delete),
+                                                                                    color: Colors.white,
+                                                                                    onPressed: () {
+                                                                                      deletaProduto(docSnapshot['nomeProduto']);
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                  ),
+                                                                                ),
                                                                               ),
-                                                                            ),
+                                                                              Container(
+                                                                                padding: new EdgeInsets.only(top: 20),
+                                                                                width: 75,
+                                                                                height: 75,
+                                                                                child: Ink(
+                                                                                  decoration: const ShapeDecoration(
+                                                                                    color: Colors.orange,
+                                                                                    shape: CircleBorder(),
+                                                                                  ),
+                                                                                  child: IconButton(
+                                                                                    icon: const Icon(Icons.send),
+                                                                                    color: Colors.white,
+                                                                                    onPressed: () {
+                                                                                      enviaParaPreCotacao(docSnapshot['nomeProduto']);
+                                                                                    },
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
                                                                           ),
                                                                         ],
                                                                       ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ]);
+                                                                    ),
+                                                                  )
+                                                                ]);
+                                                          },
+                                                        );
                                                       },
-                                                    );
-                                                  },
-                                                  child: Card(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                    ),
-                                                    color: Colors.white,
-                                                    child: Container(
-                                                      margin: EdgeInsets.only(
-                                                        top: 10,
-                                                        right: 15,
-                                                        left: 15,
-                                                        bottom: 10,
-                                                      ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                  child:
-                                                                      Container(
-                                                                child: Text(
-                                                                    docSnapshot[
-                                                                        'nomeProduto'],
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            19,
-                                                                        fontWeight:
-                                                                            FontWeight.bold)),
-                                                              )),
+                                                      child: Card(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.0),
+                                                        ),
+                                                        color: Colors.white,
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          child: Column(
+                                                            children: [
                                                               Text(
-                                                                  "R\$ " +
-                                                                      docSnapshot[
-                                                                          'precoMaisBaixo'],
+                                                                  docSnapshot[
+                                                                      'nomeProduto'],
                                                                   style: TextStyle(
                                                                       fontSize:
-                                                                          18,
+                                                                          19,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .bold,
-                                                                      color: Colors
-                                                                          .green))
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                child:
-                                                                    Container(
-                                                                  padding: new EdgeInsets
-                                                                          .only(
-                                                                      left: 5,
-                                                                      top: 7),
-                                                                  child: Text(
-                                                                      docSnapshot[
-                                                                          'marca'],
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              16,
-                                                                          color: Colors
-                                                                              .black54,
-                                                                          fontWeight:
-                                                                              FontWeight.bold)),
-                                                                ),
-                                                              ),
+                                                                              .bold)),
                                                               Container(
-                                                                child: Container(
-                                                                    padding: new EdgeInsets
+                                                                padding:
+                                                                    new EdgeInsets
                                                                             .only(
-                                                                        top: 5),
-                                                                    child: Text(
-                                                                        "R\$ " +
+                                                                        top: 10,
+                                                                        left:
+                                                                            30,
+                                                                        right:
+                                                                            30),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Column(
+                                                                      children: [
+                                                                        Text(
                                                                             docSnapshot[
                                                                                 'precoMaisBaixo'],
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                18,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            color: Colors.red))),
-                                                              ),
+                                                                            style: TextStyle(
+                                                                                fontSize: 18,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                color: Colors.green)),
+                                                                        Text(
+                                                                            docSnapshot[
+                                                                                'marca'],
+                                                                            style: TextStyle(
+                                                                                fontSize: 18,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                color: Colors.green)),
+                                                                      ],
+                                                                    ),
+                                                                    Column(
+                                                                      children: [
+                                                                        Text(
+                                                                            docSnapshot[
+                                                                                'precoMaisAlto'],
+                                                                            style: TextStyle(
+                                                                                fontSize: 18,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                color: Colors.red)),
+                                                                        Text(
+                                                                            docSnapshot[
+                                                                                'marca'],
+                                                                            style: TextStyle(
+                                                                                fontSize: 18,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                color: Colors.red)),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
                                                             ],
                                                           ),
-                                                          Container(
-                                                            padding:
-                                                                new EdgeInsets
-                                                                    .all(5),
-                                                            child: Text(
-                                                                docSnapshot[
-                                                                    'unidadeMedida'],
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        16,
-                                                                    color: Colors
-                                                                        .black54,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold)),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ))));
+                                                        ),
+                                                      ))))));
                                 }),
                           );
                         } else {
@@ -536,78 +468,68 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             ),
           ],
         ),
-        floatingActionButton:
-            Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-          FloatingActionButton(
-            child: Icon(
-              Icons.bookmark_add_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          HomePage_Cotacoes(title: "ALLIANCE")));
-            },
-            heroTag: null,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          HomePage_CadastroProdutos(title: "ALLIANCE")));
-            },
-            heroTag: null,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            child: Icon(
-              Icons.add_business,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          HomePage_RepresentantesCadastrados(
-                              title: "ALLIANCE")));
-            },
-            heroTag: null,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            child: Icon(
-              Icons.info,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          HomePage_InfoCadastradas(title: "ALLIANCE")));
-            },
-            heroTag: null,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
+        floatingActionButton: SpeedDial(
+            backgroundColor: Colors.orange,
+            animatedIcon: AnimatedIcons.menu_close,
+            foregroundColor: Colors.white,
+            overlayColor: Colors.black,
+            overlayOpacity: 0.5,
+            children: [
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Cadastrar um Produto',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_CadastroProdutos(title: "ALLIANCE")));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Enviar uma Cotação',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_Cotacoes(title: "ALLIANCE")));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Cotações Respondidas',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_ProdutosRespondidos(
+                                    title: "ALLIANCE")));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Representantes Cadastrados',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_RepresentantesCadastrados(
+                                    title: "ALLIANCE")));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Informações Pessoais',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_InfoCadastradas(title: "ALLIANCE")));
+                  }),
+            ]));
+
+    /*    FloatingActionButton(
             child: Icon(
               Icons.question_answer,
               color: Colors.white,
@@ -621,26 +543,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             },
             heroTag: null,
           ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(
-            child: Icon(
-              Icons.all_inbox,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          HomePage_ProdutosRespondidos(title: "ALLIANCE")));
-            },
-            heroTag: null,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-        ]));
+    )*/
   }
 }

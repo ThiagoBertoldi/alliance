@@ -61,7 +61,10 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                     child: Center(
                       child: Text("Produtos a enviar para cotação",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 30, color: Colors.orange)),
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.orange,
+                              fontWeight: FontWeight.bold)),
                     ),
                   )))),
           StreamBuilder<QuerySnapshot>(
@@ -141,7 +144,7 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                                                                               Colors.white,
                                                                           onPressed:
                                                                               () {
-                                                                            reomoveDaPreCotacao(docSnapshot['nomeProduto']);
+                                                                            removeDaPreCotacao(docSnapshot['nomeProduto']);
                                                                           },
                                                                         ),
                                                                       ),
@@ -181,7 +184,7 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                                                               docSnapshot[
                                                                   'nomeProduto'],
                                                               style: TextStyle(
-                                                                  fontSize: 19,
+                                                                  fontSize: 18,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold)),
@@ -204,20 +207,6 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
           Column(
             children: [
               Container(
-                margin: new EdgeInsets.only(top: 15),
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 50,
-                child: ElevatedButton(
-                  child: Text(
-                    'Resetar Cotação',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                  onPressed: () {
-                    resetaCotacao();
-                  },
-                ),
-              ),
-              Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: 50,
                 margin: new EdgeInsets.only(top: 15),
@@ -231,6 +220,70 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                   },
                 ),
               ),
+              Container(
+                margin: new EdgeInsets.only(top: 25, bottom: 15),
+                child: Text("Produtos em cotação atualmente",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold)),
+              ),
+              StreamBuilder<QuerySnapshot>(
+                  stream: db.collection("produtosEmCotacao").snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot docSnapshot =
+                                snapshot.data!.docs[index];
+                            return Column(
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  height: 75,
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    color: Colors.white,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                        top: 10,
+                                        right: 15,
+                                        left: 15,
+                                        bottom: 10,
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Text(
+                                                docSnapshot['nomeProduto'],
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  })
             ],
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 var db = FirebaseFirestore.instance;
 
@@ -20,6 +21,7 @@ var userCredential;
 String userName = '';
 String userEmail = '';
 int i = 0;
+int iRecebe = 0;
 
 String emailRedefinicao = '';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,18 +132,70 @@ void enviaParaPreCotacao(String nomeProduto) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void enviaParaCotacao() async {
-  var prod = await db.collection("produtosParaCotacao").get();
+  var produtoEmPreCotacao = await db.collection("produtosParaCotacao").get();
+  var produtoEmCotacaoAntiga = await db.collection("produtosEmCotacao").get();
 
-  for (var doc in prod.docs) {
+  for (var doc in produtoEmCotacaoAntiga.docs) {
+    db.collection("produtosEmCotacao").doc(doc['nomeProduto']).delete();
+  }
+  for (var doc in produtoEmPreCotacao.docs) {
     db
         .collection("produtosEmCotacao")
         .doc(doc['nomeProduto'])
         .set({"nomeProduto": doc['nomeProduto']});
+
+    db.collection("produtosParaCotacao").doc(doc['nomeProduto']).delete();
+  }
+  gravaCotacoesAntigas();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void gravaCotacoesAntigas() async {
+  List lista = [];
+  final DateTime date = DateTime.now();
+  final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
+  final String dateFormatted = formatter.format(date);
+  var produtosRespondidos = await db.collection("produtosRespondidos").get();
+
+  for (var doc in produtosRespondidos.docs) {
+    lista.add(doc['empresa']);
+  }
+  db
+      .collection("cotacoesPassadas")
+      .doc("$dateFormatted")
+      .set({"dataHora": dateFormatted});
+  for (int i = 0; i < lista.length; i++) {
+    var recebeDados = await db
+        .collection("produtosRespondidos")
+        .doc(lista[i])
+        .collection("produtos")
+        .get();
+
+    for (var doc in recebeDados.docs) {
+      db
+          .collection("produtosRespondidos")
+          .doc(lista[i])
+          .collection("produtos")
+          .doc(doc['nomeProduto'])
+          .delete();
+      db
+          .collection("cotacoesPassadas")
+          .doc("$dateFormatted")
+          .collection(doc['empresa'])
+          .doc(doc['nomeProduto'])
+          .set({
+        "nomeProduto": doc['nomeProduto'],
+        "empresa": doc['empresa'],
+        "marca": doc['marca'],
+        "preço": doc['preço'],
+        "unidadeMedida": doc['unidadeMedida']
+      });
+    }
   }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void reomoveDaPreCotacao(String nomeProduto) {
+void removeDaPreCotacao(String nomeProduto) {
   db.collection("produtosParaCotacao").doc(nomeProduto).delete();
 }
 
@@ -204,14 +258,15 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
 
   db
       .collection("produtosRespondidos")
-      .doc(empresa) //Nome no Vendedor
+      .doc(empresa)
       .collection("produtos")
       .doc(nomeProduto)
       .set({
     "nomeProduto": nomeProduto,
     "marca": marca,
     "unidadeMedida": unidadeMedida,
-    "preço": preco
+    "preço": preco,
+    "empresa": empresa
   }).then((value) => print("Enviada com Sucesso!!!"));
 }
 
@@ -222,11 +277,12 @@ Future<List> recebeVendedores() async {
 
   i = 0;
   for (var dados in recebeDados.docs) {
-    lista.add(dados['empresa']);
+    String stringQuery = dados['empresa'];
+    lista.add(stringQuery);
 
     print(lista.length);
     print(lista[i]);
-    i++;
+    iRecebe++;
   }
 
   return lista;

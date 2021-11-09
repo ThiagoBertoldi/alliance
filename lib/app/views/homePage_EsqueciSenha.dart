@@ -146,7 +146,9 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                                 builder: (BuildContext context) =>
                                     HomePage_VerifiqueEmail()));
                       },*/
-                      onPressed: sendEmail,
+                      onPressed: () {
+                        sendEmail();
+                      },
                     ),
                   ),
                 ],
