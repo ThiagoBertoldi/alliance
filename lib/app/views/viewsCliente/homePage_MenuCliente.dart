@@ -10,6 +10,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'homePage_CotacoesAEnviar.dart';
 import 'homePage_CadastroProdutos.dart';
 import '../homePage_InfoCadastradas.dart';
+import 'homePage_CotacoesPassadas.dart';
 import 'homePage_ProdutosRespondidos.dart';
 import 'homePage_RepresentantesCadastrados.dart';
 
@@ -505,6 +506,16 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                             builder: (BuildContext context) =>
                                 HomePage_ProdutosRespondidos(
                                     title: "ALLIANCE")));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Cotações Passadas',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_CotacoesPassadas()));
                   }),
               SpeedDialChild(
                   child: Icon(Icons.add, color: Colors.orange),
