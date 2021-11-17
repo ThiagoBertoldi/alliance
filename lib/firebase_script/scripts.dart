@@ -115,24 +115,6 @@ void deletaProduto(String nomeProduto) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void atualizaProduto(String nomeProduto, String unidadeMedida, String marca,
-    String precoMaisAlto, String precoMaisBaixo) {
-  if (unidadeMedida != '') {
-    db
-        .collection("produtos_")
-        .doc(nomeProduto)
-        .update({"unidadeMedida": unidadeMedida}).then(
-            (value) => "Alterado com sucesso!");
-  }
-  if (marca != '') {
-    db
-        .collection("produtos_")
-        .doc(nomeProduto)
-        .update({"marca": marca}).then((value) => "Alterado com sucesso!");
-  }
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void enviaParaPreCotacao(String nomeProduto) {
   db
       .collection("produtosParaCotacao")
@@ -197,8 +179,8 @@ void gravaCotacoesAntigas() async {
       db
           .collection("cotacoesPassadas")
           .doc("$dateFormatted")
-          .collection("empresas") //collection(doc['empresa'])
-          .doc(doc['empresa']) //doc(doc['nomeProduto'])
+          .collection("empresas")
+          .doc(doc['empresa'])
           .collection("produtos")
           .doc(doc['nomeProduto'])
           .set({
@@ -277,7 +259,7 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
   db
       .collection("produtosRespondidos")
       .doc(empresa)
-      .collection("produtos")
+      .collection(nomeProduto)
       .doc(nomeProduto)
       .set({
     "nomeProduto": nomeProduto,
@@ -286,24 +268,6 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
     "preço": preco,
     "empresa": empresa
   }).then((value) => print("Enviada com Sucesso!!!"));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Future<List> recebeVendedores() async {
-  var recebeDados = await db.collection("produtosRespondidos").get();
-  List<String> lista = [];
-
-  i = 0;
-  for (var dados in recebeDados.docs) {
-    String stringQuery = dados['empresa'];
-    lista.add(stringQuery);
-
-    print(lista.length);
-    print(lista[i]);
-    iRecebe++;
-  }
-
-  return lista;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

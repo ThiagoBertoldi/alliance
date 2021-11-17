@@ -18,11 +18,6 @@ class HomePage_ProdutosRespondidos extends StatefulWidget {
 // ignore: camel_case_types
 class _HomePageState_ProdutosRespondidos
     extends State<HomePage_ProdutosRespondidos> {
-  Future<List> dataList = recebeVendedores();
-  void teste() {
-    print(dataList);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

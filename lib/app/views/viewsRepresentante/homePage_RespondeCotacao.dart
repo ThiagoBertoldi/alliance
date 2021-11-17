@@ -257,34 +257,38 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                       ),
                                                                     ),
                                                                     Container(
-                                                                      padding:
-                                                                          new EdgeInsets.all(
-                                                                              30),
-                                                                      color: Colors
-                                                                          .black,
+                                                                      width: 75,
+                                                                      height:
+                                                                          75,
+                                                                      margin: EdgeInsets
+                                                                          .only(
+                                                                              top: 15),
                                                                       child:
-                                                                          IconButton(
-                                                                        icon: const Icon(
-                                                                            Icons.done),
-                                                                        color: Colors
-                                                                            .orange,
-                                                                        onPressed:
-                                                                            () {
-                                                                          respondeCotacao(
-                                                                              docSnapshot['nomeProduto'],
-                                                                              preco,
-                                                                              marca,
-                                                                              unidadeMedida,
-                                                                              empresa);
-                                                                          preco =
-                                                                              '';
-                                                                          marca =
-                                                                              '';
-                                                                          unidadeMedida =
-                                                                              '';
-                                                                          Navigator.of(context)
-                                                                              .pop();
-                                                                        },
+                                                                          CircleAvatar(
+                                                                        backgroundColor:
+                                                                            Colors.orange,
+                                                                        child:
+                                                                            IconButton(
+                                                                          icon: const Icon(
+                                                                              Icons.done,
+                                                                              color: Colors.white),
+                                                                          onPressed:
+                                                                              () {
+                                                                            respondeCotacao(
+                                                                                docSnapshot['nomeProduto'],
+                                                                                preco,
+                                                                                marca,
+                                                                                unidadeMedida,
+                                                                                empresa);
+                                                                            preco =
+                                                                                '';
+                                                                            marca =
+                                                                                '';
+                                                                            unidadeMedida =
+                                                                                '';
+                                                                            Navigator.of(context).pop();
+                                                                          },
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ],
