@@ -71,8 +71,9 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
               children: [
                 Container(
                     margin: new EdgeInsets.only(top: 15),
-                    child: Text("Olá, " + userName,
-                        style: TextStyle(fontSize: 23))),
+                    child: Text("Olá, " + userName + "!",
+                        style: TextStyle(
+                            fontSize: 23, fontWeight: FontWeight.bold))),
                 Container(
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.width * 0.025),
@@ -153,7 +154,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         top: MediaQuery.of(context).size.width * 0.06),
                     child: Center(
                       child: Text('Produtos Cadastrados',
-                          style: TextStyle(fontSize: 24, color: Colors.orange)),
+                          style: TextStyle(fontSize: 20, color: Colors.orange)),
                     )),
                 Container(
                   height: 60,
@@ -163,7 +164,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                       procuraProduto = text;
                     },
                     decoration: InputDecoration(
-                      labelText: 'Pesquise um Produto',
+                      labelText: 'Pesquise um produto',
                     ),
                   ),
                 ),
@@ -389,14 +390,71 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                           child: Column(
                                                             children: [
                                                               Text(
-                                                                  docSnapshot[
-                                                                      'nomeProduto'],
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          19,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold)),
+                                                                docSnapshot[
+                                                                    'nomeProduto'],
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        19,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                              ),
+                                                              Container(
+                                                                width: 75,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5),
+                                                                  color: Colors
+                                                                      .purple,
+                                                                ),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                              docSnapshot['precoMaisBaixo'],
+                                                                              style: TextStyle(fontSize: 15)),
+                                                                          Text(
+                                                                            docSnapshot['precoMaisBaixo'],
+                                                                            style:
+                                                                                TextStyle(fontSize: 15, color: Colors.green),
+                                                                          )
+                                                                        ]),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                width: 75,
+                                                                color: Colors
+                                                                    .purple,
+                                                                child: Row(
+                                                                  children: [
+                                                                    Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                              docSnapshot['precoMaisBaixo'],
+                                                                              style: TextStyle(fontSize: 15)),
+                                                                          Text(
+                                                                            docSnapshot['precoMaisAlto'],
+                                                                            style:
+                                                                                TextStyle(fontSize: 15, color: Colors.red),
+                                                                          )
+                                                                        ]),
+                                                                  ],
+                                                                ),
+                                                              ),
+
+                                                              /*
                                                               Container(
                                                                 padding:
                                                                     new EdgeInsets
@@ -450,6 +508,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                   ],
                                                                 ),
                                                               )
+                                                              */
                                                             ],
                                                           ),
                                                         ),
