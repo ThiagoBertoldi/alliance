@@ -260,6 +260,8 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                       padding:
                                                                           new EdgeInsets.all(
                                                                               30),
+                                                                      color: Colors
+                                                                          .black,
                                                                       child:
                                                                           IconButton(
                                                                         icon: const Icon(
