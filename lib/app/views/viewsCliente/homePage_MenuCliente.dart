@@ -405,54 +405,99 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                               ),
                                                               Container(
                                                                 width: 75,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              5),
-                                                                  color: Colors
-                                                                      .purple,
-                                                                ),
                                                                 child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
                                                                   children: [
-                                                                    Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Text(
-                                                                              docSnapshot['precoMaisBaixo'],
-                                                                              style: TextStyle(fontSize: 15)),
-                                                                          Text(
-                                                                            docSnapshot['precoMaisBaixo'],
-                                                                            style:
-                                                                                TextStyle(fontSize: 15, color: Colors.green),
-                                                                          )
-                                                                        ]),
+                                                                    Column(
+                                                                      children: [
+                                                                        Text(docSnapshot[
+                                                                            'unidadeMedida']),
+                                                                        Text(docSnapshot[
+                                                                            'marca'])
+                                                                      ],
+                                                                    )
                                                                   ],
                                                                 ),
                                                               ),
                                                               Container(
-                                                                width: 75,
-                                                                color: Colors
-                                                                    .purple,
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.7,
+                                                                margin:
+                                                                    new EdgeInsets
+                                                                            .only(
+                                                                        top: 5),
                                                                 child: Row(
-                                                                  children: [
-                                                                    Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceBetween,
-                                                                        children: [
-                                                                          Text(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: MediaQuery.of(context).size.width *
+                                                                            0.3,
+                                                                        child:
+                                                                            Center(
+                                                                          child: Text(
                                                                               docSnapshot['precoMaisBaixo'],
-                                                                              style: TextStyle(fontSize: 15)),
-                                                                          Text(
+                                                                              style: TextStyle(fontSize: 15, color: Colors.white)),
+                                                                        ),
+                                                                        decoration:
+                                                                            new BoxDecoration(
+                                                                          color:
+                                                                              Colors.green,
+                                                                          borderRadius:
+                                                                              BorderRadius.only(
+                                                                            topLeft:
+                                                                                const Radius.circular(8.0),
+                                                                            topRight:
+                                                                                const Radius.circular(8.0),
+                                                                            bottomLeft:
+                                                                                const Radius.circular(8.0),
+                                                                            bottomRight:
+                                                                                const Radius.circular(8.0),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        width: MediaQuery.of(context).size.width *
+                                                                            0.3,
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              Text(
                                                                             docSnapshot['precoMaisAlto'],
                                                                             style:
-                                                                                TextStyle(fontSize: 15, color: Colors.red),
-                                                                          )
-                                                                        ]),
-                                                                  ],
-                                                                ),
+                                                                                TextStyle(fontSize: 15, color: Colors.white),
+                                                                          ),
+                                                                        ),
+                                                                        decoration:
+                                                                            new BoxDecoration(
+                                                                          color:
+                                                                              Colors.red,
+                                                                          borderRadius:
+                                                                              BorderRadius.only(
+                                                                            topLeft:
+                                                                                const Radius.circular(8.0),
+                                                                            topRight:
+                                                                                const Radius.circular(8.0),
+                                                                            bottomLeft:
+                                                                                const Radius.circular(8.0),
+                                                                            bottomRight:
+                                                                                const Radius.circular(8.0),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    ]),
                                                               ),
 
                                                               /*
