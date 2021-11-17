@@ -1,6 +1,10 @@
 import 'package:alliance/app/views/google_auth_api.dart';
+import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
+import 'package:alliance/app/views/viewsCliente/homePage_exibeCotacoes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
@@ -25,7 +29,7 @@ String userName = '';
 String userEmail = '';
 int i = 0;
 int iRecebe = 0;
-
+String cotacaoSelecionada = '';
 String emailRedefinicao = '';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoUsuario(
@@ -187,7 +191,15 @@ void gravaCotacoesAntigas() async {
       db
           .collection("cotacoesPassadas")
           .doc("$dateFormatted")
-          .collection(doc['empresa'])
+          .collection("empresas")
+          .doc(doc['empresa'])
+          .set({"empresa": doc['empresa']});
+      db
+          .collection("cotacoesPassadas")
+          .doc("$dateFormatted")
+          .collection("empresas") //collection(doc['empresa'])
+          .doc(doc['empresa']) //doc(doc['nomeProduto'])
+          .collection("produtos")
           .doc(doc['nomeProduto'])
           .set({
         "nomeProduto": doc['nomeProduto'],
@@ -326,3 +338,5 @@ Future sendEmail() async {
     print(e);
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
