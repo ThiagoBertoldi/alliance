@@ -256,6 +256,13 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
     unidadeMedida = '-/-';
   }
 
+  db.collection("precoAtualProduto").doc(empresa).set({"empresa": empresa});
+  db
+      .collection("precoAtualProduto")
+      .doc(empresa)
+      .collection("produtos")
+      .doc(nomeProduto)
+      .set({"nomeProduto": nomeProduto, "preço": preco, "empresa": empresa});
   db
       .collection("produtosRespondidos")
       .doc(empresa)
@@ -304,3 +311,21 @@ Future sendEmail() async {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void calculaPrecos() async {
+  var empresas = await db.collection("precoAtualProduto").get();
+
+  for (var doc in empresas.docs) {
+    var precos = await db
+        .collection("precoAtualProduto")
+        .doc(doc['empresa'])
+        .collection("produtos")
+        .get();
+
+    for (var doc2 in precos.docs) {
+      var produto = new Map();
+      produto[doc['empresa']] = doc2['preço'];
+      print(produto);
+    }
+  }
+}

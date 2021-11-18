@@ -583,6 +583,12 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                             builder: (BuildContext context) =>
                                 HomePage_InfoCadastradas(title: "ALLIANCE")));
                   }),
+              SpeedDialChild(
+                  child: Icon(Icons.query_builder, color: Colors.orange),
+                  label: 'TESTE ',
+                  onTap: () {
+                    calculaPrecos();
+                  }),
             ]));
 
     /*    FloatingActionButton(
