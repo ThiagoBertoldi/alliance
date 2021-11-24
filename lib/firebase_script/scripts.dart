@@ -314,6 +314,7 @@ Future sendEmail() async {
 
 void calculaPrecos() async {
   var empresas = await db.collection("precoAtualProduto").get();
+  var produto = new Map();
 
   for (var doc in empresas.docs) {
     var precos = await db
@@ -323,8 +324,8 @@ void calculaPrecos() async {
         .get();
 
     for (var doc2 in precos.docs) {
-      var produto = new Map();
-      produto[doc['empresa']] = doc2['preço'];
+      produto[doc['empresa']] = int.parse(doc2['preço']);
+
       print(produto);
     }
   }

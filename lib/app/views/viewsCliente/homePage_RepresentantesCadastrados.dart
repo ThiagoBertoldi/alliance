@@ -54,7 +54,9 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => HomePage_MenuCliente()));
+                    builder: (BuildContext context) => MenuCliente_State(
+                          title: 'ALLIANCE',
+                        )));
           },
           child: Icon(
             Icons.arrow_back,

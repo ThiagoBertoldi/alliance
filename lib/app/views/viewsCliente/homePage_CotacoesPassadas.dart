@@ -1,13 +1,11 @@
-import 'package:alliance/app/views/google_auth_api.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:alliance/app/views/homePage_Login.dart';
 
+import 'homePage_MenuCliente.dart';
 import 'homePage_exibeCotacoes.dart';
 
 main() async {
@@ -52,7 +50,8 @@ class _MyHomePageState_EsqueciSenha extends State<CotacoesPassadas_State> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => HomePage_MenuCliente()));
+                    builder: (BuildContext context) =>
+                        MenuCliente_State(title: 'ALLIANCE')));
           },
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         ),

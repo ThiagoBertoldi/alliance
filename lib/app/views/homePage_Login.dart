@@ -48,7 +48,10 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage_MenuCliente()),
+            MaterialPageRoute(
+                builder: (context) => MenuCliente_State(
+                      title: 'ALLIANCE',
+                    )),
           );
         } else {
           userCredential = FirebaseAuth.instance.currentUser;

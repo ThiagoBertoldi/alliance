@@ -14,26 +14,6 @@ import 'homePage_CotacoesPassadas.dart';
 import 'homePage_ProdutosRespondidos.dart';
 import 'homePage_RepresentantesCadastrados.dart';
 
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-  runApp(HomePage_MenuCliente());
-}
-
-// ignore: camel_case_types
-class HomePage_MenuCliente extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FlutterApp',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: MenuCliente_State(title: "ALLIANCE"),
-    );
-  }
-}
-
 // ignore: camel_case_types
 class MenuCliente_State extends StatefulWidget {
   MenuCliente_State({Key? key, required this.title}) : super(key: key);
@@ -76,81 +56,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         style: TextStyle(
                             fontSize: 23, fontWeight: FontWeight.bold))),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.width * 0.025),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.35,
-                        height: MediaQuery.of(context).size.height * 0.225,
-                        child: Card(
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Produtos',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                Text("0"),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            height: MediaQuery.of(context).size.height * 0.1125,
-                            child: Card(
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Cotações respondidas',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text("0"),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            height: MediaQuery.of(context).size.height * 0.1125,
-                            child: Card(
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Fornecedores cadastrados',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "0",
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.width * 0.06),
                     child: Center(
@@ -158,14 +63,22 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                           style: TextStyle(fontSize: 20, color: Colors.orange)),
                     )),
                 Container(
-                  height: 60,
+                  margin: EdgeInsets.only(top: 10),
+                  height: 50,
                   width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[200]),
                   child: TextField(
                     onChanged: (text) {
-                      procuraProduto = text;
+                      setState(() {
+                        procuraProduto = text;
+                      });
                     },
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 15),
                       labelText: 'Pesquise um produto',
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
