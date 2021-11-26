@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+// ignore: camel_case_types
 class HomePage_ExibeCotacoes extends StatefulWidget {
   HomePage_ExibeCotacoes({Key? key, required this.title}) : super(key: key);
 
@@ -13,6 +14,7 @@ class HomePage_ExibeCotacoes extends StatefulWidget {
   _MyHomePageState_ExibeLogin createState() => _MyHomePageState_ExibeLogin();
 }
 
+// ignore: camel_case_types
 class _MyHomePageState_ExibeLogin extends State<HomePage_ExibeCotacoes> {
   @override
   Widget build(BuildContext context) {

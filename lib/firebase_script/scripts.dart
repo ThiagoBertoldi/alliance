@@ -1,10 +1,6 @@
 import 'package:alliance/app/views/google_auth_api.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_exibeCotacoes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';

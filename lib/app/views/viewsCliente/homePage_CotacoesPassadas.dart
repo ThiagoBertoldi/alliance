@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, duplicate_ignore
+
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
