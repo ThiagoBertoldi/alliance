@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:alliance/app/views/google_auth_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -241,7 +243,6 @@ void deletaUsuario(String nome) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void respondeCotacao(String nomeProduto, String preco, String marca,
     String unidadeMedida, var empresa) {
-  db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
   if (marca == '') {
     marca = '-/-';
   }
@@ -252,17 +253,39 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
     unidadeMedida = '-/-';
   }
 
-  db.collection("precoAtualProduto").doc(empresa).set({"empresa": empresa});
   db
       .collection("precoAtualProduto")
-      .doc(empresa)
-      .collection("produtos")
       .doc(nomeProduto)
+      .set({"nomeProduto": nomeProduto});
+  db
+      .collection("precoAtualProduto")
+      .doc(nomeProduto)
+      .collection("empresas")
+      .doc(empresa)
       .set({"nomeProduto": nomeProduto, "preço": preco, "empresa": empresa});
+
+  db
+      .collection("produtosRespondidosModal")
+      .doc(empresa)
+      .set({"empresa": empresa});
+  db
+      .collection("produtosRespondidosModal")
+      .doc(empresa)
+      .collection(nomeProduto)
+      .doc(nomeProduto)
+      .set({
+    "nomeProduto": nomeProduto,
+    "marca": marca,
+    "unidadeMedida": unidadeMedida,
+    "preço": preco,
+    "empresa": empresa
+  });
+
+  db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
   db
       .collection("produtosRespondidos")
       .doc(empresa)
-      .collection(nomeProduto)
+      .collection("produtos")
       .doc(nomeProduto)
       .set({
     "nomeProduto": nomeProduto,
@@ -309,20 +332,30 @@ Future sendEmail() async {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void calculaPrecos() async {
-  var empresas = await db.collection("precoAtualProduto").get();
-  var produto = new Map();
+  var produtos = await db.collection("precoAtualProduto").get();
+  List listaPrecos = [];
 
-  for (var doc in empresas.docs) {
-    var precos = await db
+  for (var doc1 in produtos.docs) {
+    var produtos2 = await db
         .collection("precoAtualProduto")
-        .doc(doc['empresa'])
-        .collection("produtos")
+        .doc(doc1['nomeProduto'])
+        .collection("empresas")
         .get();
-
-    for (var doc2 in precos.docs) {
-      produto[doc['empresa']] = int.parse(doc2['preço']);
-
-      print(produto);
+    for (var doc2 in produtos2.docs) {
+      listaPrecos.add(doc2['preço']);
+      if (doc2['preço'] == '') {
+        listaPrecos.add('0,00');
+      }
     }
+    listaPrecos.sort();
+    db
+        .collection('produtos_')
+        .doc(doc1['nomeProduto'])
+        .update({'precoMaisAlto': listaPrecos.last});
+    db
+        .collection('produtos_')
+        .doc(doc1['nomeProduto'])
+        .update({'precoMaisBaixo': listaPrecos.first});
+    listaPrecos.clear();
   }
 }

@@ -124,6 +124,8 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                           Center(
                                                                         child:
                                                                             TextFormField(
+                                                                          keyboardType:
+                                                                              TextInputType.number,
                                                                           textAlign:
                                                                               TextAlign.center,
                                                                           onChanged:

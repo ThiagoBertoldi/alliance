@@ -1,9 +1,7 @@
 import 'package:alliance/app/views/homePage_Login.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_CotacoesAResponder.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -151,7 +149,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                   Container(padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 5), child: Text(docSnapshot2['empresa'], style: TextStyle(fontSize: 22, color: Colors.orange, fontWeight: FontWeight.bold))),
                                                                                                   Container(
                                                                                                     child: StreamBuilder<QuerySnapshot>(
-                                                                                                        stream: db.collection("produtosRespondidos").doc(docSnapshot2['empresa']).collection(docSnapshot['nomeProduto']).snapshots(),
+                                                                                                        stream: db.collection("produtosRespondidosModal").doc(docSnapshot2['empresa']).collection(docSnapshot['nomeProduto']).snapshots(),
                                                                                                         builder: (context, snapshot3) {
                                                                                                           if (snapshot3.hasData) {
                                                                                                             return ListView.builder(
@@ -495,12 +493,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 HomePage_InfoCadastradas(title: "ALLIANCE")));
-                  }),
-              SpeedDialChild(
-                  child: Icon(Icons.query_builder, color: Colors.orange),
-                  label: 'TESTE ',
-                  onTap: () {
-                    calculaPrecos();
                   }),
             ]));
 

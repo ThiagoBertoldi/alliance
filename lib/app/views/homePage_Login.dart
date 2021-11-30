@@ -45,7 +45,7 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
           userEmail = userCredential.email;
           empresa = dados['empresa'];
           telefone = dados['telefone'];
-
+          calculaPrecos();
           Navigator.push(
             context,
             MaterialPageRoute(

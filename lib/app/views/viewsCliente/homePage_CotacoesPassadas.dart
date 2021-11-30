@@ -59,6 +59,8 @@ class _MyHomePageState_EsqueciSenha extends State<CotacoesPassadas_State> {
         ),
       ),
       body: ListView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
         children: [
           Column(
             children: [
@@ -130,7 +132,7 @@ class _MyHomePageState_EsqueciSenha extends State<CotacoesPassadas_State> {
                     } else {
                       return CircularProgressIndicator();
                     }
-                  })
+                  }),
             ],
           )
         ],
