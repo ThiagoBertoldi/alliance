@@ -63,15 +63,6 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
             color: Colors.white,
           ),
         ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {},
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
-        ],
       ),
       body: ListView(
         children: [
@@ -79,7 +70,10 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
             padding: new EdgeInsets.all(40),
             child: Center(
               child: Text("Usuários Cadastrados",
-                  style: TextStyle(fontSize: 30, color: Colors.orange[300])),
+                  style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.orange[300],
+                      fontWeight: FontWeight.bold)),
             ),
           ),
           StreamBuilder<QuerySnapshot>(
@@ -96,6 +90,7 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                         return Column(
                           children: <Widget>[
                             Container(
+                              width: MediaQuery.of(context).size.width * 0.9,
                               height: MediaQuery.of(context).size.height * 0.14,
                               child: new InkWell(
                                 onTap: () {
@@ -136,6 +131,8 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                       empresa = text;
                                                     },
                                                     decoration: InputDecoration(
+                                                      enabledBorder:
+                                                          InputBorder.none,
                                                       hintText: docSnapshot[
                                                           'empresa'],
                                                     ),
@@ -143,6 +140,21 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                 ),
                                                 decoration: new BoxDecoration(
                                                   color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    bottomLeft:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    bottomRight:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -160,12 +172,14 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                         .height *
                                                     0.07,
                                                 child: Center(
-                                                  child: TextFormField(
+                                                  child: TextField(
                                                     textAlign: TextAlign.center,
                                                     onChanged: (text) {
                                                       cnpj = text;
                                                     },
                                                     decoration: InputDecoration(
+                                                      enabledBorder:
+                                                          InputBorder.none,
                                                       hintText:
                                                           docSnapshot['cnpj'],
                                                     ),
@@ -173,6 +187,21 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                 ),
                                                 decoration: new BoxDecoration(
                                                   color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    bottomLeft:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    bottomRight:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -193,6 +222,8 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                   child: TextFormField(
                                                     textAlign: TextAlign.center,
                                                     decoration: InputDecoration(
+                                                      enabledBorder:
+                                                          InputBorder.none,
                                                       hintText:
                                                           docSnapshot['email'],
                                                     ),
@@ -200,6 +231,21 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                 ),
                                                 decoration: new BoxDecoration(
                                                   color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    bottomLeft:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    bottomRight:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -223,6 +269,8 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                       telefone = text;
                                                     },
                                                     decoration: InputDecoration(
+                                                      enabledBorder:
+                                                          InputBorder.none,
                                                       hintText: docSnapshot[
                                                           'telefone'],
                                                     ),
@@ -230,6 +278,21 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                                 ),
                                                 decoration: new BoxDecoration(
                                                   color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    bottomLeft:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                    bottomRight:
+                                                        const Radius.circular(
+                                                            15.0),
+                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -300,6 +363,9 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                                   );
                                 },
                                 child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
                                   color: Colors.white,
                                   child: Container(
                                     padding: new EdgeInsets.all(15),
@@ -341,15 +407,9 @@ class _MyHomePageState extends State<HomePage_RepresentantesCadastrados> {
                         );
                       });
                 } else {
-                  return Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child: CircularProgressIndicator());
+                  return CircularProgressIndicator();
                 }
               }),
-          Center(
-              child: Container(
-                  padding: new EdgeInsets.all(20),
-                  child: Text("Acabou! :D", style: TextStyle(fontSize: 20))))
         ],
       ),
     );
