@@ -2,19 +2,10 @@
 
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import 'homePage_MenuCliente.dart';
 import 'homePage_exibeCotacoes.dart';
-
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-  runApp(HomePage_CotacoesPassadas());
-}
 
 // ignore: camel_case_types
 class HomePage_CotacoesPassadas extends StatelessWidget {

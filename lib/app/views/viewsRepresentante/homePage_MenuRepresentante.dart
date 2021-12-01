@@ -1,14 +1,7 @@
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'homePage_RespondeCotacao.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(PaginaRepresentante());
-}
 
 class PaginaRepresentante extends StatelessWidget {
   @override

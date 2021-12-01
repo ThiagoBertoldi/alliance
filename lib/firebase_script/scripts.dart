@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:alliance/app/views/google_auth_api.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,15 +18,14 @@ String permissao = '';
 String marca = '';
 String preco = '';
 String unidadeMedida = '';
-int count = 0;
 String procuraProduto = '';
 var userCredential;
 String userName = '';
 String userEmail = '';
-int i = 0;
-int iRecebe = 0;
 String cotacaoSelecionada = '';
 String emailRedefinicao = '';
+String nomeProduto = '';
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoUsuario(
   String nome,
@@ -82,26 +79,15 @@ void gravaNovoUsuario(
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void gravaNovoProduto(String nomeProduto, String marca, String unidadeMedida) {
+void gravaNovoProduto(String nomeProduto) {
   if (nomeProduto != '') {
-    if (marca == '') {
-      marca = '-/-';
-    }
-    if (unidadeMedida == '') {
-      unidadeMedida = '-/-';
-    }
-    db
-        .collection("produtos_")
-        .doc(nomeProduto)
-        .set({
-          "nomeProduto": nomeProduto,
-          "marca": marca,
-          "precoMaisBaixo": "-/-",
-          "precoMaisAlto": "-/-",
-          "unidadeMedida": unidadeMedida,
-        })
-        .then((value) => print("Cadastrado!!!"))
-        .catchError((error) => print("Produto não cadastrado: $error"));
+    db.collection("produtos_").doc(nomeProduto).set({
+      "nomeProduto": nomeProduto,
+      "marca": "-/-",
+      "unidadeMedida": "-/-",
+      "precoMaisBaixo": "-/-",
+      "precoMaisAlto": "-/-",
+    }).then((value) => print("Cadastrado!!!"));
   } else {
     print("Algo deu errado, você pode tentar de novo...");
   }

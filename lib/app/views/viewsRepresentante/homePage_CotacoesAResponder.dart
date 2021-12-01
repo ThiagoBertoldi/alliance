@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'homePage_RespondeCotacao.dart';
 
-main() {
-  runApp(PaginaVendedor());
-}
-
 class PaginaVendedor extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

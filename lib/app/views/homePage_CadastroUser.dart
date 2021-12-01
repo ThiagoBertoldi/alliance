@@ -1,6 +1,5 @@
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:flutter/material.dart';
-
 import '../paginaLogin.dart';
 
 // ignore: camel_case_types

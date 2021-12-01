@@ -1,12 +1,9 @@
+import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:flutter/material.dart';
 
-main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+// ignore: camel_case_types
+class HomePage_InfoCadastrada extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,13 +30,24 @@ class HomePage_InfoCadastradas extends StatefulWidget {
 // ignore: camel_case_types
 class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
   @override
-
-  //double_width = MediaQuery.of(context).size.width
-
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title, style: TextStyle(color: Colors.white)),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => MenuCliente_State(
+                            title: 'ALLIANCE',
+                          )));
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+          ),
         ),
         body: ListView(children: [
           Column(
@@ -74,6 +82,9 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     height: MediaQuery.of(context).size.height * 0.1,
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,6 +123,9 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     height: MediaQuery.of(context).size.height * 0.1,
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,6 +163,9 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     height: MediaQuery.of(context).size.height * 0.1,
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,6 +203,9 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     height: MediaQuery.of(context).size.height * 0.1,
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                       child: Container(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

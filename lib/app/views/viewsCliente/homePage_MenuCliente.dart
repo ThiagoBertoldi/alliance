@@ -1,7 +1,5 @@
-import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -31,18 +29,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title, style: TextStyle(color: Colors.white)),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              FirebaseAuth.instance.signOut().then((value) => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => HomePage_Login(
-                            title: 'ALLIANCE',
-                          ))));
-            },
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          ),
+          automaticallyImplyLeading: false,
         ),
         body: ListView(
           children: [

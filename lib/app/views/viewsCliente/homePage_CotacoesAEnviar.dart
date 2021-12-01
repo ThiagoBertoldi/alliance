@@ -2,15 +2,10 @@
 import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(PaginaCadastroProdutos());
-}
+import 'homePage_MenuCliente.dart';
 
 // ignore: camel_case_types
 class PaginaCadastroProdutos extends StatelessWidget {
@@ -45,6 +40,20 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => MenuCliente_State(
+                          title: 'ALLIANCE',
+                        )));
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: ListView(
         children: [
