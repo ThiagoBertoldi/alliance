@@ -328,9 +328,9 @@ void calculaPrecos() async {
         .collection("empresas")
         .get();
     for (var doc2 in produtos2.docs) {
-      listaPrecos.add(doc2['preço']);
-      if (doc2['preço'] == '') {
-        listaPrecos.add('0,00');
+      if (doc2['preço'] == '' || doc2['preço'] == 0) {
+      } else {
+        listaPrecos.add(doc2['preço']);
       }
     }
     listaPrecos.sort();

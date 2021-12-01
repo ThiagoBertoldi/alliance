@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import 'homePage_MenuRepresentante.dart';
+
 class PaginaRepondeCotacao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,16 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => PaginaRepresentante()));
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        ),
       ),
       body: ListView(
         children: [

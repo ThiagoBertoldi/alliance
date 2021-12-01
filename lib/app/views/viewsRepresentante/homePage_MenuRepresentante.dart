@@ -35,6 +35,7 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Container(
@@ -44,9 +45,9 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
               Container(
                 padding: new EdgeInsets.all(30),
                 child: Center(
-                  child: Text("Cotações Pendentes",
+                  child: Text("Cotações a Responder",
                       style:
-                          TextStyle(fontSize: 30, color: Colors.orange[300])),
+                          TextStyle(fontSize: 28, color: Colors.orange[300])),
                 ),
               ),
               Container(
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * .95,
-                  height: MediaQuery.of(context).size.height * .07,
+                  height: MediaQuery.of(context).size.height * .1,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -77,20 +78,12 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
                         bottom: 10,
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                  child: Container(
-                                child: Text("Cotação Semanal",
-                                    style: TextStyle(
-                                        fontSize: 19,
-                                        fontWeight: FontWeight.bold)),
-                              )),
-                            ],
-                          ),
+                          Text("Cotação Semanal",
+                              style: TextStyle(
+                                  fontSize: 21, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
@@ -102,7 +95,7 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
                 child: Center(
                   child: Text("Cotações Finalizadas em",
                       style:
-                          TextStyle(fontSize: 30, color: Colors.orange[300])),
+                          TextStyle(fontSize: 28, color: Colors.orange[300])),
                 ),
               ),
               Column(
