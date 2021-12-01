@@ -7,6 +7,7 @@ class HomePage_InfoCadastrada extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Informações Cadastrais',
       theme: ThemeData(
         primarySwatch: Colors.orange,

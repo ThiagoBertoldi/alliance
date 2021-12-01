@@ -9,6 +9,7 @@ class HomePage_VerifiqueEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'FlutterApp',
       theme: ThemeData(
         primarySwatch: Colors.orange,
