@@ -22,6 +22,8 @@ class MenuCliente_State extends StatefulWidget {
 
 // ignore: camel_case_types
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
+  final DateTime date = DateTime.now();
+
   @override
   Widget build(
     BuildContext context,
@@ -44,10 +46,13 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.width * 0.06),
                     child: Center(
-                      child: Text('Produtos Cadastrados',
-                          style: TextStyle(fontSize: 20, color: Colors.orange)),
+                      child: Text('Seus Produtos Cadastrados',
+                          style: TextStyle(
+                              fontSize: 26,
+                              color: Colors.orange,
+                              fontWeight: FontWeight.bold)),
                     )),
-                Container(
+                /*Container(
                   margin: EdgeInsets.only(top: 10),
                   height: 50,
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -66,7 +71,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                       border: InputBorder.none,
                     ),
                   ),
-                ),
+                ),*/
               ],
             ),
             Column(
@@ -117,6 +122,57 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                           Container(
                                                                               padding: new EdgeInsets.all(14),
                                                                               child: Text(docSnapshot['nomeProduto'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+                                                                          Container(
+                                                                            padding:
+                                                                                new EdgeInsets.only(bottom: 5),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Container(
+                                                                                  margin: new EdgeInsets.only(top: 10, left: 100, bottom: 10),
+                                                                                  width: 70,
+                                                                                  height: 70,
+                                                                                  child: Ink(
+                                                                                    decoration: const ShapeDecoration(
+                                                                                      color: Colors.black,
+                                                                                      shape: CircleBorder(),
+                                                                                    ),
+                                                                                    child: IconButton(
+                                                                                      icon: const Icon(Icons.delete),
+                                                                                      color: Colors.white,
+                                                                                      onPressed: () {
+                                                                                        deletaProduto(docSnapshot['nomeProduto']);
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Container(
+                                                                                  margin: new EdgeInsets.only(top: 10, right: 100, bottom: 10),
+                                                                                  width: 70,
+                                                                                  height: 70,
+                                                                                  child: Ink(
+                                                                                    decoration: const ShapeDecoration(
+                                                                                      color: Colors.orange,
+                                                                                      shape: CircleBorder(),
+                                                                                    ),
+                                                                                    child: IconButton(
+                                                                                      icon: const Icon(Icons.send),
+                                                                                      color: Colors.white,
+                                                                                      onPressed: () {
+                                                                                        enviaParaPreCotacao(docSnapshot['nomeProduto']);
+                                                                                        Navigator.of(context).pop();
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                              "Empresas que responderam a cotação",
+                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
                                                                           Container(
                                                                             child:
                                                                                 Column(
@@ -193,54 +249,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                               ],
                                                                             ),
                                                                           ),
-                                                                          Container(
-                                                                            padding:
-                                                                                new EdgeInsets.only(bottom: 5),
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                                              children: [
-                                                                                Container(
-                                                                                  padding: new EdgeInsets.only(top: 20),
-                                                                                  width: 75,
-                                                                                  height: 75,
-                                                                                  child: Ink(
-                                                                                    decoration: const ShapeDecoration(
-                                                                                      color: Colors.black,
-                                                                                      shape: CircleBorder(),
-                                                                                    ),
-                                                                                    child: IconButton(
-                                                                                      icon: const Icon(Icons.delete),
-                                                                                      color: Colors.white,
-                                                                                      onPressed: () {
-                                                                                        deletaProduto(docSnapshot['nomeProduto']);
-                                                                                        Navigator.pop(context);
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                Container(
-                                                                                  padding: new EdgeInsets.only(top: 20),
-                                                                                  width: 75,
-                                                                                  height: 75,
-                                                                                  child: Ink(
-                                                                                    decoration: const ShapeDecoration(
-                                                                                      color: Colors.orange,
-                                                                                      shape: CircleBorder(),
-                                                                                    ),
-                                                                                    child: IconButton(
-                                                                                      icon: const Icon(Icons.send),
-                                                                                      color: Colors.white,
-                                                                                      onPressed: () {
-                                                                                        enviaParaPreCotacao(docSnapshot['nomeProduto']);
-                                                                                        Navigator.of(context).pop();
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -284,11 +292,10 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                         .width *
                                                                     0.7,
                                                                 height: 25,
-                                                                margin:
-                                                                    new EdgeInsets
-                                                                            .only(
+                                                                margin: EdgeInsets
+                                                                    .only(
                                                                         top:
-                                                                            10),
+                                                                            12),
                                                                 child: Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
@@ -303,48 +310,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                         child:
                                                                             Center(
                                                                           child: Text(
-                                                                              docSnapshot['unidadeMedida'],
-                                                                              style: TextStyle(fontSize: 15, color: Colors.black)),
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.3,
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              Text(
-                                                                            docSnapshot['unidadeMedida'],
-                                                                            style:
-                                                                                TextStyle(fontSize: 15, color: Colors.black),
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    ]),
-                                                              ),
-                                                              Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.7,
-                                                                height: 25,
-                                                                child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Container(
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.3,
-                                                                        child:
-                                                                            Center(
-                                                                          child: Text(
-                                                                              docSnapshot['precoMaisBaixo'],
-                                                                              style: TextStyle(fontSize: 15, color: Colors.white)),
+                                                                              "R\$ " + docSnapshot['precoMaisBaixo'],
+                                                                              style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold)),
                                                                         ),
                                                                         decoration:
                                                                             new BoxDecoration(
@@ -370,9 +337,12 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                             Center(
                                                                           child:
                                                                               Text(
-                                                                            docSnapshot['precoMaisAlto'],
-                                                                            style:
-                                                                                TextStyle(fontSize: 15, color: Colors.white),
+                                                                            "R\$ " +
+                                                                                docSnapshot['precoMaisAlto'],
+                                                                            style: TextStyle(
+                                                                                fontSize: 15,
+                                                                                color: Colors.white,
+                                                                                fontWeight: FontWeight.bold),
                                                                           ),
                                                                         ),
                                                                         decoration:
@@ -482,21 +452,5 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                 HomePage_InfoCadastradas(title: "ALLIANCE")));
                   }),
             ]));
-
-    /*    FloatingActionButton(
-            child: Icon(
-              Icons.question_answer,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          HomePage_CotacoesResponder(title: "ALLIANCE")));
-            },
-            heroTag: null,
-          ),
-    )*/
   }
 }

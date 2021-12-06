@@ -282,7 +282,38 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
   }).then((value) => print("Enviada com Sucesso!!!"));
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void calculaPrecos() async {
+  var produtos = await db.collection("precoAtualProduto").get();
+  List listaPrecos = [];
+
+  for (var doc1 in produtos.docs) {
+    var produtos2 = await db
+        .collection("precoAtualProduto")
+        .doc(doc1['nomeProduto'])
+        .collection("empresas")
+        .get();
+    for (var doc2 in produtos2.docs) {
+      if (doc2['preço'] == '' || doc2['preço'] == 0) {
+      } else {
+        listaPrecos.add(doc2['preço']);
+      }
+    }
+    listaPrecos.sort();
+    db
+        .collection('produtos_')
+        .doc(doc1['nomeProduto'])
+        .update({'precoMaisAlto': listaPrecos.last});
+    db
+        .collection('produtos_')
+        .doc(doc1['nomeProduto'])
+        .update({'precoMaisBaixo': listaPrecos.first});
+    listaPrecos.clear();
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 Future sendEmail() async {
   //GoogleAuthApi.signOut();
   //return;
@@ -312,36 +343,5 @@ Future sendEmail() async {
     await send(message, smtpServer);
   } on MailerException catch (e) {
     print(e);
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void calculaPrecos() async {
-  var produtos = await db.collection("precoAtualProduto").get();
-  List listaPrecos = [];
-
-  for (var doc1 in produtos.docs) {
-    var produtos2 = await db
-        .collection("precoAtualProduto")
-        .doc(doc1['nomeProduto'])
-        .collection("empresas")
-        .get();
-    for (var doc2 in produtos2.docs) {
-      if (doc2['preço'] == '' || doc2['preço'] == 0) {
-      } else {
-        listaPrecos.add(doc2['preço']);
-      }
-    }
-    listaPrecos.sort();
-    db
-        .collection('produtos_')
-        .doc(doc1['nomeProduto'])
-        .update({'precoMaisAlto': listaPrecos.last});
-    db
-        .collection('produtos_')
-        .doc(doc1['nomeProduto'])
-        .update({'precoMaisBaixo': listaPrecos.first});
-    listaPrecos.clear();
   }
 }
