@@ -52,7 +52,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                               color: Colors.orange,
                               fontWeight: FontWeight.bold)),
                     )),
-                /*Container(
+                Container(
                   margin: EdgeInsets.only(top: 10),
                   height: 50,
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -71,7 +71,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                       border: InputBorder.none,
                     ),
                   ),
-                ),*/
+                ),
               ],
             ),
             Column(

@@ -55,7 +55,6 @@ void gravaNovoUsuario(
       currentUser!.updateDisplayName(nome);
       currentUser.updateEmail(email);
 
-      // EMAIL
       sendEmail();
 
       FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
