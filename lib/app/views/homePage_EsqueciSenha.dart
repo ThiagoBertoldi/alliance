@@ -1,15 +1,8 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:alliance/app/views/homePage_Login.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
-import 'google_auth_api.dart';
-import 'homePage_VerifiqueEmail.dart';
 
 // ignore: camel_case_types
 class HomePage_EsqueciSenha extends StatelessWidget {
@@ -83,22 +76,33 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                   Container(
                     margin: new EdgeInsets.only(
                         left: 0.0, right: 0.0, bottom: 50, top: 25),
-                    child: Text(
-                      "Para redefinir sua senha, informe o e-mail cadastrado na sua conta e lhe enviaremos um e-mail com as instruções.",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey[500],
-                      ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Digite a nova senha abaixo",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                        Text(
+                          "Você precisará fazer login novamente",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
 
                   TextFormField(
                     onChanged: (text) {
-                      emailRedefinicao = text;
+                      senhaRedefinicao = text;
                     },
                     decoration: InputDecoration(
-                      labelText: 'Email',
-                      icon: Icon(Icons.email),
+                      labelText: 'Nova senha',
+                      icon: Icon(Icons.password),
                     ),
                   ),
 
@@ -117,12 +121,15 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
                       ),
                       color: Colors.orange[300],
                       onPressed: () {
-                        sendEmail();
+                        resetaSenha(senhaRedefinicao);
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    HomePage_VerifiqueEmail()));
+                                    HomePage_Login(
+                                      title: 'ALLIANCE',
+                                    )));
                       },
                     ),
                   ),
@@ -133,52 +140,5 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
         ],
       ),
     );
-  }
-}
-
-Future sendEmail() async {
-  userCredential.sendPasswordResetEmail("teste@gmail.com").addOnSucessListener(new OnSucessListener<void>);
-  GoogleAuthApi.signOut();
-  return;
-
-  final user = await GoogleAuthApi.signIn();
-
-  if (user == null) return;
-
-  final email = user.email;
-
-  final auth = await user.authentication;
-
-  final token = auth.accessToken!;
-
-  print('Authenticated: $email');
-
-  final smtpServer = gmailSaslXoauth2(email, token);
-
-  var _random = Random.secure();
-  var random = List<int>.generate(8, (i) => _random.nextInt(256));
-  var verificador = base64Url.encode(random);
-  verificador =
-      verificador.replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
-  print(verificador);
-
-  /*currentUser.updatePassword("newpassword").then((){
-    // Password has been updated.
-  }).catchError((err){
-    // An error has occured.
-  })*/
-
-  final message = Message()
-    ..from = Address(email, "PAC")
-    ..recipients = [emailRedefinicao]
-    ..subject = "Redefinição de senha"
-    ..html =
-        "<p>Recebemos a sua solicitação para redefinição de senha.</p>\n<p>Segue a nova senha para acesso a plataforma: <b>$verificador</b><br><br><br><br><br>Antenciosamente,\n<b>Equipe Alliance</b></p>";
-  //..text = "Este é um e-mail de teste";
-
-  try {
-    await send(message, smtpServer);
-  } on MailerException catch (e) {
-    print(e);
   }
 }

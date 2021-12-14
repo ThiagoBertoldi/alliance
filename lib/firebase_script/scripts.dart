@@ -1,9 +1,8 @@
-import 'package:alliance/app/views/google_auth_api.dart';
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 
 var db = FirebaseFirestore.instance;
 
@@ -23,7 +22,7 @@ var userCredential;
 String userName = '';
 String userEmail = '';
 String cotacaoSelecionada = '';
-String emailRedefinicao = '';
+String senhaRedefinicao = '';
 String nomeProduto = '';
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,8 +53,6 @@ void gravaNovoUsuario(
 
       currentUser!.updateDisplayName(nome);
       currentUser.updateEmail(email);
-
-      sendEmail();
 
       FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
         "nome": nome,
@@ -312,35 +309,12 @@ void calculaPrecos() async {
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-Future sendEmail() async {
-  //GoogleAuthApi.signOut();
-  //return;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
 
-  final user = await GoogleAuthApi.signIn();
-
-  if (user == null) return;
-
-  final email = user.email;
-
-  final auth = await user.authentication;
-
-  final token = auth.accessToken!;
-
-  print('Authenticated: $email');
-
-  final smtpServer = gmailSaslXoauth2(email, token);
-
-  final message = Message()
-    ..from = Address(email, "PAC")
-    ..recipients = [emailRedefinicao]
-    ..subject = "Seja bem-vindo!"
-    ..html = "<h3>Seja bem-vindo</h3>\n<p>Agradecemos o seu cadastro!</p>";
-  //..text = "Este é um e-mail de teste";
-
-  try {
-    await send(message, smtpServer);
-  } on MailerException catch (e) {
-    print(e);
+void resetaSenha(String novaSenha) {
+  if (novaSenha != '') {
+    novaSenha = senha;
   }
+  userCredential.updatePassword(novaSenha).then((value) => print("Ok"));
 }

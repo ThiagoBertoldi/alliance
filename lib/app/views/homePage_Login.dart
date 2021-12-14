@@ -4,6 +4,7 @@ import 'package:alliance/app/views/homePage_CadastroUser.dart';
 import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentante.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -40,6 +41,7 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
       if (dados['email'] == email) {
         if (dados['permissao'] == '1') {
           userCredential = FirebaseAuth.instance.currentUser;
+
           userName = userCredential.displayName;
           userEmail = userCredential.email;
           empresa = dados['empresa'];
@@ -116,31 +118,7 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                     ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  margin: new EdgeInsets.only(top: 15),
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      'Esqueci minha senha!!!',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.orange[300],
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HomePage_EsqueciSenha()));
-                    },
-                  ),
-                ),
+
                 // ignore: deprecated_member_use
                 Container(
                   margin: new EdgeInsets.only(top: 30),
@@ -157,11 +135,6 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                     color: Colors.orange[300],
                     onPressed: () {
                       autenticacaoLogin(email, senha);
-                      /* Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HomePage_MenuCliente()));*/
                     },
                   ),
                 ),

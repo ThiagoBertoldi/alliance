@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import '../homePage_EsqueciSenha.dart';
+import '../homePage_Login.dart';
 import 'homePage_CotacoesAEnviar.dart';
 import 'homePage_CadastroProdutos.dart';
 import '../homePage_InfoCadastradas.dart';
@@ -32,6 +34,21 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         appBar: AppBar(
           title: Text(widget.title, style: TextStyle(color: Colors.white)),
           automaticallyImplyLeading: false,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => HomePage_Login(
+                            title: "Alliance",
+                          )));
+            },
+            child: Icon(
+              Icons.arrow_back,
+
+              // add custom icons also
+            ),
+          ),
         ),
         body: ListView(
           children: [
@@ -52,7 +69,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                               color: Colors.orange,
                               fontWeight: FontWeight.bold)),
                     )),
-                Container(
+                /* Container(
                   margin: EdgeInsets.only(top: 10),
                   height: 50,
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -71,7 +88,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                       border: InputBorder.none,
                     ),
                   ),
-                ),
+                ),*/
               ],
             ),
             Column(
@@ -450,6 +467,16 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 HomePage_InfoCadastradas(title: "ALLIANCE")));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Redefinição de Senha',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_EsqueciSenha()));
                   }),
             ]));
   }

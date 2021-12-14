@@ -1,3 +1,4 @@
+import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,22 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
-        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HomePage_Login(
+                          title: "Alliance",
+                        )));
+          },
+          child: Icon(
+            Icons.arrow_back,
+
+            // add custom icons also
+          ),
+        ),
+        // automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Container(
