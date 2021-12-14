@@ -2,22 +2,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:alliance/app/views/homePage_Login.dart';
-// ignore: unused_import
-import 'package:alliance/firebase_script/scripts.dart';
-
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-  runApp(HomePage_VerifiqueEmail());
-}
 
 // ignore: camel_case_types
 class HomePage_VerifiqueEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'FlutterApp',
       theme: ThemeData(
         primarySwatch: Colors.orange,

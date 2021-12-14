@@ -1,28 +1,16 @@
-import 'package:alliance/app/views/google_auth_api.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:alliance/app/views/homePage_Login.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
-import 'dart:convert';
-import 'dart:math';
-
 import 'homePage_VerifiqueEmail.dart';
-
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-  runApp(HomePage_EsqueciSenha());
-}
 
 // ignore: camel_case_types
 class HomePage_EsqueciSenha extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'FlutterApp',
       theme: ThemeData(
         primarySwatch: Colors.orange,
@@ -45,26 +33,6 @@ class EsqueciSenha_State extends StatefulWidget {
 
 // ignore: camel_case_types
 class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
-  String email = '';
-  String senha = '';
-
-  //teste
-
-  /*void autenticacaoLogin(String email, String password) async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-
-      print(userCredential);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('Não existe um usuário com este email!!!');
-      } else if (e.code == 'wrong-password') {
-        print('Senha não confere!!!');
-      }
-    }
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

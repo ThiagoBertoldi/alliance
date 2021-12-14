@@ -1,15 +1,9 @@
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(PaginaRepondeCotacao());
-  //test
-}
+import 'homePage_MenuRepresentante.dart';
 
 class PaginaRepondeCotacao extends StatelessWidget {
   @override
@@ -45,6 +39,16 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => PaginaRepresentante()));
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        ),
       ),
       body: ListView(
         children: [
@@ -124,6 +128,8 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                           Center(
                                                                         child:
                                                                             TextFormField(
+                                                                          keyboardType:
+                                                                              TextInputType.number,
                                                                           textAlign:
                                                                               TextAlign.center,
                                                                           onChanged:

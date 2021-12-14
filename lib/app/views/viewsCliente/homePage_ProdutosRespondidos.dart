@@ -2,6 +2,7 @@ import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'homePage_MenuCliente.dart';
 
 // ignore: camel_case_types
 class HomePage_ProdutosRespondidos extends StatefulWidget {
@@ -23,6 +24,20 @@ class _HomePageState_ProdutosRespondidos
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => MenuCliente_State(
+                          title: 'ALLIANCE',
+                        )));
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: ListView(children: [
         Container(
@@ -32,22 +47,26 @@ class _HomePageState_ProdutosRespondidos
                 style: TextStyle(fontSize: 30, color: Colors.orange[300])),
           ),
         ),
-        Column(
-          children: [
-            Container(
-              height: 60,
-              width: MediaQuery.of(context).size.width * 0.75,
-              child: TextField(
-                onChanged: (text) {
-                  procuraProduto = text;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Pesquise um Produto',
-                ),
-              ),
-            ),
-          ],
-        ),
+        /* Container(
+                  margin: EdgeInsets.only(top: 10),
+                  height: 50,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[200]),
+                  child: TextField(
+                    onChanged: (text) {
+                      setState(() {
+                        procuraProduto = text;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 15),
+                      labelText: 'Pesquise um produto',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),*/
         StreamBuilder<QuerySnapshot>(
             stream: db.collection("produtosRespondidos").snapshots(),
             builder: (context, snapshot) {

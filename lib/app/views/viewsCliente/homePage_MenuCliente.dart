@@ -1,9 +1,5 @@
-import 'package:alliance/app/views/homePage_Login.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_CotacoesAResponder.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -13,26 +9,6 @@ import '../homePage_InfoCadastradas.dart';
 import 'homePage_CotacoesPassadas.dart';
 import 'homePage_ProdutosRespondidos.dart';
 import 'homePage_RepresentantesCadastrados.dart';
-
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-  runApp(HomePage_MenuCliente());
-}
-
-// ignore: camel_case_types
-class HomePage_MenuCliente extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FlutterApp',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: MenuCliente_State(title: "ALLIANCE"),
-    );
-  }
-}
 
 // ignore: camel_case_types
 class MenuCliente_State extends StatefulWidget {
@@ -46,6 +22,8 @@ class MenuCliente_State extends StatefulWidget {
 
 // ignore: camel_case_types
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
+  final DateTime date = DateTime.now();
+
   @override
   Widget build(
     BuildContext context,
@@ -53,18 +31,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title, style: TextStyle(color: Colors.white)),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              FirebaseAuth.instance.signOut().then((value) => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => HomePage_Login(
-                            title: 'ALLIANCE',
-                          ))));
-            },
-            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-          ),
+          automaticallyImplyLeading: false,
         ),
         body: ListView(
           children: [
@@ -76,96 +43,32 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         style: TextStyle(
                             fontSize: 23, fontWeight: FontWeight.bold))),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.width * 0.025),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.35,
-                        height: MediaQuery.of(context).size.height * 0.225,
-                        child: Card(
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Produtos',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                Text("0"),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            height: MediaQuery.of(context).size.height * 0.1125,
-                            child: Card(
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Cotações respondidas',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text("0"),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            height: MediaQuery.of(context).size.height * 0.1125,
-                            child: Card(
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Fornecedores cadastrados',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      "0",
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.width * 0.06),
                     child: Center(
-                      child: Text('Produtos Cadastrados',
-                          style: TextStyle(fontSize: 20, color: Colors.orange)),
+                      child: Text('Seus Produtos Cadastrados',
+                          style: TextStyle(
+                              fontSize: 26,
+                              color: Colors.orange,
+                              fontWeight: FontWeight.bold)),
                     )),
                 Container(
-                  height: 60,
+                  margin: EdgeInsets.only(top: 10),
+                  height: 50,
                   width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[200]),
                   child: TextField(
                     onChanged: (text) {
-                      procuraProduto = text;
+                      setState(() {
+                        procuraProduto = text;
+                      });
                     },
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 15),
                       labelText: 'Pesquise um produto',
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
@@ -220,6 +123,57 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                               padding: new EdgeInsets.all(14),
                                                                               child: Text(docSnapshot['nomeProduto'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
                                                                           Container(
+                                                                            padding:
+                                                                                new EdgeInsets.only(bottom: 5),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Container(
+                                                                                  margin: new EdgeInsets.only(top: 10, left: 100, bottom: 10),
+                                                                                  width: 70,
+                                                                                  height: 70,
+                                                                                  child: Ink(
+                                                                                    decoration: const ShapeDecoration(
+                                                                                      color: Colors.black,
+                                                                                      shape: CircleBorder(),
+                                                                                    ),
+                                                                                    child: IconButton(
+                                                                                      icon: const Icon(Icons.delete),
+                                                                                      color: Colors.white,
+                                                                                      onPressed: () {
+                                                                                        deletaProduto(docSnapshot['nomeProduto']);
+                                                                                        Navigator.pop(context);
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Container(
+                                                                                  margin: new EdgeInsets.only(top: 10, right: 100, bottom: 10),
+                                                                                  width: 70,
+                                                                                  height: 70,
+                                                                                  child: Ink(
+                                                                                    decoration: const ShapeDecoration(
+                                                                                      color: Colors.orange,
+                                                                                      shape: CircleBorder(),
+                                                                                    ),
+                                                                                    child: IconButton(
+                                                                                      icon: const Icon(Icons.send),
+                                                                                      color: Colors.white,
+                                                                                      onPressed: () {
+                                                                                        enviaParaPreCotacao(docSnapshot['nomeProduto']);
+                                                                                        Navigator.of(context).pop();
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                              "Empresas que responderam a cotação",
+                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                          Container(
                                                                             child:
                                                                                 Column(
                                                                               children: [
@@ -238,7 +192,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                   Container(padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 5), child: Text(docSnapshot2['empresa'], style: TextStyle(fontSize: 22, color: Colors.orange, fontWeight: FontWeight.bold))),
                                                                                                   Container(
                                                                                                     child: StreamBuilder<QuerySnapshot>(
-                                                                                                        stream: db.collection("produtosRespondidos").doc(docSnapshot2['empresa']).collection(docSnapshot['nomeProduto']).snapshots(),
+                                                                                                        stream: db.collection("produtosRespondidosModal").doc(docSnapshot2['empresa']).collection(docSnapshot['nomeProduto']).snapshots(),
                                                                                                         builder: (context, snapshot3) {
                                                                                                           if (snapshot3.hasData) {
                                                                                                             return ListView.builder(
@@ -295,54 +249,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                               ],
                                                                             ),
                                                                           ),
-                                                                          Container(
-                                                                            padding:
-                                                                                new EdgeInsets.only(bottom: 5),
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                                              children: [
-                                                                                Container(
-                                                                                  padding: new EdgeInsets.only(top: 20),
-                                                                                  width: 75,
-                                                                                  height: 75,
-                                                                                  child: Ink(
-                                                                                    decoration: const ShapeDecoration(
-                                                                                      color: Colors.black,
-                                                                                      shape: CircleBorder(),
-                                                                                    ),
-                                                                                    child: IconButton(
-                                                                                      icon: const Icon(Icons.delete),
-                                                                                      color: Colors.white,
-                                                                                      onPressed: () {
-                                                                                        deletaProduto(docSnapshot['nomeProduto']);
-                                                                                        Navigator.pop(context);
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                Container(
-                                                                                  padding: new EdgeInsets.only(top: 20),
-                                                                                  width: 75,
-                                                                                  height: 75,
-                                                                                  child: Ink(
-                                                                                    decoration: const ShapeDecoration(
-                                                                                      color: Colors.orange,
-                                                                                      shape: CircleBorder(),
-                                                                                    ),
-                                                                                    child: IconButton(
-                                                                                      icon: const Icon(Icons.send),
-                                                                                      color: Colors.white,
-                                                                                      onPressed: () {
-                                                                                        enviaParaPreCotacao(docSnapshot['nomeProduto']);
-                                                                                        Navigator.of(context).pop();
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
                                                                         ],
                                                                       ),
                                                                     ),
@@ -386,11 +292,10 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                         .width *
                                                                     0.7,
                                                                 height: 25,
-                                                                margin:
-                                                                    new EdgeInsets
-                                                                            .only(
+                                                                margin: EdgeInsets
+                                                                    .only(
                                                                         top:
-                                                                            10),
+                                                                            12),
                                                                 child: Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
@@ -405,48 +310,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                         child:
                                                                             Center(
                                                                           child: Text(
-                                                                              docSnapshot['unidadeMedida'],
-                                                                              style: TextStyle(fontSize: 15, color: Colors.black)),
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.3,
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              Text(
-                                                                            docSnapshot['unidadeMedida'],
-                                                                            style:
-                                                                                TextStyle(fontSize: 15, color: Colors.black),
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    ]),
-                                                              ),
-                                                              Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.7,
-                                                                height: 25,
-                                                                child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Container(
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.3,
-                                                                        child:
-                                                                            Center(
-                                                                          child: Text(
-                                                                              docSnapshot['precoMaisBaixo'],
-                                                                              style: TextStyle(fontSize: 15, color: Colors.white)),
+                                                                              "R\$ " + docSnapshot['precoMaisBaixo'],
+                                                                              style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold)),
                                                                         ),
                                                                         decoration:
                                                                             new BoxDecoration(
@@ -472,9 +337,12 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                             Center(
                                                                           child:
                                                                               Text(
-                                                                            docSnapshot['precoMaisAlto'],
-                                                                            style:
-                                                                                TextStyle(fontSize: 15, color: Colors.white),
+                                                                            "R\$ " +
+                                                                                docSnapshot['precoMaisAlto'],
+                                                                            style: TextStyle(
+                                                                                fontSize: 15,
+                                                                                color: Colors.white,
+                                                                                fontWeight: FontWeight.bold),
                                                                           ),
                                                                         ),
                                                                         decoration:
@@ -583,28 +451,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                             builder: (BuildContext context) =>
                                 HomePage_InfoCadastradas(title: "ALLIANCE")));
                   }),
-              SpeedDialChild(
-                  child: Icon(Icons.query_builder, color: Colors.orange),
-                  label: 'TESTE ',
-                  onTap: () {
-                    calculaPrecos();
-                  }),
             ]));
-
-    /*    FloatingActionButton(
-            child: Icon(
-              Icons.question_answer,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          HomePage_CotacoesResponder(title: "ALLIANCE")));
-            },
-            heroTag: null,
-          ),
-    )*/
   }
 }

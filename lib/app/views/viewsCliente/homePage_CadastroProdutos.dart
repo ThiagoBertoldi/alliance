@@ -2,20 +2,16 @@
 import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(PaginaCadastroProdutos());
-}
+import 'homePage_MenuCliente.dart';
 
 // ignore: camel_case_types
 class PaginaCadastroProdutos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'FlutterApp',
       theme: ThemeData(
         primarySwatch: Colors.orange,
@@ -39,15 +35,26 @@ class HomePage_CadastroProdutos extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage_CadastroProdutos> {
   var db = FirebaseFirestore.instance;
-  String nomeProduto = '';
-  String marca = '';
-  String unidadeMedida = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => MenuCliente_State(
+                          title: 'ALLIANCE',
+                        )));
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: ListView(
         children: [
@@ -77,30 +84,6 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                       ),
                     ),
                     Container(
-                      padding: new EdgeInsets.all(5),
-                      child: TextFormField(
-                        onChanged: (text) {
-                          marca = text;
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Marca',
-                          icon: Icon(Icons.flag),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: new EdgeInsets.all(5),
-                      child: TextFormField(
-                        onChanged: (text) {
-                          unidadeMedida = text;
-                        },
-                        decoration: InputDecoration(
-                          labelText: 'Unidade de Medida',
-                          icon: Icon(Icons.widgets_rounded),
-                        ),
-                      ),
-                    ),
-                    Container(
                       padding: new EdgeInsets.all(40),
                       // ignore: deprecated_member_use
                       child: FlatButton(
@@ -114,7 +97,7 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                         ),
                         color: Colors.orange[300],
                         onPressed: () {
-                          gravaNovoProduto(nomeProduto, marca, unidadeMedida);
+                          gravaNovoProduto(nomeProduto);
                         },
                       ),
                     ),

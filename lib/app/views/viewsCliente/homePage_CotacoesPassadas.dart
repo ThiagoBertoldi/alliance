@@ -1,26 +1,18 @@
-import 'package:alliance/app/views/google_auth_api.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
+// ignore_for_file: camel_case_types, duplicate_ignore
+
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:alliance/app/views/homePage_Login.dart';
-
+import 'homePage_MenuCliente.dart';
 import 'homePage_exibeCotacoes.dart';
-
-main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-  runApp(HomePage_CotacoesPassadas());
-}
 
 // ignore: camel_case_types
 class HomePage_CotacoesPassadas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
@@ -52,12 +44,15 @@ class _MyHomePageState_EsqueciSenha extends State<CotacoesPassadas_State> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => HomePage_MenuCliente()));
+                    builder: (BuildContext context) =>
+                        MenuCliente_State(title: 'ALLIANCE')));
           },
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         ),
       ),
       body: ListView(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
         children: [
           Column(
             children: [
@@ -129,7 +124,7 @@ class _MyHomePageState_EsqueciSenha extends State<CotacoesPassadas_State> {
                     } else {
                       return CircularProgressIndicator();
                     }
-                  })
+                  }),
             ],
           )
         ],

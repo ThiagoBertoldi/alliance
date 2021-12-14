@@ -1,10 +1,6 @@
 import 'package:alliance/app/views/google_auth_api.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_exibeCotacoes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
@@ -22,15 +18,14 @@ String permissao = '';
 String marca = '';
 String preco = '';
 String unidadeMedida = '';
-int count = 0;
 String procuraProduto = '';
 var userCredential;
 String userName = '';
 String userEmail = '';
-int i = 0;
-int iRecebe = 0;
 String cotacaoSelecionada = '';
 String emailRedefinicao = '';
+String nomeProduto = '';
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoUsuario(
   String nome,
@@ -60,7 +55,6 @@ void gravaNovoUsuario(
       currentUser!.updateDisplayName(nome);
       currentUser.updateEmail(email);
 
-      // EMAIL
       sendEmail();
 
       FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
@@ -84,26 +78,15 @@ void gravaNovoUsuario(
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void gravaNovoProduto(String nomeProduto, String marca, String unidadeMedida) {
+void gravaNovoProduto(String nomeProduto) {
   if (nomeProduto != '') {
-    if (marca == '') {
-      marca = '-/-';
-    }
-    if (unidadeMedida == '') {
-      unidadeMedida = '-/-';
-    }
-    db
-        .collection("produtos_")
-        .doc(nomeProduto)
-        .set({
-          "nomeProduto": nomeProduto,
-          "marca": marca,
-          "precoMaisBaixo": "-/-",
-          "precoMaisAlto": "-/-",
-          "unidadeMedida": unidadeMedida,
-        })
-        .then((value) => print("Cadastrado!!!"))
-        .catchError((error) => print("Produto não cadastrado: $error"));
+    db.collection("produtos_").doc(nomeProduto).set({
+      "nomeProduto": nomeProduto,
+      "marca": "-/-",
+      "unidadeMedida": "-/-",
+      "precoMaisBaixo": "-/-",
+      "precoMaisAlto": "-/-",
+    }).then((value) => print("Cadastrado!!!"));
   } else {
     print("Algo deu errado, você pode tentar de novo...");
   }
@@ -245,7 +228,6 @@ void deletaUsuario(String nome) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void respondeCotacao(String nomeProduto, String preco, String marca,
     String unidadeMedida, var empresa) {
-  db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
   if (marca == '') {
     marca = '-/-';
   }
@@ -256,17 +238,39 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
     unidadeMedida = '-/-';
   }
 
-  db.collection("precoAtualProduto").doc(empresa).set({"empresa": empresa});
   db
       .collection("precoAtualProduto")
-      .doc(empresa)
-      .collection("produtos")
       .doc(nomeProduto)
+      .set({"nomeProduto": nomeProduto});
+  db
+      .collection("precoAtualProduto")
+      .doc(nomeProduto)
+      .collection("empresas")
+      .doc(empresa)
       .set({"nomeProduto": nomeProduto, "preço": preco, "empresa": empresa});
+
+  db
+      .collection("produtosRespondidosModal")
+      .doc(empresa)
+      .set({"empresa": empresa});
+  db
+      .collection("produtosRespondidosModal")
+      .doc(empresa)
+      .collection(nomeProduto)
+      .doc(nomeProduto)
+      .set({
+    "nomeProduto": nomeProduto,
+    "marca": marca,
+    "unidadeMedida": unidadeMedida,
+    "preço": preco,
+    "empresa": empresa
+  });
+
+  db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
   db
       .collection("produtosRespondidos")
       .doc(empresa)
-      .collection(nomeProduto)
+      .collection("produtos")
       .doc(nomeProduto)
       .set({
     "nomeProduto": nomeProduto,
@@ -277,7 +281,38 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
   }).then((value) => print("Enviada com Sucesso!!!"));
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void calculaPrecos() async {
+  var produtos = await db.collection("precoAtualProduto").get();
+  List listaPrecos = [];
+
+  for (var doc1 in produtos.docs) {
+    var produtos2 = await db
+        .collection("precoAtualProduto")
+        .doc(doc1['nomeProduto'])
+        .collection("empresas")
+        .get();
+    for (var doc2 in produtos2.docs) {
+      if (doc2['preço'] == '' || doc2['preço'] == 0) {
+      } else {
+        listaPrecos.add(doc2['preço']);
+      }
+    }
+    listaPrecos.sort();
+    db
+        .collection('produtos_')
+        .doc(doc1['nomeProduto'])
+        .update({'precoMaisAlto': listaPrecos.last});
+    db
+        .collection('produtos_')
+        .doc(doc1['nomeProduto'])
+        .update({'precoMaisBaixo': listaPrecos.first});
+    listaPrecos.clear();
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 Future sendEmail() async {
   //GoogleAuthApi.signOut();
   //return;
@@ -307,25 +342,5 @@ Future sendEmail() async {
     await send(message, smtpServer);
   } on MailerException catch (e) {
     print(e);
-  }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void calculaPrecos() async {
-  var empresas = await db.collection("precoAtualProduto").get();
-
-  for (var doc in empresas.docs) {
-    var precos = await db
-        .collection("precoAtualProduto")
-        .doc(doc['empresa'])
-        .collection("produtos")
-        .get();
-
-    for (var doc2 in precos.docs) {
-      var produto = new Map();
-      produto[doc['empresa']] = doc2['preço'];
-      print(produto);
-    }
   }
 }
