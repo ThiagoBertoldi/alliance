@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:alliance/app/views/homePage_Login.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
+import 'google_auth_api.dart';
 import 'homePage_VerifiqueEmail.dart';
 
 // ignore: camel_case_types
