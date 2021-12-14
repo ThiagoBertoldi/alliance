@@ -137,9 +137,9 @@ class _MyHomePageState_EsqueciSenha extends State<EsqueciSenha_State> {
 }
 
 Future sendEmail() async {
-  // userCredential.sendPasswordResetEmail("teste@gmail.com").addOnSucessListener(new OnSucessListener<void>);
-  //GoogleAuthApi.signOut();
-  //return;
+  userCredential.sendPasswordResetEmail("teste@gmail.com").addOnSucessListener(new OnSucessListener<void>);
+  GoogleAuthApi.signOut();
+  return;
 
   final user = await GoogleAuthApi.signIn();
 
