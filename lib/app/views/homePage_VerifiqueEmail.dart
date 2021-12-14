@@ -88,7 +88,7 @@ class _MyHomePageState_VerifiqueEmail extends State<VerifiqueEmail_State> {
                   children: [
                     Container(
                       margin: new EdgeInsets.only(
-                          left: 10.0, right: 10.0, bottom: 50, top: 30),
+                          left: 10.0, right: 10.0, bottom: 50, top: 20),
                       child: Text(
                         "ALLIANCE",
                         style: TextStyle(
@@ -98,13 +98,28 @@ class _MyHomePageState_VerifiqueEmail extends State<VerifiqueEmail_State> {
                       ),
                     ),
                     Container(
+                        padding: EdgeInsets.only(top: 10, bottom: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            new Image.asset(
+                              'images/o-email.png',
+                              width: 90.0,
+                              height: 90.0,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        )),
+                    Container(
                       margin: new EdgeInsets.only(
                           left: 0.0, right: 0.0, bottom: 10, top: 25),
                       child: Text(
                         "Verifique seu e-mail",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 22,
                           color: Colors.grey[600],
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -127,10 +142,11 @@ class _MyHomePageState_VerifiqueEmail extends State<VerifiqueEmail_State> {
             Container(
               margin: new EdgeInsets.only(top: 80),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.2,
               //color: Colors.black,
+
               child: Text(
-                "Não recebeu o e-mail? Cheque a sua caixa de spam.",
+                "Não recebeu o e-mail?\nCheque a sua caixa de spam.",
                 style: TextStyle(
                   fontSize: 15,
                   color: Colors.grey[500],

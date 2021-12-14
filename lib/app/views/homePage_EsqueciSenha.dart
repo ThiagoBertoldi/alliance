@@ -166,7 +166,7 @@ Future sendEmail() async {
   // userCredential.sendPasswordResetEmail("teste@gmail.com").addOnSucessListener(new OnSucessListener<void>);
   //GoogleAuthApi.signOut();
   //return;
-/*
+
   final user = await GoogleAuthApi.signIn();
 
   if (user == null) return;
@@ -197,9 +197,9 @@ Future sendEmail() async {
   final message = Message()
     ..from = Address(email, "PAC")
     ..recipients = [emailRedefinicao]
-    ..subject = "Teste"
+    ..subject = "Redefinição de senha"
     ..html =
-        "<h3>Redefinição de senha</h3>\n<p>Recebemos a sua solicitação de redefinição de senha.</p>\n<p>Segue a nova senha para acesso a plataforma: <b>$verificador</b></p>";
+        "<p>Recebemos a sua solicitação para redefinição de senha.</p>\n<p>Segue a nova senha para acesso a plataforma: <b>$verificador</b><br><br><br><br><br>Antenciosamente,\n<b>Equipe Alliance</b></p>";
   //..text = "Este é um e-mail de teste";
 
   try {
@@ -207,5 +207,4 @@ Future sendEmail() async {
   } on MailerException catch (e) {
     print(e);
   }
-  */
 }
