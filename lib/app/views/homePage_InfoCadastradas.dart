@@ -54,7 +54,7 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
           Column(
             children: [
               Container(
-                  padding: EdgeInsets.only(top: 25, bottom: 25),
+                  padding: EdgeInsets.only(top: 40, bottom: 40),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -68,9 +68,11 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                       Container(
                         padding: EdgeInsets.only(left: 25),
                         child: Center(
-                            child: Text(userName,
+                            child: Text(nome,
                                 style: TextStyle(
-                                    fontSize: 30, color: Colors.orange[300]))),
+                                    fontSize: 30,
+                                    color: Colors.orange[300],
+                                    fontWeight: FontWeight.bold))),
                       ),
                     ],
                   )),
@@ -103,7 +105,7 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                               padding: new EdgeInsets.only(
                                   left: 15, top: 4, right: 15),
                               child: Text(
-                                userEmail,
+                                email,
                                 style: TextStyle(fontSize: 16),
                                 textAlign: TextAlign.left,
                               ),
@@ -135,7 +137,7 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                             Container(
                               padding: new EdgeInsets.only(left: 15, top: 15),
                               child: Text(
-                                'Password',
+                                'ID de Usuário',
                                 style: TextStyle(fontSize: 14),
                                 textAlign: TextAlign.left,
                               ),
@@ -143,47 +145,7 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                             Container(
                               padding: new EdgeInsets.only(left: 15, top: 4),
                               child: Text(
-                                '*********',
-                                style: TextStyle(fontSize: 16),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-              Container(
-                  child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: new EdgeInsets.only(left: 15, top: 15),
-                              child: Text(
-                                'Telefone',
-                                style: TextStyle(fontSize: 14),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            Container(
-                              padding: new EdgeInsets.only(left: 15, top: 4),
-                              child: Text(
-                                telefone,
+                                "$idToken",
                                 style: TextStyle(fontSize: 16),
                                 textAlign: TextAlign.left,
                               ),
@@ -235,22 +197,6 @@ class _HomePageState_InfoCadastradas extends State<HomePage_InfoCadastradas> {
                   ),
                 ],
               )),
-              Container(
-                margin: new EdgeInsets.only(top: 15),
-                // ignore: deprecated_member_use
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  minWidth: MediaQuery.of(context).size.width * 0.6,
-                  child: Text(
-                    'Editar',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                  color: Colors.orange[300],
-                  onPressed: () {},
-                ),
-              ),
             ],
           ),
         ]));

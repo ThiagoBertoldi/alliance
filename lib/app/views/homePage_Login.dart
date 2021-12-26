@@ -1,12 +1,9 @@
-import 'package:alliance/app/views/homePage_EsqueciSenha.dart';
-import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
-import 'package:alliance/app/views/homePage_CadastroUser.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentante.dart';
-import 'package:alliance/firebase_script/scripts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:alliance/app/HomePage_Home.dart';
+import 'package:alliance/app/teste_login/google.sign_in.dart';
+import 'package:alliance/app/views/viewsCliente/homePage_CotacoesAEnviar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 // ignore: camel_case_types
 class HomePage_Login extends StatefulWidget {
@@ -20,167 +17,98 @@ class HomePage_Login extends StatefulWidget {
 
 // ignore: camel_case_types
 class _MyHomePageState_Login extends State<HomePage_Login> {
-  void autenticacaoLogin(String email, String password) async {
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) => validaLogin(email));
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('Não existe um usuário com este email!!!');
-      } else if (e.code == 'wrong-password') {
-        print('Senha não confere!!!');
-      }
-    }
-  }
-
-  void validaLogin(String email) async {
-    var query = await db.collection("vendedor_").get();
-
-    for (var dados in query.docs) {
-      if (dados['email'] == email) {
-        if (dados['permissao'] == '1') {
-          userCredential = FirebaseAuth.instance.currentUser;
-
-          userName = userCredential.displayName;
-          userEmail = userCredential.email;
-          empresa = dados['empresa'];
-          telefone = dados['telefone'];
-          calculaPrecos();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MenuCliente_State(
-                      title: 'ALLIANCE',
-                    )),
-          );
-        } else {
-          userCredential = FirebaseAuth.instance.currentUser;
-          userName = userCredential.displayName;
-          userEmail = userCredential.email;
-          empresa = dados['empresa'];
-          telefone = dados['telefone'];
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      HomePage_MenuRepresentante(title: "ALLIANCE")));
-        }
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          margin: new EdgeInsets.only(left: 50.0, right: 50.0),
-          child: Container(
-            margin: new EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  margin: new EdgeInsets.only(
-                      left: 10.0, right: 10.0, bottom: 50, top: 30),
-                  child: Text(
-                    "ALLIANCE",
-                    style: TextStyle(
-                      fontSize: 35,
-                      color: Colors.orange[300],
-                    ),
+        appBar: AppBar(
+          backgroundColor: Colors.orange,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              Container(
+                  width: _width,
+                  height: _height * 0.25,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: Text("ALLIANCE",
+                            style: TextStyle(
+                              fontSize: 45,
+                              color: Colors.white,
+                            )),
+                      ),
+                    ],
                   ),
-                ),
-
-                TextFormField(
-                  onChanged: (text) {
-                    email = text;
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    icon: Icon(Icons.email),
-                  ),
-                ),
-
-                Container(
-                  margin: new EdgeInsets.only(top: 20),
-                  child: TextFormField(
-                    onChanged: (text) {
-                      senha = text;
-                    },
-                    autofocus: true,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Senha',
-                      icon: Icon(Icons.lock),
+                  decoration: new BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: const Radius.circular(125.0),
                     ),
-                  ),
-                ),
-
-                // ignore: deprecated_member_use
-                Container(
-                  margin: new EdgeInsets.only(top: 30),
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    minWidth: MediaQuery.of(context).size.width * 0.6,
-                    child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    color: Colors.orange[300],
+                  )),
+              Container(
+                width: _width * 0.6,
+                height: _height * 0.07,
+                margin: EdgeInsets.only(top: _height * 0.15),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        primary: Colors.orange,
+                        onPrimary: Colors.white),
                     onPressed: () {
-                      autenticacaoLogin(email, senha);
-                    },
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  margin: new EdgeInsets.only(top: 30),
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  // ignore: deprecated_member_use
-
-                  child: Text(
-                    'Não possui uma conta?',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.orange[300],
-                    ),
-                  ),
-                ),
-                Container(
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    minWidth: MediaQuery.of(context).size.width * 0.6,
-                    child: Text(
-                      'Cadastrar',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    color: Colors.orange[300],
-                    onPressed: () {
-                      Navigator.push(
+                      final provider = Provider.of<GoogleSignInProvider>(
+                          context,
+                          listen: false);
+                      provider.googleLogin().then((value) => Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  HomePage_Cadastro(
-                                    title: 'ALLIANCE',
-                                  )));
+                                  HomePage_Home(title: "ALLIANCE"))));
                     },
-                  ),
-                ),
-              ],
-            ),
+                    child: Text(
+                      "Entrar com Google",
+                    )),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: _height * 0.1),
+                padding: EdgeInsets.all(10),
+                child: Text("Ainda não possui conta?",
+                    style: TextStyle(
+                        color: Colors.orange, fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                width: _width * 0.6,
+                height: _height * 0.07,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        primary: Colors.orange,
+                        onPrimary: Colors.white),
+                    onPressed: () {
+                      final provider = Provider.of<GoogleSignInProvider>(
+                          context,
+                          listen: false);
+                      provider.googleLogin().then((value) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  HomePage_Cotacoes(title: "ALLIANCE"))));
+                    },
+                    child: Text(
+                      "Cadastrar com Google",
+                    )),
+              ),
+            ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

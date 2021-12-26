@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import '../homePage_EsqueciSenha.dart';
 import '../homePage_Login.dart';
 import 'homePage_CotacoesAEnviar.dart';
 import 'homePage_CadastroProdutos.dart';
@@ -34,21 +33,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         appBar: AppBar(
           title: Text(widget.title, style: TextStyle(color: Colors.white)),
           automaticallyImplyLeading: false,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => HomePage_Login(
-                            title: "Alliance",
-                          )));
-            },
-            child: Icon(
-              Icons.arrow_back,
-
-              // add custom icons also
-            ),
-          ),
         ),
         body: ListView(
           children: [
@@ -56,14 +40,14 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
               children: [
                 Container(
                     margin: new EdgeInsets.only(top: 15),
-                    child: Text("Olá, " + userName + "!",
+                    child: Text("Olá, " + nome + "!",
                         style: TextStyle(
                             fontSize: 23, fontWeight: FontWeight.bold))),
                 Container(
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.width * 0.06),
                     child: Center(
-                      child: Text('Seus Produtos Cadastrados',
+                      child: Text('Produtos Cadastrados',
                           style: TextStyle(
                               fontSize: 26,
                               color: Colors.orange,
@@ -467,16 +451,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 HomePage_InfoCadastradas(title: "ALLIANCE")));
-                  }),
-              SpeedDialChild(
-                  child: Icon(Icons.add, color: Colors.orange),
-                  label: 'Redefinição de Senha',
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                HomePage_EsqueciSenha()));
                   }),
             ]));
   }

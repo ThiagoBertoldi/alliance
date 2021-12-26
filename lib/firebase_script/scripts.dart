@@ -1,7 +1,5 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:intl/intl.dart';
 
 var db = FirebaseFirestore.instance;
@@ -9,10 +7,8 @@ var db = FirebaseFirestore.instance;
 String nome = '';
 String email = '';
 String empresa = '';
-String cnpj = '';
+String idToken = '';
 String telefone = '';
-String senha = '';
-String senhaNovamente = '';
 String permissao = '';
 String marca = '';
 String preco = '';
@@ -24,55 +20,8 @@ String userEmail = '';
 String cotacaoSelecionada = '';
 String senhaRedefinicao = '';
 String nomeProduto = '';
-
+String senhaAcessoApp = '';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void gravaNovoUsuario(
-  String nome,
-  String email,
-  String empresa,
-  String cnpj,
-  String telefone,
-  String senha,
-  String senhaNovamente,
-) async {
-  if (nome == '' ||
-      email == '' ||
-      empresa == '' ||
-      telefone == '' ||
-      senha == '' ||
-      cnpj == '') {
-    print("Precisa Preencher Todos os Campos!!");
-  } else if (senhaNovamente != senha) {
-    print("Senhas não são iguais!!!");
-  } else {
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: senha);
-
-      var currentUser = FirebaseAuth.instance.currentUser;
-
-      currentUser!.updateDisplayName(nome);
-      currentUser.updateEmail(email);
-
-      FirebaseFirestore.instance.collection("vendedor_").doc(nome).set({
-        "nome": nome,
-        "email": email,
-        "empresa": empresa,
-        "telefone": telefone,
-        "cnpj": cnpj,
-        "permissao": "2"
-      }).then((value) => "Cadastrado com sucesso");
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('Senha muito fraca!!!');
-      } else if (e.code == 'email-already-in-use') {
-        print('Este email já está cadastrado!!!');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoProduto(String nomeProduto) {
@@ -235,6 +184,10 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
     unidadeMedida = '-/-';
   }
 
+  if (empresa == '') {
+    empresa = '-/-';
+  }
+
   db
       .collection("precoAtualProduto")
       .doc(nomeProduto)
@@ -244,7 +197,9 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
       .doc(nomeProduto)
       .collection("empresas")
       .doc(empresa)
-      .set({"nomeProduto": nomeProduto, "preço": preco, "empresa": empresa});
+      .set({"nomeProduto": nomeProduto, "preço": preco, "empresa": empresa})
+      .then((value) => "Preço Atual Criado!!!")
+      .onError((error, stackTrace) => "Erro Linha 201 \"scripts.dart:200\"");
 
   db
       .collection("produtosRespondidosModal")
@@ -256,12 +211,14 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
       .collection(nomeProduto)
       .doc(nomeProduto)
       .set({
-    "nomeProduto": nomeProduto,
-    "marca": marca,
-    "unidadeMedida": unidadeMedida,
-    "preço": preco,
-    "empresa": empresa
-  });
+        "nomeProduto": nomeProduto,
+        "marca": marca,
+        "unidadeMedida": unidadeMedida,
+        "preço": preco,
+        "empresa": empresa
+      })
+      .then((value) => "Informações Modal OK!!!")
+      .onError((error, stackTrace) => "Erro Linha 218 \"scripts.dart:218\"");
 
   db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
   db
@@ -270,12 +227,14 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
       .collection("produtos")
       .doc(nomeProduto)
       .set({
-    "nomeProduto": nomeProduto,
-    "marca": marca,
-    "unidadeMedida": unidadeMedida,
-    "preço": preco,
-    "empresa": empresa
-  }).then((value) => print("Enviada com Sucesso!!!"));
+        "nomeProduto": nomeProduto,
+        "marca": marca,
+        "unidadeMedida": unidadeMedida,
+        "preço": preco,
+        "empresa": empresa
+      })
+      .then((value) => print("Enviada com Sucesso!!!"))
+      .onError((error, stackTrace) => "Erro Linha 233 \"scripts.dart:233\"");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,7 +251,9 @@ void calculaPrecos() async {
         .get();
     for (var doc2 in produtos2.docs) {
       if (doc2['preço'] == '' || doc2['preço'] == 0) {
+        print("Não Ok");
       } else {
+        print("OK");
         listaPrecos.add(doc2['preço']);
       }
     }
@@ -311,10 +272,3 @@ void calculaPrecos() async {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-
-void resetaSenha(String novaSenha) {
-  if (novaSenha != '') {
-    novaSenha = senha;
-  }
-  userCredential.updatePassword(novaSenha).then((value) => print("Ok"));
-}

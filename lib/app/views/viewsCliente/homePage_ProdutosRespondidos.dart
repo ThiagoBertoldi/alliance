@@ -158,8 +158,8 @@ class _HomePageState_ProdutosRespondidos
                                                                           padding:
                                                                               new EdgeInsets.all(2),
                                                                           child: Text(
-                                                                              docSnapshot2['preço'],
-                                                                              style: TextStyle(fontSize: 15)),
+                                                                              "R\$ " + docSnapshot2['preço'],
+                                                                              style: TextStyle(fontSize: 15, color: Colors.orange[300])),
                                                                         ),
                                                                         Container(
                                                                           padding:
