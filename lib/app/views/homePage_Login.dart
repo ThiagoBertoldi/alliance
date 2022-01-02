@@ -84,29 +84,6 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                     style: TextStyle(
                         color: Colors.orange, fontWeight: FontWeight.bold)),
               ),
-              Container(
-                width: _width * 0.6,
-                height: _height * 0.07,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        primary: Colors.orange,
-                        onPrimary: Colors.white),
-                    onPressed: () {
-                      final provider = Provider.of<GoogleSignInProvider>(
-                          context,
-                          listen: false);
-                      provider.googleLogin().then((value) => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  HomePage_Cotacoes(title: "ALLIANCE"))));
-                    },
-                    child: Text(
-                      "Cadastrar com Google",
-                    )),
-              ),
             ],
           ),
         ));
