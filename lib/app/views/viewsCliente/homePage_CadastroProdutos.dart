@@ -1,5 +1,5 @@
-// ignore: unused_import
-import 'package:alliance/app/views/homePage_Login.dart';
+// ignore_for_file: deprecated_member_use
+
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +85,6 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                     ),
                     Container(
                       padding: new EdgeInsets.all(40),
-                      // ignore: deprecated_member_use
                       child: FlatButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50)),
@@ -98,7 +97,13 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                         color: Colors.orange[300],
                         onPressed: () {
                           gravaNovoProduto(nomeProduto);
-                        },
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      HomePage_CadastroProdutos(
+                                          title: "ALLIANCE")));
+                        }, 
                       ),
                     ),
                   ],

@@ -21,6 +21,7 @@ String cotacaoSelecionada = '';
 String senhaRedefinicao = '';
 String nomeProduto = '';
 String senhaAcessoApp = '';
+String novoNomeProduto = '';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,13 +40,36 @@ void gravaNovoProduto(String nomeProduto) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void deletaProduto(String nomeProduto) {
-  db.collection("produtos_").doc(nomeProduto).delete();
+void deletaProduto(String nomeProduto) async {
+  await db.collection("produtos_").doc(nomeProduto).delete();
+  await db.collection("precoAtualProduto").doc(nomeProduto).delete();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void enviaParaPreCotacao(String nomeProduto) {
-  db
+void editaNomeProduto(String nomeProduto, String novoNome, String marca,
+    String precoMaisAlto, String precoMaisBaixo, String unidadeMedida) async {
+  // ignore: unnecessary_null_comparison
+  if (novoNome == '') {
+    novoNome = nomeProduto;
+  }
+
+  await db.collection("produtos_").doc(nomeProduto).delete();
+
+  await db.collection("produtos_").doc(novoNome).set({
+    "nomeProduto": novoNome,
+    "marca": marca,
+    "precoMaisAlto": precoMaisAlto,
+    "precoMaisBaixo": precoMaisBaixo,
+    "unidadeMedida": unidadeMedida
+  });
+
+  novoNome = '';
+  novoNomeProduto = '';
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void enviaParaPreCotacao(String nomeProduto) async {
+  await db
       .collection("produtosParaCotacao")
       .doc(nomeProduto)
       .set({"nomeProduto": nomeProduto});
@@ -55,7 +79,49 @@ void enviaParaPreCotacao(String nomeProduto) {
 void enviaParaCotacao() async {
   var produtoEmPreCotacao = await db.collection("produtosParaCotacao").get();
   var produtoEmCotacaoAntiga = await db.collection("produtosEmCotacao").get();
+  var produtosRespondidos = await db.collection("produtosRespondidos").get();
+  var produtosRespondidosModal =
+      await db.collection("produtosRespondidosModal").get();
+  var deletaPrecosProdutos = await db.collection("produtos_").get();
+  var deletaPrecoAtual = await db.collection("precoAtualProduto").get();
 
+  gravaCotacoesAntigas();
+
+  for (var doc5 in deletaPrecoAtual.docs) {
+    var recebeEmpresasPrecoAtualProduto = await db
+        .collection("precoAtualProduto")
+        .doc(doc5['nomeProduto'])
+        .collection("empresas")
+        .get();
+    for (var doc6 in recebeEmpresasPrecoAtualProduto.docs) {
+      db
+          .collection("precoAtualProduto")
+          .doc(doc5['nomeProduto'])
+          .collection("empresas")
+          .doc(doc6['empresa'])
+          .delete();
+    }
+    db.collection("precoAtualProduto").doc(doc5['nomeProduto']).delete();
+  }
+
+  for (var doc2 in produtosRespondidos.docs) {
+    db.collection("produtosRespondidos").doc(doc2['empresa']).delete();
+  }
+
+  for (var doc3 in produtosRespondidosModal.docs) {
+    db.collection("produtosRespondidosModal").doc(doc3['empresa']).delete();
+  }
+
+  for (var doc4 in deletaPrecosProdutos.docs) {
+    db
+        .collection("produtos_")
+        .doc(doc4['nomeProduto'])
+        .update({"precoMaisAlto": "0,00"});
+    db
+        .collection("produtos_")
+        .doc(doc4['nomeProduto'])
+        .update({"precoMaisBaixo": "0,00"});
+  }
   for (var doc in produtoEmCotacaoAntiga.docs) {
     db.collection("produtosEmCotacao").doc(doc['nomeProduto']).delete();
   }
@@ -67,7 +133,6 @@ void enviaParaCotacao() async {
 
     db.collection("produtosParaCotacao").doc(doc['nomeProduto']).delete();
   }
-  gravaCotacoesAntigas();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -240,6 +305,7 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void calculaPrecos() async {
+  print("Iniciando comparação de preços dos prudtos...");
   var produtos = await db.collection("precoAtualProduto").get();
   List listaPrecos = [];
 
@@ -251,7 +317,7 @@ void calculaPrecos() async {
         .get();
     for (var doc2 in produtos2.docs) {
       if (doc2['preço'] == '' || doc2['preço'] == 0) {
-        print("Não Ok");
+        print("Sem preço cadastrado");
       } else {
         print("OK");
         listaPrecos.add(doc2['preço']);
@@ -268,6 +334,7 @@ void calculaPrecos() async {
         .update({'precoMaisBaixo': listaPrecos.first});
     listaPrecos.clear();
   }
+  print("Comparação de preços de prudtos OK");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

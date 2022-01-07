@@ -1,9 +1,9 @@
+import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import '../homePage_Login.dart';
 import 'homePage_CotacoesAEnviar.dart';
 import 'homePage_CadastroProdutos.dart';
 import '../homePage_InfoCadastradas.dart';
@@ -24,6 +24,73 @@ class MenuCliente_State extends StatefulWidget {
 // ignore: camel_case_types
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
   final DateTime date = DateTime.now();
+
+  Future<void> _showDialogAlteraNomeProduto(String nomeProduto, String marca,
+      String precoMaisAlto, String precoMaisBaixo, String unidadeMedida) async {
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Text("Qual o novo nome?",
+                        style: TextStyle(
+                            fontSize: 19,
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: TextField(
+                      onChanged: (text) {
+                        novoNomeProduto = text;
+                      },
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  topLeft: Radius.circular(5),
+                                  topRight: Radius.circular(5),
+                                  bottomRight: Radius.circular(5))),
+                          icon: Icon(Icons.fastfood),
+                          hintText: 'Novo Nome'),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 25),
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  topLeft: Radius.circular(5),
+                                  topRight: Radius.circular(5),
+                                  bottomRight: Radius.circular(5))),
+                          primary: Colors.orange,
+                          onPrimary: Colors.white),
+                      onPressed: () {
+                        editaNomeProduto(nomeProduto, novoNomeProduto, marca,
+                            precoMaisAlto, precoMaisBaixo, unidadeMedida);
+
+                        Navigator.pop(context);
+                      },
+                      child: Text("Salvar"),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(
@@ -128,10 +195,10 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                 new EdgeInsets.only(bottom: 5),
                                                                             child:
                                                                                 Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
                                                                               children: [
                                                                                 Container(
-                                                                                  margin: new EdgeInsets.only(top: 10, left: 100, bottom: 10),
+                                                                                  margin: new EdgeInsets.only(top: 10, left: 50, bottom: 10),
                                                                                   width: 70,
                                                                                   height: 70,
                                                                                   child: Ink(
@@ -150,7 +217,25 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                   ),
                                                                                 ),
                                                                                 Container(
-                                                                                  margin: new EdgeInsets.only(top: 10, right: 100, bottom: 10),
+                                                                                  margin: new EdgeInsets.only(top: 10, left: 25, right: 25, bottom: 10),
+                                                                                  width: 70,
+                                                                                  height: 70,
+                                                                                  child: Ink(
+                                                                                    decoration: const ShapeDecoration(
+                                                                                      color: Colors.orange,
+                                                                                      shape: CircleBorder(),
+                                                                                    ),
+                                                                                    child: IconButton(
+                                                                                      icon: const Icon(Icons.edit),
+                                                                                      color: Colors.white,
+                                                                                      onPressed: () {
+                                                                                        _showDialogAlteraNomeProduto(docSnapshot['nomeProduto'], docSnapshot['marca'], docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo'], docSnapshot['unidadeMedida']);
+                                                                                      },
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Container(
+                                                                                  margin: new EdgeInsets.only(top: 10, right: 50, bottom: 10),
                                                                                   width: 70,
                                                                                   height: 70,
                                                                                   child: Ink(
@@ -206,14 +291,22 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                                   return Column(
                                                                                                                     children: [
                                                                                                                       Container(
+                                                                                                                        margin: EdgeInsets.only(top: 5),
+                                                                                                                        child: Text("Preço", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                      ),
+                                                                                                                      Container(
                                                                                                                           width: MediaQuery.of(context).size.width * 0.8,
                                                                                                                           height: MediaQuery.of(context).size.height * 0.07,
                                                                                                                           child: Card(
                                                                                                                             shape: RoundedRectangleBorder(
                                                                                                                               borderRadius: BorderRadius.circular(15.0),
                                                                                                                             ),
-                                                                                                                            child: Center(child: Text(docSnapshot3['preço'], style: TextStyle(fontSize: 18))),
+                                                                                                                            child: Center(child: Text(docSnapshot3['preço'], style: TextStyle(fontSize: 18, color: Colors.orange))),
                                                                                                                           )),
+                                                                                                                      Container(
+                                                                                                                        margin: EdgeInsets.only(top: 5),
+                                                                                                                        child: Text("Marca", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                      ),
                                                                                                                       Container(
                                                                                                                           width: MediaQuery.of(context).size.width * 0.8,
                                                                                                                           height: MediaQuery.of(context).size.height * 0.07,
@@ -223,6 +316,10 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                                             ),
                                                                                                                             child: Center(child: Text(docSnapshot3['marca'], style: TextStyle(fontSize: 16))),
                                                                                                                           )),
+                                                                                                                      Container(
+                                                                                                                        margin: EdgeInsets.only(top: 5),
+                                                                                                                        child: Text("Unidade de Medida", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                      ),
                                                                                                                       Container(
                                                                                                                           width: MediaQuery.of(context).size.width * 0.8,
                                                                                                                           height: MediaQuery.of(context).size.height * 0.07,
@@ -451,6 +548,16 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 HomePage_InfoCadastradas(title: "ALLIANCE")));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Sair',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_Login(title: "ALLIANCE")));
                   }),
             ]));
   }

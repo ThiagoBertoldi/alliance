@@ -1,6 +1,5 @@
 import 'package:alliance/app/teste_login/google.sign_in.dart';
 import 'package:alliance/app/views/homePage_Login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

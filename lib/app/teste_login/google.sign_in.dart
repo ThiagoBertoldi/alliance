@@ -31,14 +31,12 @@ class GoogleSignInProvider extends ChangeNotifier {
     idToken = user.id.toString();
     empresa = '';
 
-    db.collection("vendedor_").doc(user.displayName).update({
+    db.collection("vendedor_").doc(user.displayName).set({
       "nome": user.displayName,
       "email": user.email,
       "id": user.id,
     });
-
     calculaPrecos();
-
     notifyListeners();
   }
 
