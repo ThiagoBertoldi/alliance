@@ -22,17 +22,20 @@ String senhaRedefinicao = '';
 String nomeProduto = '';
 String senhaAcessoApp = '';
 String novoNomeProduto = '';
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+String tipoUsuario = '';
+String tipoProduto = '';
+List listaPrecos = [];
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void gravaNovoProduto(String nomeProduto) {
-  if (nomeProduto != '') {
+void gravaNovoProduto(String nomeProduto, String tipoProduto) {
+  if (nomeProduto != '' || tipoProduto != '') {
     db.collection("produtos_").doc(nomeProduto).set({
       "nomeProduto": nomeProduto,
       "marca": "-/-",
       "unidadeMedida": "-/-",
       "precoMaisBaixo": "-/-",
       "precoMaisAlto": "-/-",
+      "tipoProduto": tipoProduto
     }).then((value) => print("Cadastrado!!!"));
   } else {
     print("Algo deu errado, você pode tentar de novo...");
@@ -41,8 +44,41 @@ void gravaNovoProduto(String nomeProduto) {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void deletaProduto(String nomeProduto) async {
-  await db.collection("produtos_").doc(nomeProduto).delete();
-  await db.collection("precoAtualProduto").doc(nomeProduto).delete();
+  var query = await db
+      .collection("precoAtualProduto")
+      .doc(nomeProduto)
+      .collection("empresas")
+      .get();
+
+  for (var doc in query.docs) {
+    await db
+        .collection("precoAtualProduto")
+        .doc(nomeProduto)
+        .collection("empresas")
+        .doc(doc['empresa'])
+        .delete();
+  }
+
+  await db
+      .collection("produtosEmCotacao")
+      .doc(nomeProduto)
+      .delete()
+      .then((value) => "Produto deletado da cotação");
+  await db
+      .collection("produtosParaCotacao")
+      .doc(nomeProduto)
+      .delete()
+      .then((value) => "Produto deletado da pré-cotação");
+  await db
+      .collection("precoAtualProduto")
+      .doc(nomeProduto)
+      .delete()
+      .then((value) => "Produto deletado dos preços atuais");
+  await db
+      .collection("produtos_")
+      .doc(nomeProduto)
+      .delete()
+      .then((value) => "Produto Deletado");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,9 +89,36 @@ void editaNomeProduto(String nomeProduto, String novoNome, String marca,
     novoNome = nomeProduto;
   }
 
+  var query = await db.collection("precoAtualProduto").get();
+
+  for (var doc in query.docs) {
+    var query = await db
+        .collection("precoAtualProduto")
+        .doc(doc['nomeProduto'])
+        .collection("empresas")
+        .get();
+    for (var doc2 in query.docs) {
+      db
+          .collection("precoAtualProduto")
+          .doc(doc['nomeProduto'])
+          .collection("empresas")
+          .doc(doc2['empresa'])
+          .delete();
+    }
+  }
+
   await db.collection("produtos_").doc(nomeProduto).delete();
+  await db.collection("precoAtualProduto").doc(nomeProduto).delete();
 
   await db.collection("produtos_").doc(novoNome).set({
+    "nomeProduto": novoNome,
+    "marca": marca,
+    "precoMaisAlto": precoMaisAlto,
+    "precoMaisBaixo": precoMaisBaixo,
+    "unidadeMedida": unidadeMedida
+  });
+
+  await db.collection("precoAtualProduto").doc(novoNome).set({
     "nomeProduto": novoNome,
     "marca": marca,
     "precoMaisAlto": precoMaisAlto,
@@ -68,11 +131,11 @@ void editaNomeProduto(String nomeProduto, String novoNome, String marca,
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void enviaParaPreCotacao(String nomeProduto) async {
+void enviaParaPreCotacao(String nomeProduto, String tipoProduto) async {
   await db
       .collection("produtosParaCotacao")
       .doc(nomeProduto)
-      .set({"nomeProduto": nomeProduto});
+      .set({"nomeProduto": nomeProduto, "tipoProduto": tipoProduto});
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,12 +168,28 @@ void enviaParaCotacao() async {
   }
 
   for (var doc2 in produtosRespondidos.docs) {
-    db.collection("produtosRespondidos").doc(doc2['empresa']).delete();
+    var query = await db
+        .collection("produtosRespondidos")
+        .doc(doc2['empresa'])
+        .collection("produtos")
+        .get();
+    for (var doc in query.docs) {
+      db
+          .collection("produtosRespondidos")
+          .doc(doc2['empresa'])
+          .collection("produtos")
+          .doc(doc['nomeProduto'])
+          .delete()
+          .then((value) => "Produto deletado EXCLUIR DEPOIS LINHA 132");
+    }
   }
 
   for (var doc3 in produtosRespondidosModal.docs) {
     db.collection("produtosRespondidosModal").doc(doc3['empresa']).delete();
   }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////// ALTERAR AQUI
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////// ALTERAR AQUI
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////// ALTERAR AQUI
 
   for (var doc4 in deletaPrecosProdutos.docs) {
     db
@@ -126,10 +205,10 @@ void enviaParaCotacao() async {
     db.collection("produtosEmCotacao").doc(doc['nomeProduto']).delete();
   }
   for (var doc in produtoEmPreCotacao.docs) {
-    db
-        .collection("produtosEmCotacao")
-        .doc(doc['nomeProduto'])
-        .set({"nomeProduto": doc['nomeProduto']});
+    db.collection("produtosEmCotacao").doc(doc['nomeProduto']).set({
+      "nomeProduto": doc['nomeProduto'],
+      "tipoProduto": doc['tipoProduto']
+    }).then((value) => "Produto enviado para cotação!!!");
 
     db.collection("produtosParaCotacao").doc(doc['nomeProduto']).delete();
   }
@@ -149,7 +228,8 @@ void gravaCotacoesAntigas() async {
   db
       .collection("cotacoesPassadas")
       .doc("$dateFormatted")
-      .set({"dataHora": dateFormatted});
+      .set({"dataHora": dateFormatted}).then(
+          (value) => "Documento criado no FireBase: " + dateFormatted);
   for (int i = 0; i < lista.length; i++) {
     var recebeDados = await db
         .collection("produtosRespondidos")
@@ -209,34 +289,6 @@ void resetaCotacao() async {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void atualizaDadosRepresentante(
-    String empresa, String cnpj, String telefone, String nome) {
-  if (empresa != '') {
-    db
-        .collection("vendedor_")
-        .doc(nome)
-        .update({"empresa": empresa}).then((value) => "Alterado com sucesso!");
-  }
-
-  if (cnpj != '') {
-    db
-        .collection("vendedor_")
-        .doc(nome)
-        .update({"cnpj": cnpj}).then((value) => "Alterado com sucesso!");
-  }
-
-  if (telefone != '') {
-    db.collection("vendedor_").doc(nome).update({"telefone": telefone}).then(
-        (value) => "Alterado com sucesso!");
-  }
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void deletaUsuario(String nome) {
-  db.collection("vendedor_").doc(nome).delete();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void respondeCotacao(String nomeProduto, String preco, String marca,
     String unidadeMedida, var empresa) {
   if (marca == '') {
@@ -273,7 +325,7 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
   db
       .collection("produtosRespondidosModal")
       .doc(empresa)
-      .collection(nomeProduto)
+      .collection("produtos")
       .doc(nomeProduto)
       .set({
         "nomeProduto": nomeProduto,
@@ -307,7 +359,7 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
 void calculaPrecos() async {
   print("Iniciando comparação de preços dos prudtos...");
   var produtos = await db.collection("precoAtualProduto").get();
-  List listaPrecos = [];
+  listaPrecos = [];
 
   for (var doc1 in produtos.docs) {
     var produtos2 = await db

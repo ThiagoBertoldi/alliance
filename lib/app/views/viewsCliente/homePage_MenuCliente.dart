@@ -92,6 +92,26 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         });
   }
 
+/*
+  TextEditingController _searchProduct = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _searchProduct.addListener(_onSearchChanged);
+  }
+
+  _onSearchChanged() async {                                                 Barra de Pesquisa
+    print(_searchProduct.text);                                           Controller "Funcionando"
+  }
+
+  @override
+  void dispose() {
+    _searchProduct.removeListener(_onSearchChanged);
+    _searchProduct.dispose();
+    super.dispose();
+  }
+*/
   @override
   Widget build(
     BuildContext context,
@@ -106,10 +126,16 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             Column(
               children: [
                 Container(
-                    margin: new EdgeInsets.only(top: 15),
+                    margin: new EdgeInsets.only(top: 20),
                     child: Text("Olá, " + nome + "!",
                         style: TextStyle(
                             fontSize: 23, fontWeight: FontWeight.bold))),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  width: MediaQuery.of(context).size.width * .8,
+                  height: 3,
+                  color: Colors.grey,
+                ),
                 Container(
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.width * 0.06),
@@ -120,9 +146,9 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                               color: Colors.orange,
                               fontWeight: FontWeight.bold)),
                     )),
-                /* Container(
+                Container(
                   margin: EdgeInsets.only(top: 10),
-                  height: 50,
+                  height: MediaQuery.of(context).size.height * .06,
                   width: MediaQuery.of(context).size.width * 0.8,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -134,12 +160,12 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                       });
                     },
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 15),
                       labelText: 'Pesquise um produto',
                       border: InputBorder.none,
+                      prefixIcon: Icon(Icons.search),
                     ),
                   ),
-                ),*/
+                ),
               ],
             ),
             Column(
@@ -159,313 +185,304 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                 itemBuilder: (context, index) {
                                   DocumentSnapshot docSnapshot =
                                       snapshot.data!.docs[index];
-                                  return AnimationConfiguration.staggeredList(
-                                      position: index,
-                                      delay: Duration(milliseconds: 100),
-                                      child: SlideAnimation(
-                                          duration:
-                                              Duration(milliseconds: 2500),
-                                          curve: Curves.fastLinearToSlowEaseIn,
-                                          child: FadeInAnimation(
-                                              curve:
-                                                  Curves.fastLinearToSlowEaseIn,
-                                              duration:
-                                                  Duration(milliseconds: 2500),
-                                              child: Container(
-                                                  child: new InkWell(
-                                                      onTap: () {
-                                                        showModalBottomSheet<
-                                                            void>(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return ListView(
-                                                                children: [
-                                                                  Container(
-                                                                    child:
-                                                                        Center(
+                                  if (procuraProduto == '' ||
+                                      docSnapshot['nomeProduto']
+                                          .contains(procuraProduto)) {
+                                    return AnimationConfiguration.staggeredList(
+                                        position: index,
+                                        delay: Duration(milliseconds: 100),
+                                        child: SlideAnimation(
+                                            duration:
+                                                Duration(milliseconds: 2500),
+                                            curve:
+                                                Curves.fastLinearToSlowEaseIn,
+                                            child: FadeInAnimation(
+                                                curve: Curves
+                                                    .fastLinearToSlowEaseIn,
+                                                duration: Duration(
+                                                    milliseconds: 2500),
+                                                child: Container(
+                                                    child: new InkWell(
+                                                        onTap: () {
+                                                          showModalBottomSheet<
+                                                              void>(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return ListView(
+                                                                  children: [
+                                                                    Container(
                                                                       child:
-                                                                          Column(
-                                                                        children: [
-                                                                          Container(
-                                                                              padding: new EdgeInsets.all(14),
-                                                                              child: Text(docSnapshot['nomeProduto'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-                                                                          Container(
-                                                                            padding:
-                                                                                new EdgeInsets.only(bottom: 5),
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                                              children: [
-                                                                                Container(
-                                                                                  margin: new EdgeInsets.only(top: 10, left: 50, bottom: 10),
-                                                                                  width: 70,
-                                                                                  height: 70,
-                                                                                  child: Ink(
-                                                                                    decoration: const ShapeDecoration(
-                                                                                      color: Colors.black,
-                                                                                      shape: CircleBorder(),
-                                                                                    ),
-                                                                                    child: IconButton(
-                                                                                      icon: const Icon(Icons.delete),
-                                                                                      color: Colors.white,
-                                                                                      onPressed: () {
-                                                                                        deletaProduto(docSnapshot['nomeProduto']);
-                                                                                        Navigator.pop(context);
-                                                                                      },
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                                Container(
-                                                                                  margin: new EdgeInsets.only(top: 10, left: 25, right: 25, bottom: 10),
-                                                                                  width: 70,
-                                                                                  height: 70,
-                                                                                  child: Ink(
-                                                                                    decoration: const ShapeDecoration(
-                                                                                      color: Colors.orange,
-                                                                                      shape: CircleBorder(),
-                                                                                    ),
-                                                                                    child: IconButton(
-                                                                                      icon: const Icon(Icons.edit),
-                                                                                      color: Colors.white,
-                                                                                      onPressed: () {
-                                                                                        _showDialogAlteraNomeProduto(docSnapshot['nomeProduto'], docSnapshot['marca'], docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo'], docSnapshot['unidadeMedida']);
-                                                                                      },
+                                                                          Center(
+                                                                        child:
+                                                                            Column(
+                                                                          children: [
+                                                                            Container(
+                                                                                padding: new EdgeInsets.all(14),
+                                                                                child: Text(docSnapshot['nomeProduto'], style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+                                                                            Container(
+                                                                              padding: new EdgeInsets.only(bottom: 5),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Container(
+                                                                                    margin: new EdgeInsets.only(top: 10, left: 50, bottom: 10),
+                                                                                    width: 70,
+                                                                                    height: 70,
+                                                                                    child: Ink(
+                                                                                      decoration: const ShapeDecoration(
+                                                                                        color: Colors.black,
+                                                                                        shape: CircleBorder(),
+                                                                                      ),
+                                                                                      child: IconButton(
+                                                                                        icon: const Icon(Icons.delete),
+                                                                                        color: Colors.white,
+                                                                                        onPressed: () {
+                                                                                          deletaProduto(docSnapshot['nomeProduto']);
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                      ),
                                                                                     ),
                                                                                   ),
-                                                                                ),
-                                                                                Container(
-                                                                                  margin: new EdgeInsets.only(top: 10, right: 50, bottom: 10),
-                                                                                  width: 70,
-                                                                                  height: 70,
-                                                                                  child: Ink(
-                                                                                    decoration: const ShapeDecoration(
-                                                                                      color: Colors.orange,
-                                                                                      shape: CircleBorder(),
-                                                                                    ),
-                                                                                    child: IconButton(
-                                                                                      icon: const Icon(Icons.send),
-                                                                                      color: Colors.white,
-                                                                                      onPressed: () {
-                                                                                        enviaParaPreCotacao(docSnapshot['nomeProduto']);
-                                                                                        Navigator.of(context).pop();
-                                                                                      },
+                                                                                  Container(
+                                                                                    margin: new EdgeInsets.only(top: 10, left: 25, right: 25, bottom: 10),
+                                                                                    width: 70,
+                                                                                    height: 70,
+                                                                                    child: Ink(
+                                                                                      decoration: const ShapeDecoration(
+                                                                                        color: Colors.orange,
+                                                                                        shape: CircleBorder(),
+                                                                                      ),
+                                                                                      child: IconButton(
+                                                                                        icon: const Icon(Icons.edit),
+                                                                                        color: Colors.white,
+                                                                                        onPressed: () {
+                                                                                          _showDialogAlteraNomeProduto(docSnapshot['nomeProduto'], docSnapshot['marca'], docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo'], docSnapshot['unidadeMedida']);
+                                                                                        },
+                                                                                      ),
                                                                                     ),
                                                                                   ),
-                                                                                ),
-                                                                              ],
+                                                                                  Container(
+                                                                                    margin: new EdgeInsets.only(top: 10, right: 50, bottom: 10),
+                                                                                    width: 70,
+                                                                                    height: 70,
+                                                                                    child: Ink(
+                                                                                      decoration: const ShapeDecoration(
+                                                                                        color: Colors.orange,
+                                                                                        shape: CircleBorder(),
+                                                                                      ),
+                                                                                      child: IconButton(
+                                                                                        icon: const Icon(Icons.send),
+                                                                                        color: Colors.white,
+                                                                                        onPressed: () {
+                                                                                          enviaParaPreCotacao(docSnapshot['nomeProduto'], docSnapshot['tipoProduto']);
+                                                                                          Navigator.of(context).pop();
+                                                                                        },
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
                                                                             ),
-                                                                          ),
-                                                                          Text(
-                                                                              "Empresas que responderam a cotação",
-                                                                              style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                          Container(
-                                                                            child:
-                                                                                Column(
-                                                                              children: [
-                                                                                StreamBuilder<QuerySnapshot>(
-                                                                                    stream: db.collection("produtosRespondidos").snapshots(),
-                                                                                    builder: (context, snapshot2) {
-                                                                                      if (snapshot2.hasData) {
-                                                                                        return ListView.builder(
-                                                                                            physics: BouncingScrollPhysics(),
-                                                                                            shrinkWrap: true,
-                                                                                            itemCount: snapshot2.data!.docs.length,
-                                                                                            itemBuilder: (context, index2) {
-                                                                                              DocumentSnapshot docSnapshot2 = snapshot2.data!.docs[index2];
-                                                                                              return Column(
-                                                                                                children: [
-                                                                                                  Container(padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 5), child: Text(docSnapshot2['empresa'], style: TextStyle(fontSize: 22, color: Colors.orange, fontWeight: FontWeight.bold))),
-                                                                                                  Container(
-                                                                                                    child: StreamBuilder<QuerySnapshot>(
-                                                                                                        stream: db.collection("produtosRespondidosModal").doc(docSnapshot2['empresa']).collection(docSnapshot['nomeProduto']).snapshots(),
-                                                                                                        builder: (context, snapshot3) {
-                                                                                                          if (snapshot3.hasData) {
-                                                                                                            return ListView.builder(
-                                                                                                                physics: BouncingScrollPhysics(),
-                                                                                                                shrinkWrap: true,
-                                                                                                                itemCount: snapshot3.data!.docs.length,
-                                                                                                                itemBuilder: (context, index3) {
-                                                                                                                  DocumentSnapshot docSnapshot3 = snapshot3.data!.docs[index3];
+                                                                            Text("Empresas que responderam a cotação",
+                                                                                style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                            Container(
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  StreamBuilder<QuerySnapshot>(
+                                                                                      stream: db.collection("produtosRespondidos").snapshots(),
+                                                                                      builder: (context, snapshot2) {
+                                                                                        if (snapshot2.hasData) {
+                                                                                          return ListView.builder(
+                                                                                              physics: BouncingScrollPhysics(),
+                                                                                              shrinkWrap: true,
+                                                                                              itemCount: snapshot2.data!.docs.length,
+                                                                                              itemBuilder: (context, index2) {
+                                                                                                DocumentSnapshot docSnapshot2 = snapshot2.data!.docs[index2];
+                                                                                                return Column(
+                                                                                                  children: [
+                                                                                                    Container(padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 5), child: Text(docSnapshot2['empresa'], style: TextStyle(fontSize: 22, color: Colors.orange, fontWeight: FontWeight.bold))),
+                                                                                                    Container(
+                                                                                                      child: StreamBuilder<QuerySnapshot>(
+                                                                                                          stream: db.collection("produtosRespondidosModal").doc(docSnapshot2['empresa']).collection("produtos").snapshots(),
+                                                                                                          builder: (context, snapshot3) {
+                                                                                                            if (snapshot3.hasData) {
+                                                                                                              return ListView.builder(
+                                                                                                                  physics: BouncingScrollPhysics(),
+                                                                                                                  shrinkWrap: true,
+                                                                                                                  itemCount: snapshot3.data!.docs.length,
+                                                                                                                  itemBuilder: (context, index3) {
+                                                                                                                    DocumentSnapshot docSnapshot3 = snapshot3.data!.docs[index3];
 
-                                                                                                                  return Column(
-                                                                                                                    children: [
-                                                                                                                      Container(
-                                                                                                                        margin: EdgeInsets.only(top: 5),
-                                                                                                                        child: Text("Preço", style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                                                                      ),
-                                                                                                                      Container(
-                                                                                                                          width: MediaQuery.of(context).size.width * 0.8,
-                                                                                                                          height: MediaQuery.of(context).size.height * 0.07,
-                                                                                                                          child: Card(
-                                                                                                                            shape: RoundedRectangleBorder(
-                                                                                                                              borderRadius: BorderRadius.circular(15.0),
-                                                                                                                            ),
-                                                                                                                            child: Center(child: Text(docSnapshot3['preço'], style: TextStyle(fontSize: 18, color: Colors.orange))),
-                                                                                                                          )),
-                                                                                                                      Container(
-                                                                                                                        margin: EdgeInsets.only(top: 5),
-                                                                                                                        child: Text("Marca", style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                                                                      ),
-                                                                                                                      Container(
-                                                                                                                          width: MediaQuery.of(context).size.width * 0.8,
-                                                                                                                          height: MediaQuery.of(context).size.height * 0.07,
-                                                                                                                          child: Card(
-                                                                                                                            shape: RoundedRectangleBorder(
-                                                                                                                              borderRadius: BorderRadius.circular(15.0),
-                                                                                                                            ),
-                                                                                                                            child: Center(child: Text(docSnapshot3['marca'], style: TextStyle(fontSize: 16))),
-                                                                                                                          )),
-                                                                                                                      Container(
-                                                                                                                        margin: EdgeInsets.only(top: 5),
-                                                                                                                        child: Text("Unidade de Medida", style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                                                                      ),
-                                                                                                                      Container(
-                                                                                                                          width: MediaQuery.of(context).size.width * 0.8,
-                                                                                                                          height: MediaQuery.of(context).size.height * 0.07,
-                                                                                                                          child: Card(
-                                                                                                                            shape: RoundedRectangleBorder(
-                                                                                                                              borderRadius: BorderRadius.circular(15.0),
-                                                                                                                            ),
-                                                                                                                            child: Center(child: Text(docSnapshot3['unidadeMedida'], style: TextStyle(fontSize: 16))),
-                                                                                                                          )),
-                                                                                                                    ],
-                                                                                                                  );
-                                                                                                                });
-                                                                                                          } else {
-                                                                                                            return CircularProgressIndicator();
-                                                                                                          }
-                                                                                                        }),
-                                                                                                  ),
-                                                                                                ],
-                                                                                              );
-                                                                                            });
-                                                                                      } else {
-                                                                                        return CircularProgressIndicator();
-                                                                                      }
-                                                                                    })
-                                                                              ],
+                                                                                                                    return Column(
+                                                                                                                      children: [
+                                                                                                                        Container(
+                                                                                                                          margin: EdgeInsets.only(top: 5),
+                                                                                                                          child: Text("Preço", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                        ),
+                                                                                                                        Container(
+                                                                                                                            width: MediaQuery.of(context).size.width * 0.8,
+                                                                                                                            height: MediaQuery.of(context).size.height * 0.07,
+                                                                                                                            child: Card(
+                                                                                                                              shape: RoundedRectangleBorder(
+                                                                                                                                borderRadius: BorderRadius.circular(15.0),
+                                                                                                                              ),
+                                                                                                                              child: Center(child: Text(docSnapshot3['preço'], style: TextStyle(fontSize: 18, color: Colors.orange))),
+                                                                                                                            )),
+                                                                                                                        Container(
+                                                                                                                          margin: EdgeInsets.only(top: 5),
+                                                                                                                          child: Text("Marca", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                        ),
+                                                                                                                        Container(
+                                                                                                                            width: MediaQuery.of(context).size.width * 0.8,
+                                                                                                                            height: MediaQuery.of(context).size.height * 0.07,
+                                                                                                                            child: Card(
+                                                                                                                              shape: RoundedRectangleBorder(
+                                                                                                                                borderRadius: BorderRadius.circular(15.0),
+                                                                                                                              ),
+                                                                                                                              child: Center(child: Text(docSnapshot3['marca'], style: TextStyle(fontSize: 16))),
+                                                                                                                            )),
+                                                                                                                        Container(
+                                                                                                                          margin: EdgeInsets.only(top: 5),
+                                                                                                                          child: Text("Unidade de Medida", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                        ),
+                                                                                                                        Container(
+                                                                                                                            width: MediaQuery.of(context).size.width * 0.8,
+                                                                                                                            height: MediaQuery.of(context).size.height * 0.07,
+                                                                                                                            child: Card(
+                                                                                                                              shape: RoundedRectangleBorder(
+                                                                                                                                borderRadius: BorderRadius.circular(15.0),
+                                                                                                                              ),
+                                                                                                                              child: Center(child: Text(docSnapshot3['unidadeMedida'], style: TextStyle(fontSize: 16))),
+                                                                                                                            )),
+                                                                                                                      ],
+                                                                                                                    );
+                                                                                                                  });
+                                                                                                            } else {
+                                                                                                              return CircularProgressIndicator();
+                                                                                                            }
+                                                                                                          }),
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                );
+                                                                                              });
+                                                                                        } else {
+                                                                                          return CircularProgressIndicator();
+                                                                                        }
+                                                                                      })
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  ]);
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Card(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20.0),
+                                                          ),
+                                                          color: Colors.white,
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    10),
+                                                            child: Column(
+                                                              children: [
+                                                                Text(
+                                                                  docSnapshot[
+                                                                      'nomeProduto'],
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          19,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .start,
+                                                                ),
+                                                                Container(
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.7,
+                                                                  height: 25,
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          top:
+                                                                              12),
+                                                                  child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        Container(
+                                                                          width:
+                                                                              MediaQuery.of(context).size.width * 0.3,
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text("R\$ " + docSnapshot['precoMaisBaixo'], style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold)),
+                                                                          ),
+                                                                          decoration:
+                                                                              new BoxDecoration(
+                                                                            color:
+                                                                                Colors.green,
+                                                                            borderRadius:
+                                                                                BorderRadius.only(
+                                                                              topLeft: const Radius.circular(8.0),
+                                                                              topRight: const Radius.circular(8.0),
+                                                                              bottomLeft: const Radius.circular(8.0),
+                                                                              bottomRight: const Radius.circular(8.0),
                                                                             ),
                                                                           ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                ]);
-                                                          },
-                                                        );
-                                                      },
-                                                      child: Card(
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      20.0),
-                                                        ),
-                                                        color: Colors.white,
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10),
-                                                          child: Column(
-                                                            children: [
-                                                              Text(
-                                                                docSnapshot[
-                                                                    'nomeProduto'],
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        19,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .start,
-                                                              ),
-                                                              Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.7,
-                                                                height: 25,
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            12),
-                                                                child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Container(
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.3,
-                                                                        child:
-                                                                            Center(
-                                                                          child: Text(
-                                                                              "R\$ " + docSnapshot['precoMaisBaixo'],
-                                                                              style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold)),
                                                                         ),
-                                                                        decoration:
-                                                                            new BoxDecoration(
-                                                                          color:
-                                                                              Colors.green,
-                                                                          borderRadius:
-                                                                              BorderRadius.only(
-                                                                            topLeft:
-                                                                                const Radius.circular(8.0),
-                                                                            topRight:
-                                                                                const Radius.circular(8.0),
-                                                                            bottomLeft:
-                                                                                const Radius.circular(8.0),
-                                                                            bottomRight:
-                                                                                const Radius.circular(8.0),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Container(
-                                                                        width: MediaQuery.of(context).size.width *
-                                                                            0.3,
-                                                                        child:
-                                                                            Center(
+                                                                        Container(
+                                                                          width:
+                                                                              MediaQuery.of(context).size.width * 0.3,
                                                                           child:
-                                                                              Text(
-                                                                            "R\$ " +
-                                                                                docSnapshot['precoMaisAlto'],
-                                                                            style: TextStyle(
-                                                                                fontSize: 15,
-                                                                                color: Colors.white,
-                                                                                fontWeight: FontWeight.bold),
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              "R\$ " + docSnapshot['precoMaisAlto'],
+                                                                              style: TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold),
+                                                                            ),
                                                                           ),
-                                                                        ),
-                                                                        decoration:
-                                                                            new BoxDecoration(
-                                                                          color:
-                                                                              Colors.red,
-                                                                          borderRadius:
-                                                                              BorderRadius.only(
-                                                                            topLeft:
-                                                                                const Radius.circular(8.0),
-                                                                            topRight:
-                                                                                const Radius.circular(8.0),
-                                                                            bottomLeft:
-                                                                                const Radius.circular(8.0),
-                                                                            bottomRight:
-                                                                                const Radius.circular(8.0),
+                                                                          decoration:
+                                                                              new BoxDecoration(
+                                                                            color:
+                                                                                Colors.red,
+                                                                            borderRadius:
+                                                                                BorderRadius.only(
+                                                                              topLeft: const Radius.circular(8.0),
+                                                                              topRight: const Radius.circular(8.0),
+                                                                              bottomLeft: const Radius.circular(8.0),
+                                                                              bottomRight: const Radius.circular(8.0),
+                                                                            ),
                                                                           ),
-                                                                        ),
-                                                                      )
-                                                                    ]),
-                                                              ),
-                                                            ],
+                                                                        )
+                                                                      ]),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ))))));
+                                                        ))))));
+                                  } else {
+                                    return SizedBox();
+                                  } /////////////////////////////////////////////////////////////////////////////////////
                                 }),
                           );
                         } else {
@@ -561,4 +578,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                   }),
             ]));
   }
+
+  listOf(String s, String t) {}
 }

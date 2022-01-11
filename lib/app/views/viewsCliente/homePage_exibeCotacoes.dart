@@ -25,6 +25,33 @@ class _MyHomePageState_ExibeLogin extends State<HomePage_ExibeCotacoes> {
           children: [
             Column(
               children: [
+                Container(
+                  margin: EdgeInsets.only(top: 30, bottom: 30),
+                  child: Center(
+                    child: Text("Produtos de cotação Antiga*",
+                        style: TextStyle(fontSize: 28, color: Colors.orange)),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  height: MediaQuery.of(context).size.height * .06,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey[200]),
+                  child: TextField(
+                    onChanged: (text) {
+                      setState(() {
+                        procuraProduto = text;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Pesquise um produto',
+                      border: InputBorder.none,
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                  ),
+                ),
                 StreamBuilder<QuerySnapshot>(
                     stream: db
                         .collection("cotacoesPassadas")
@@ -67,9 +94,16 @@ class _MyHomePageState_ExibeLogin extends State<HomePage_ExibeCotacoes> {
                                                     snapshot2.data!.docs.length,
                                                 itemBuilder: (context, index2) {
                                                   DocumentSnapshot
-                                                      docSnapshot2 =
-                                                      snapshot2.data!.docs[
-                                                          index2]; ///////////////////////////////////////// COMPARAÇÃO DE PRODUTOS "snapshot.data!.docs[index];"
+                                                      docSnapshot2 = snapshot2
+                                                          .data!.docs[index2];
+                                                  if (procuraProduto == '' ||
+                                                      docSnapshot2[
+                                                              'nomeProduto']
+                                                          .contains(
+                                                              procuraProduto)) {
+                                                  } else {
+                                                    return SizedBox();
+                                                  }
                                                   return AnimationConfiguration
                                                       .staggeredList(
                                                           position: index,
@@ -123,7 +157,7 @@ class _MyHomePageState_ExibeLogin extends State<HomePage_ExibeCotacoes> {
                                                                                 ),
                                                                               )),
                                                                         ],
-                                                                      ))));
+                                                                      )))); ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                                 });
                                           } else {
                                             return CircularProgressIndicator();

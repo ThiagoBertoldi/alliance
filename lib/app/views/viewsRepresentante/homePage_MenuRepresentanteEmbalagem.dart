@@ -2,9 +2,10 @@ import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../HomePage_Home.dart';
 import 'homePage_RespondeCotacao.dart';
 
-class PaginaRepresentante extends StatelessWidget {
+class PaginaRepresentanteEmbalagem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +14,7 @@ class PaginaRepresentante extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: HomePage_MenuRepresentante(
+      home: HomePage_MenuRepresentanteEmbalagem(
         title: 'ALLIANCE',
       ),
     );
@@ -21,8 +22,9 @@ class PaginaRepresentante extends StatelessWidget {
 }
 
 // ignore: camel_case_types
-class HomePage_MenuRepresentante extends StatefulWidget {
-  HomePage_MenuRepresentante({Key? key, required this.title}) : super(key: key);
+class HomePage_MenuRepresentanteEmbalagem extends StatefulWidget {
+  HomePage_MenuRepresentanteEmbalagem({Key? key, required this.title})
+      : super(key: key);
 
   final String title;
 
@@ -30,28 +32,22 @@ class HomePage_MenuRepresentante extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<HomePage_MenuRepresentante> {
+class _MyHomePageState extends State<HomePage_MenuRepresentanteEmbalagem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        // automaticallyImplyLeading: false,
         leading: GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => HomePage_Login(
-                          title: "Alliance",
-                        )));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) => Home()));
           },
           child: Icon(
             Icons.arrow_back,
-
-            // add custom icons also
           ),
         ),
-        // automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Container(

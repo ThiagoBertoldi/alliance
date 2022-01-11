@@ -41,32 +41,31 @@ class _HomePageState_ProdutosRespondidos
       ),
       body: ListView(children: [
         Container(
-          padding: new EdgeInsets.only(top: 35, bottom: 20),
+          padding: EdgeInsets.only(top: 35, bottom: 20),
           child: Center(
             child: Text("Produtos Respondidos",
                 style: TextStyle(fontSize: 30, color: Colors.orange[300])),
           ),
         ),
-        /* Container(
-                  margin: EdgeInsets.only(top: 10),
-                  height: 50,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey[200]),
-                  child: TextField(
-                    onChanged: (text) {
-                      setState(() {
-                        procuraProduto = text;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 15),
-                      labelText: 'Pesquise um produto',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),*/
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          height: MediaQuery.of(context).size.height * .06,
+          width: MediaQuery.of(context).size.width * 0.8,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Colors.grey[200]),
+          child: TextField(
+            onChanged: (text) {
+              setState(() {
+                procuraProduto = text;
+              });
+            },
+            decoration: InputDecoration(
+              labelText: 'Pesquise um produto',
+              border: InputBorder.none,
+              prefixIcon: Icon(Icons.search),
+            ),
+          ),
+        ),
         StreamBuilder<QuerySnapshot>(
             stream: db.collection("produtosRespondidos").snapshots(),
             builder: (context, snapshot) {
@@ -102,78 +101,81 @@ class _HomePageState_ProdutosRespondidos
                                       itemBuilder: (context, index2) {
                                         DocumentSnapshot docSnapshot2 =
                                             snapshot2.data!.docs[index2];
-                                        return AnimationConfiguration
-                                            .staggeredList(
-                                                position: index,
-                                                delay:
-                                                    Duration(milliseconds: 100),
-                                                child: SlideAnimation(
-                                                    duration: Duration(
-                                                        milliseconds: 2500),
-                                                    curve: Curves
-                                                        .fastLinearToSlowEaseIn,
-                                                    child: FadeInAnimation(
-                                                        curve: Curves
-                                                            .fastLinearToSlowEaseIn,
-                                                        duration: Duration(
-                                                            milliseconds: 2500),
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.95,
-                                                                child: Card(
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20.0),
-                                                                  ),
-                                                                  child:
-                                                                      Container(
-                                                                    padding:
-                                                                        new EdgeInsets
-                                                                            .all(5),
-                                                                    child:
-                                                                        Column(
-                                                                      children: [
-                                                                        Container(
-                                                                          padding:
-                                                                              new EdgeInsets.only(top: 7),
-                                                                          child: Text(
-                                                                              docSnapshot2['nomeProduto'],
-                                                                              style: TextStyle(fontSize: 18)),
-                                                                        ),
-                                                                        Container(
-                                                                          padding:
-                                                                              new EdgeInsets.all(2),
-                                                                          child: Text(
-                                                                              docSnapshot2['marca'],
-                                                                              style: TextStyle(fontSize: 15)),
-                                                                        ),
-                                                                        Container(
-                                                                          padding:
-                                                                              new EdgeInsets.all(2),
-                                                                          child: Text(
-                                                                              "R\$ " + docSnapshot2['preço'],
-                                                                              style: TextStyle(fontSize: 15, color: Colors.orange[300])),
-                                                                        ),
-                                                                        Container(
-                                                                          padding:
-                                                                              new EdgeInsets.all(2),
-                                                                          child: Text(
-                                                                              docSnapshot2['unidadeMedida'],
-                                                                              style: TextStyle(fontSize: 15)),
-                                                                        )
-                                                                      ],
+                                        if (procuraProduto == '' ||
+                                            docSnapshot2['nomeProduto']
+                                                .contains(procuraProduto)) {
+                                          return AnimationConfiguration
+                                              .staggeredList(
+                                                  position: index,
+                                                  delay: Duration(
+                                                      milliseconds: 100),
+                                                  child: SlideAnimation(
+                                                      duration: Duration(
+                                                          milliseconds: 2500),
+                                                      curve: Curves
+                                                          .fastLinearToSlowEaseIn,
+                                                      child: FadeInAnimation(
+                                                          curve: Curves
+                                                              .fastLinearToSlowEaseIn,
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  2500),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                  width: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
+                                                                      0.95,
+                                                                  child: Card(
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20.0),
                                                                     ),
-                                                                  ),
-                                                                )),
-                                                          ],
-                                                        ))));
+                                                                    child:
+                                                                        Container(
+                                                                      padding:
+                                                                          new EdgeInsets.all(
+                                                                              5),
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Container(
+                                                                            padding:
+                                                                                new EdgeInsets.only(top: 7),
+                                                                            child:
+                                                                                Text(docSnapshot2['nomeProduto'], style: TextStyle(fontSize: 18)),
+                                                                          ),
+                                                                          Container(
+                                                                            padding:
+                                                                                new EdgeInsets.all(2),
+                                                                            child:
+                                                                                Text(docSnapshot2['marca'], style: TextStyle(fontSize: 15)),
+                                                                          ),
+                                                                          Container(
+                                                                            padding:
+                                                                                new EdgeInsets.all(2),
+                                                                            child:
+                                                                                Text("R\$ " + docSnapshot2['preço'], style: TextStyle(fontSize: 15, color: Colors.orange[300])),
+                                                                          ),
+                                                                          Container(
+                                                                            padding:
+                                                                                new EdgeInsets.all(2),
+                                                                            child:
+                                                                                Text(docSnapshot2['unidadeMedida'], style: TextStyle(fontSize: 15)),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  )),
+                                                            ],
+                                                          ))));
+                                        } else {
+                                          return SizedBox();
+                                        }
                                       });
                                 } else {
                                   return CircularProgressIndicator();

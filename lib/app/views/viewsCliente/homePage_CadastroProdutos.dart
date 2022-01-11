@@ -35,7 +35,7 @@ class HomePage_CadastroProdutos extends StatefulWidget {
 
 class _MyHomePageState extends State<HomePage_CadastroProdutos> {
   var db = FirebaseFirestore.instance;
-
+  List<String> lista = ['embalagem', 'materiaPrima', 'mercearia'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +83,32 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                         ),
                       ),
                     ),
+                    Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * .08,
+                          margin: EdgeInsets.only(top: 20),
+                          child: DropdownButton<String>(
+                            hint: Text(tipoProduto),
+                            items: <String>[
+                              'Matéria Prima',
+                              'Mercearia',
+                              'Embalagem'
+                            ].map((String value) {
+                              return new DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                tipoProduto = value.toString();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                     Container(
                       padding: new EdgeInsets.all(40),
                       child: FlatButton(
@@ -96,14 +122,15 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                         ),
                         color: Colors.orange[300],
                         onPressed: () {
-                          gravaNovoProduto(nomeProduto);
+                          gravaNovoProduto(nomeProduto, tipoProduto);
+                          tipoProduto = '';
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) =>
                                       HomePage_CadastroProdutos(
                                           title: "ALLIANCE")));
-                        }, 
+                        },
                       ),
                     ),
                   ],

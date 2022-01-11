@@ -4,8 +4,8 @@ A Flutter project.
 
 ## Updates
 
-Cotações Passadas e Cotações Respondidas devem ordenar por: Produto -> Empresa -> Marca, Preço, Unidade de Medida;
-Página Representantes Cadastrados deve exibir os nomes em LowerCase e suas inicias em UpperCase;
-Cadastro de Produtos deve cadastrar o tipo de produto: Matéria Prima, Mercearia, Embalagens;
-Página Enviar Cotação deve enviar a cotação separando os produtos por tipo;
-Página Home deve ter Login dos quatro usuários, Gerente, Vendedor Matéria Prima, Vendedor Embalagens e Vendedor de Mercearia;
+Campos de busca de produtos nas páginas -> MenuCliente, Cotações Respondidas, Cotações Passadas;
+Página Home agora redireciona os representantes para as devidas páginas(Embalagens, Matéria Prima, Mercearia);
+Leve alteração no layout de algumas páginas;
+Alterações gerais no arquivo scripts.dart;
+Cadastro de produtos agora cadastra o tipo de produto;
