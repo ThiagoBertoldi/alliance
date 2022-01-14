@@ -1,4 +1,3 @@
-import 'package:alliance/app/views/homePage_Login.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -45,15 +44,12 @@ class _MyHomePageState extends State<HomePage_MenuRepresentanteMercearia> {
           },
           child: Icon(
             Icons.arrow_back,
-
-            // add custom icons also
           ),
         ),
         // automaticallyImplyLeading: false,
       ),
       body: Center(
-        child: Text("Mercearia"),
-        /*child: Container(
+        child: Container(
           width: MediaQuery.of(context).size.width * 0.95,
           child: ListView(
             children: [
@@ -163,7 +159,7 @@ class _MyHomePageState extends State<HomePage_MenuRepresentanteMercearia> {
               ),
             ],
           ),
-        ),*/
+        ),
       ),
     );
   }

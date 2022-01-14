@@ -36,35 +36,42 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
         height: screenHeight,
         child: Column(
           children: [
-            Container(
-                width: width,
-                height: screenHeight * 0.29,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: Text("ALLIANCE",
-                          style: TextStyle(
-                            fontSize: 45,
-                            color: Colors.white,
-                          )),
-                    ),
-                  ],
-                ),
-                decoration: new BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: const Radius.circular(125.0),
+            Material(
+              elevation: 7,
+              borderRadius: BorderRadius.only(
+                bottomLeft: const Radius.circular(125.0),
+              ),
+              child: Container(
+                  width: width,
+                  height: screenHeight * 0.29,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: Text("ALLIANCE",
+                            style: TextStyle(
+                              fontSize: 45,
+                              color: Colors.white,
+                            )),
+                      ),
+                    ],
                   ),
-                )),
+                  decoration: new BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: const Radius.circular(125.0),
+                    ),
+                  )),
+            ),
             Container(
               width: width * 0.6,
               height: screenHeight * 0.07,
               margin: EdgeInsets.only(top: screenHeight * 0.25),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                      elevation: 7,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(30),

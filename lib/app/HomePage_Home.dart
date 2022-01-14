@@ -180,6 +180,7 @@ class HomePageState_Home extends State<HomePage_Home> {
 
   void verificaSenha() async {
     if (senhaAcessoApp == 'padoka33762723') {
+      calculaPrecos();
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -266,7 +267,9 @@ class HomePageState_Home extends State<HomePage_Home> {
                                           primary: Colors.orange,
                                           onPrimary: Colors.white),
                                       child: Text("Área de Gerenciamento"),
-                                      onPressed: () => _showDialogCliente())),
+                                      onPressed: () {
+                                        _showDialogCliente();
+                                      })),
                               Container(
                                 margin: EdgeInsets.only(top: 5),
                                 child: Text("Área restrita",

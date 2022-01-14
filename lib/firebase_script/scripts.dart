@@ -135,7 +135,8 @@ void enviaParaPreCotacao(String nomeProduto, String tipoProduto) async {
   await db
       .collection("produtosParaCotacao")
       .doc(nomeProduto)
-      .set({"nomeProduto": nomeProduto, "tipoProduto": tipoProduto});
+      .set({"nomeProduto": nomeProduto, "tipoProduto": tipoProduto}).then(
+          (value) => "Colocado em pré-cotação");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,16 +181,34 @@ void enviaParaCotacao() async {
           .collection("produtos")
           .doc(doc['nomeProduto'])
           .delete()
-          .then((value) => "Produto deletado EXCLUIR DEPOIS LINHA 132");
+          .then((value) => "Produto deletado da tabela produtosRespondidos!");
     }
   }
 
-  for (var doc3 in produtosRespondidosModal.docs) {
-    db.collection("produtosRespondidosModal").doc(doc3['empresa']).delete();
+  for (var doc in produtosRespondidos.docs) {
+    db.collection("produtosRespondidos").doc(doc['empresa']).delete();
   }
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////// ALTERAR AQUI
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////// ALTERAR AQUI
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////// ALTERAR AQUI
+
+  for (var doc3 in produtosRespondidosModal.docs) {
+    var query = await db
+        .collection("produtosRespondidosModal")
+        .doc(doc3['empresa'])
+        .collection("produtos")
+        .get();
+
+    for (var doc in query.docs) {
+      db
+          .collection("produtosRespondidosModal")
+          .doc(doc3['empresa'])
+          .collection("produtos")
+          .doc(doc['nomeProduto'])
+          .delete();
+    }
+  }
+
+  for (var doc in produtosRespondidosModal.docs) {
+    db.collection("produtosRespondidosModal").doc(doc['empresa']).delete();
+  }
 
   for (var doc4 in deletaPrecosProdutos.docs) {
     db
@@ -208,7 +227,7 @@ void enviaParaCotacao() async {
     db.collection("produtosEmCotacao").doc(doc['nomeProduto']).set({
       "nomeProduto": doc['nomeProduto'],
       "tipoProduto": doc['tipoProduto']
-    }).then((value) => "Produto enviado para cotação!!!");
+    }).then((value) => print("Produto enviado para cotação!!!"));
 
     db.collection("produtosParaCotacao").doc(doc['nomeProduto']).delete();
   }
@@ -266,6 +285,8 @@ void gravaCotacoesAntigas() async {
       });
     }
   }
+
+  print("Pré-cotação grvada como: " + dateFormatted);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -357,7 +378,7 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void calculaPrecos() async {
-  print("Iniciando comparação de preços dos prudtos...");
+  print("Iniciando comparação de preços dos produtos...");
   var produtos = await db.collection("precoAtualProduto").get();
   listaPrecos = [];
 
@@ -371,7 +392,7 @@ void calculaPrecos() async {
       if (doc2['preço'] == '' || doc2['preço'] == 0) {
         print("Sem preço cadastrado");
       } else {
-        print("OK");
+        print(doc2['nomeProduto'] + ": preço comparado");
         listaPrecos.add(doc2['preço']);
       }
     }
@@ -386,7 +407,7 @@ void calculaPrecos() async {
         .update({'precoMaisBaixo': listaPrecos.first});
     listaPrecos.clear();
   }
-  print("Comparação de preços de prudtos OK");
+  print("Comparação de preços de produtos OK");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

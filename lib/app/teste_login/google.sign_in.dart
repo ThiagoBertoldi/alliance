@@ -36,7 +36,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       "email": user.email,
       "id": user.id,
     });
-    calculaPrecos();
+
     notifyListeners();
   }
 

@@ -92,26 +92,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         });
   }
 
-/*
-  TextEditingController _searchProduct = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _searchProduct.addListener(_onSearchChanged);
-  }
-
-  _onSearchChanged() async {                                                 Barra de Pesquisa
-    print(_searchProduct.text);                                           Controller "Funcionando"
-  }
-
-  @override
-  void dispose() {
-    _searchProduct.removeListener(_onSearchChanged);
-    _searchProduct.dispose();
-    super.dispose();
-  }
-*/
   @override
   Widget build(
     BuildContext context,
@@ -285,7 +265,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                 ],
                                                                               ),
                                                                             ),
-                                                                            Text("Empresas que responderam a cotação",
+                                                                            Text("Preços desta cotação",
                                                                                 style: TextStyle(fontWeight: FontWeight.bold)),
                                                                             Container(
                                                                               child: Column(
@@ -302,6 +282,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                 DocumentSnapshot docSnapshot2 = snapshot2.data!.docs[index2];
                                                                                                 return Column(
                                                                                                   children: [
+                                                                                                    Container(margin: EdgeInsets.only(top: 5), width: MediaQuery.of(context).size.width * .85, height: 2, color: Colors.black45),
                                                                                                     Container(padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 5), child: Text(docSnapshot2['empresa'], style: TextStyle(fontSize: 22, color: Colors.orange, fontWeight: FontWeight.bold))),
                                                                                                     Container(
                                                                                                       child: StreamBuilder<QuerySnapshot>(
@@ -314,50 +295,53 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                                   itemCount: snapshot3.data!.docs.length,
                                                                                                                   itemBuilder: (context, index3) {
                                                                                                                     DocumentSnapshot docSnapshot3 = snapshot3.data!.docs[index3];
-
-                                                                                                                    return Column(
-                                                                                                                      children: [
-                                                                                                                        Container(
-                                                                                                                          margin: EdgeInsets.only(top: 5),
-                                                                                                                          child: Text("Preço", style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                                                                        ),
-                                                                                                                        Container(
-                                                                                                                            width: MediaQuery.of(context).size.width * 0.8,
-                                                                                                                            height: MediaQuery.of(context).size.height * 0.07,
-                                                                                                                            child: Card(
-                                                                                                                              shape: RoundedRectangleBorder(
-                                                                                                                                borderRadius: BorderRadius.circular(15.0),
-                                                                                                                              ),
-                                                                                                                              child: Center(child: Text(docSnapshot3['preço'], style: TextStyle(fontSize: 18, color: Colors.orange))),
-                                                                                                                            )),
-                                                                                                                        Container(
-                                                                                                                          margin: EdgeInsets.only(top: 5),
-                                                                                                                          child: Text("Marca", style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                                                                        ),
-                                                                                                                        Container(
-                                                                                                                            width: MediaQuery.of(context).size.width * 0.8,
-                                                                                                                            height: MediaQuery.of(context).size.height * 0.07,
-                                                                                                                            child: Card(
-                                                                                                                              shape: RoundedRectangleBorder(
-                                                                                                                                borderRadius: BorderRadius.circular(15.0),
-                                                                                                                              ),
-                                                                                                                              child: Center(child: Text(docSnapshot3['marca'], style: TextStyle(fontSize: 16))),
-                                                                                                                            )),
-                                                                                                                        Container(
-                                                                                                                          margin: EdgeInsets.only(top: 5),
-                                                                                                                          child: Text("Unidade de Medida", style: TextStyle(fontWeight: FontWeight.bold)),
-                                                                                                                        ),
-                                                                                                                        Container(
-                                                                                                                            width: MediaQuery.of(context).size.width * 0.8,
-                                                                                                                            height: MediaQuery.of(context).size.height * 0.07,
-                                                                                                                            child: Card(
-                                                                                                                              shape: RoundedRectangleBorder(
-                                                                                                                                borderRadius: BorderRadius.circular(15.0),
-                                                                                                                              ),
-                                                                                                                              child: Center(child: Text(docSnapshot3['unidadeMedida'], style: TextStyle(fontSize: 16))),
-                                                                                                                            )),
-                                                                                                                      ],
-                                                                                                                    );
+                                                                                                                    if (docSnapshot3['nomeProduto'] == docSnapshot['nomeProduto']) {
+                                                                                                                      return Column(
+                                                                                                                        children: [
+                                                                                                                          Container(
+                                                                                                                            margin: EdgeInsets.only(top: 5),
+                                                                                                                            child: Text("Preço", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                          ),
+                                                                                                                          Container(
+                                                                                                                              width: MediaQuery.of(context).size.width * 0.8,
+                                                                                                                              height: MediaQuery.of(context).size.height * 0.07,
+                                                                                                                              child: Card(
+                                                                                                                                shape: RoundedRectangleBorder(
+                                                                                                                                  borderRadius: BorderRadius.circular(15.0),
+                                                                                                                                ),
+                                                                                                                                child: Center(child: Text(docSnapshot3['preço'], style: TextStyle(fontSize: 18, color: Colors.orange))),
+                                                                                                                              )),
+                                                                                                                          Container(
+                                                                                                                            margin: EdgeInsets.only(top: 5),
+                                                                                                                            child: Text("Marca", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                          ),
+                                                                                                                          Container(
+                                                                                                                              width: MediaQuery.of(context).size.width * 0.8,
+                                                                                                                              height: MediaQuery.of(context).size.height * 0.07,
+                                                                                                                              child: Card(
+                                                                                                                                shape: RoundedRectangleBorder(
+                                                                                                                                  borderRadius: BorderRadius.circular(15.0),
+                                                                                                                                ),
+                                                                                                                                child: Center(child: Text(docSnapshot3['marca'], style: TextStyle(fontSize: 16))),
+                                                                                                                              )),
+                                                                                                                          Container(
+                                                                                                                            margin: EdgeInsets.only(top: 5),
+                                                                                                                            child: Text("Unidade de Medida", style: TextStyle(fontWeight: FontWeight.bold)),
+                                                                                                                          ),
+                                                                                                                          Container(
+                                                                                                                              width: MediaQuery.of(context).size.width * 0.8,
+                                                                                                                              height: MediaQuery.of(context).size.height * 0.07,
+                                                                                                                              child: Card(
+                                                                                                                                shape: RoundedRectangleBorder(
+                                                                                                                                  borderRadius: BorderRadius.circular(15.0),
+                                                                                                                                ),
+                                                                                                                                child: Center(child: Text(docSnapshot3['unidadeMedida'], style: TextStyle(fontSize: 16))),
+                                                                                                                              )),
+                                                                                                                        ],
+                                                                                                                      );
+                                                                                                                    } else {
+                                                                                                                      return SizedBox();
+                                                                                                                    }
                                                                                                                   });
                                                                                                             } else {
                                                                                                               return CircularProgressIndicator();
@@ -578,6 +562,4 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                   }),
             ]));
   }
-
-  listOf(String s, String t) {}
 }
