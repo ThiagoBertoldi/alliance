@@ -47,24 +47,23 @@ class _HomePageState_ProdutosRespondidos
                 style: TextStyle(fontSize: 30, color: Colors.orange[300])),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          height: MediaQuery.of(context).size.height * .06,
-          width: MediaQuery.of(context).size.width * 0.8,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Colors.grey[200]),
-          child: TextField(
-            onChanged: (text) {
-              setState(() {
-                procuraProduto = text;
-              });
-            },
-            decoration: InputDecoration(
-              labelText: 'Pesquise um produto',
-              border: InputBorder.none,
-              prefixIcon: Icon(Icons.search),
+        Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * .8,
+              child: TextField(
+                onChanged: (text) {
+                  setState(() {
+                    procuraProduto = text;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Pesquise um produto',
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
         StreamBuilder<QuerySnapshot>(
             stream: db.collection("produtosRespondidos").snapshots(),

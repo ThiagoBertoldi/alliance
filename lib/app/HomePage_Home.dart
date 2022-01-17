@@ -224,7 +224,7 @@ class HomePageState_Home extends State<HomePage_Home> {
                         ]),
                   ))),
               Container(
-                  margin: EdgeInsets.only(top: 40),
+                  margin: EdgeInsets.only(top: 20),
                   child: Center(
                       child: Text("Escolha uma opção abaixo:",
                           style: TextStyle(
@@ -239,7 +239,7 @@ class HomePageState_Home extends State<HomePage_Home> {
               Container(
                 width: width * 0.65,
                 height: heightScreen * 0.7,
-                margin: EdgeInsets.only(top: heightScreen * .04),
+                margin: EdgeInsets.only(top: heightScreen * .06),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
