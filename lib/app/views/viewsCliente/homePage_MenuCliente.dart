@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'homePage_ComprarDe.dart';
+import 'homePage_ComprasPassadas.dart';
 import 'homePage_CotacoesAEnviar.dart';
 import 'homePage_CadastroProdutos.dart';
 import '../homePage_InfoCadastradas.dart';
@@ -90,6 +92,135 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             ),
           );
         });
+  }
+
+  Future<void> _showDialogCompraProduto(
+      String nomeProduto,
+      String empresaJaContem,
+      String precoJaContem,
+      String empresaNaoContem,
+      String precoNaoContem) async {
+    return showDialog<void>(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Container(
+              width: MediaQuery.of(context).size.width * .8,
+              height: MediaQuery.of(context).size.height * .45,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(nomeProduto,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 21)),
+                  Text("já existe na lista de compras",
+                      style: TextStyle(fontSize: 16)),
+                  Text("\n\nDeseja substituir?",
+                      style: TextStyle(fontSize: 15)),
+                  Text("\nEmpresa:" + empresaNaoContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("Preço: R\$" + precoNaoContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("\npor:"),
+                  Text("\nEmpresa: " + empresaJaContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("Preço: R\$ " + precoJaContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              db
+                                  .collection("comprarDe")
+                                  .doc(empresaJaContem)
+                                  .collection("produtos")
+                                  .doc(nomeProduto)
+                                  .delete();
+
+                              db
+                                  .collection("comprarDe")
+                                  .doc(empresaNaoContem)
+                                  .set({"empresa": empresaNaoContem});
+                              db
+                                  .collection("comprarDe")
+                                  .doc(empresaNaoContem)
+                                  .collection("produtos")
+                                  .doc(nomeProduto)
+                                  .set({
+                                "nomeProduto": nomeProduto,
+                                "empresa": empresaNaoContem,
+                                "preço": precoNaoContem
+                              });
+
+                              Navigator.pop(context);
+                            },
+                            child: Text("Sim",
+                                style: TextStyle(color: Colors.white))),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              db
+                                  .collection("comprarDe")
+                                  .doc(empresaNaoContem)
+                                  .collection("produtos")
+                                  .doc(nomeProduto)
+                                  .delete();
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Não",
+                                style: TextStyle(color: Colors.white))),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  comprarDe(String empresa, String nomeProduto, String preco) async {
+    var query = await db.collection("comprarDe").get();
+
+    for (var doc in query.docs) {
+      var query2 = await db
+          .collection("comprarDe")
+          .doc(doc['empresa'])
+          .collection("produtos")
+          .get();
+
+      for (var doc2 in query2.docs) {
+        if (doc2['nomeProduto'].contains(nomeProduto) &&
+            doc['empresa'] != empresa) {
+          _showDialogCompraProduto(
+              nomeProduto, doc2['empresa'], doc2['preço'], empresa, preco);
+        } else {
+          db.collection("comprarDe").doc(empresa).set({"empresa": empresa});
+          db
+              .collection("comprarDe")
+              .doc(empresa)
+              .collection("produtos")
+              .doc(nomeProduto)
+              .set({
+            "nomeProduto": nomeProduto,
+            "empresa": empresa,
+            "preço": preco
+          });
+        }
+      }
+    }
   }
 
   @override
@@ -337,6 +468,21 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                                                 ),
                                                                                                                                 child: Center(child: Text(docSnapshot3['unidadeMedida'], style: TextStyle(fontSize: 16))),
                                                                                                                               )),
+                                                                                                                          Container(
+                                                                                                                            margin: EdgeInsets.only(top: 5, bottom: 3),
+                                                                                                                            width: MediaQuery.of(context).size.width * .45,
+                                                                                                                            height: MediaQuery.of(context).size.height * .05,
+                                                                                                                            child: ElevatedButton(
+                                                                                                                              child: Text(
+                                                                                                                                "Comprar de " + docSnapshot2['empresa'],
+                                                                                                                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                                                                                                              ),
+                                                                                                                              onPressed: () {
+                                                                                                                                comprarDe(docSnapshot2['empresa'], docSnapshot3['nomeProduto'], docSnapshot3['preço']);
+                                                                                                                                Navigator.pop(context);
+                                                                                                                              },
+                                                                                                                            ),
+                                                                                                                          ),
                                                                                                                         ],
                                                                                                                       );
                                                                                                                     } else {
@@ -521,13 +667,35 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                   }),
               SpeedDialChild(
                   child: Icon(Icons.add, color: Colors.orange),
-                  label: 'Cotações Passadas',
+                  label: 'Cotações Anteriores',
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 HomePage_CotacoesPassadas()));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Lista de Compras',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_ComprarDe(
+                                  title: "ALLIANCE",
+                                )));
+                  }),
+              SpeedDialChild(
+                  child: Icon(Icons.add, color: Colors.orange),
+                  label: 'Compras Anteriores',
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                HomePage_ComprasPassadas(title: "ALLIANCE")));
                   }),
               SpeedDialChild(
                   child: Icon(Icons.add, color: Colors.orange),

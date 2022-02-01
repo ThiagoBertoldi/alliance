@@ -25,7 +25,11 @@ String novoNomeProduto = '';
 String tipoUsuario = '';
 String tipoProduto = '';
 List listaPrecos = [];
+String compraAntigaSelecionada = '';
 
+final DateTime date = DateTime.now();
+final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
+final String dateFormatted = formatter.format(date);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoProduto(String nomeProduto, String tipoProduto) {
   if (nomeProduto != '' || tipoProduto != '') {
@@ -148,6 +152,7 @@ void enviaParaCotacao() async {
       await db.collection("produtosRespondidosModal").get();
   var deletaPrecosProdutos = await db.collection("produtos_").get();
   var deletaPrecoAtual = await db.collection("precoAtualProduto").get();
+  var comprarDe = await db.collection("comprarDe").get();
 
   gravaCotacoesAntigas();
 
@@ -231,14 +236,53 @@ void enviaParaCotacao() async {
 
     db.collection("produtosParaCotacao").doc(doc['nomeProduto']).delete();
   }
+
+  for (var doc in comprarDe.docs) {
+    db
+        .collection("comprasPassadas")
+        .doc(dateFormatted)
+        .set({"dataHora": dateFormatted});
+    db
+        .collection("comprasPassadas")
+        .doc(dateFormatted)
+        .collection("empresas")
+        .doc(doc['empresa'])
+        .set({"empresa": doc['empresa']});
+
+    var query2 = await db
+        .collection("comprarDe")
+        .doc(doc['empresa'])
+        .collection("produtos")
+        .get();
+    for (var doc2 in query2.docs) {
+      db
+          .collection("comprasPassadas")
+          .doc(dateFormatted)
+          .collection("empresas")
+          .doc(doc['empresa'])
+          .collection("produtos")
+          .doc(doc2['nomeProduto'])
+          .set({
+        "nomeProduto": doc2['nomeProduto'],
+        "empresa": doc2['empresa'],
+        "preço": doc2['preço']
+      });
+
+      db
+          .collection("comprarDe")
+          .doc(doc['empresa'])
+          .collection("produtos")
+          .doc(doc2['nomeProduto'])
+          .delete();
+    }
+    db.collection("comprarDe").doc(doc['empresa']).delete();
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaCotacoesAntigas() async {
   List lista = [];
-  final DateTime date = DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
-  final String dateFormatted = formatter.format(date);
+
   var produtosRespondidos = await db.collection("produtosRespondidos").get();
 
   for (var doc in produtosRespondidos.docs) {

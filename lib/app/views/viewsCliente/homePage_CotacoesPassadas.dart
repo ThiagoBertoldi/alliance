@@ -27,11 +27,11 @@ class CotacoesPassadas_State extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState_EsqueciSenha createState() =>
-      _MyHomePageState_EsqueciSenha();
+  _MyHomePageState_CotacoesPassadas createState() =>
+      _MyHomePageState_CotacoesPassadas();
 }
 
-class _MyHomePageState_EsqueciSenha extends State<CotacoesPassadas_State> {
+class _MyHomePageState_CotacoesPassadas extends State<CotacoesPassadas_State> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

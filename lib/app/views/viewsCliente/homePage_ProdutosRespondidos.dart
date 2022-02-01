@@ -19,6 +19,137 @@ class HomePage_ProdutosRespondidos extends StatefulWidget {
 // ignore: camel_case_types
 class _HomePageState_ProdutosRespondidos
     extends State<HomePage_ProdutosRespondidos> {
+  Color color = Colors.white;
+
+  Future<void> _showDialogCompraProduto(
+      String nomeProduto,
+      String empresaJaContem,
+      String precoJaContem,
+      String empresaNaoContem,
+      String precoNaoContem) async {
+    return showDialog<void>(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Container(
+              width: MediaQuery.of(context).size.width * .8,
+              height: MediaQuery.of(context).size.height * .45,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(nomeProduto,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 21)),
+                  Text("já existe na lista de compras",
+                      style: TextStyle(fontSize: 16)),
+                  Text("\n\nDeseja substituir?",
+                      style: TextStyle(fontSize: 15)),
+                  Text("\nEmpresa:" + empresaNaoContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("Preço: R\$" + precoNaoContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("\npor:"),
+                  Text("\nEmpresa: " + empresaJaContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("Preço: R\$ " + precoJaContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              db
+                                  .collection("comprarDe")
+                                  .doc(empresaJaContem)
+                                  .collection("produtos")
+                                  .doc(nomeProduto)
+                                  .delete();
+
+                              db
+                                  .collection("comprarDe")
+                                  .doc(empresaNaoContem)
+                                  .set({"empresa": empresaNaoContem});
+                              db
+                                  .collection("comprarDe")
+                                  .doc(empresaNaoContem)
+                                  .collection("produtos")
+                                  .doc(nomeProduto)
+                                  .set({
+                                "nomeProduto": nomeProduto,
+                                "empresa": empresaNaoContem,
+                                "preço": precoNaoContem
+                              });
+
+                              Navigator.pop(context);
+                            },
+                            child: Text("Sim",
+                                style: TextStyle(color: Colors.white))),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              db
+                                  .collection("comprarDe")
+                                  .doc(empresaNaoContem)
+                                  .collection("produtos")
+                                  .doc(nomeProduto)
+                                  .delete();
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Não",
+                                style: TextStyle(color: Colors.white))),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  comprarDe(String empresa, String nomeProduto, String preco) async {
+    var query = await db.collection("comprarDe").get();
+
+    for (var doc in query.docs) {
+      var query2 = await db
+          .collection("comprarDe")
+          .doc(doc['empresa'])
+          .collection("produtos")
+          .get();
+
+      for (var doc2 in query2.docs) {
+        if (doc2['nomeProduto'].contains(nomeProduto) &&
+            doc['empresa'] != empresa) {
+          _showDialogCompraProduto(
+              nomeProduto, doc2['empresa'], doc2['preço'], empresa, preco);
+        } else {
+          db.collection("comprarDe").doc(empresa).set({"empresa": empresa});
+          db
+              .collection("comprarDe")
+              .doc(empresa)
+              .collection("produtos")
+              .doc(nomeProduto)
+              .set({
+            "nomeProduto": nomeProduto,
+            "empresa": empresa,
+            "preço": preco
+          });
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,14 +250,24 @@ class _HomePageState_ProdutosRespondidos
                                                           duration: Duration(
                                                               milliseconds:
                                                                   2500),
-                                                          child: Column(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
                                                             children: [
                                                               Container(
-                                                                  width: MediaQuery.of(
-                                                                              context)
+                                                                  width: MediaQuery.of(context)
                                                                           .size
                                                                           .width *
-                                                                      0.95,
+                                                                      0.8,
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      .14,
                                                                   child: Card(
                                                                     shape:
                                                                         RoundedRectangleBorder(
@@ -139,6 +280,8 @@ class _HomePageState_ProdutosRespondidos
                                                                       padding:
                                                                           new EdgeInsets.all(
                                                                               5),
+                                                                      color:
+                                                                          color,
                                                                       child:
                                                                           Column(
                                                                         children: [
@@ -170,6 +313,36 @@ class _HomePageState_ProdutosRespondidos
                                                                       ),
                                                                     ),
                                                                   )),
+                                                              Container(
+                                                                  width: MediaQuery.of(context)
+                                                                          .size
+                                                                          .width *
+                                                                      .15,
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height *
+                                                                      .13,
+                                                                  child:
+                                                                      ElevatedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      comprarDe(
+                                                                          docSnapshot[
+                                                                              'empresa'],
+                                                                          docSnapshot2[
+                                                                              'nomeProduto'],
+                                                                          docSnapshot2[
+                                                                              'preço']);
+                                                                    },
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .attach_money,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      size: 30,
+                                                                    ),
+                                                                  ))
                                                             ],
                                                           ))));
                                         } else {
