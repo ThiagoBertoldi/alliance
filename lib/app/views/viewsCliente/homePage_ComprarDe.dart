@@ -206,6 +206,9 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
     page.graphics.drawString(
         "Compras desta semana", PdfStandardFont(PdfFontFamily.helvetica, 40));
 
+    //page.graphics.drawString(
+    //    dateFormatted, PdfStandardFont(PdfFontFamily.helvetica, 40));
+
     PdfGrid grid = PdfGrid();
     grid.style = PdfGridStyle(
         font: PdfStandardFont(PdfFontFamily.helvetica, 18),
@@ -219,6 +222,10 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
     header.cells[1].value = 'Empresa';
     header.cells[2].value = 'Marca';
     header.cells[3].value = 'Preço';
+    header.style = PdfGridRowStyle(
+      font: PdfStandardFont(PdfFontFamily.helvetica, 22,
+          style: PdfFontStyle.bold),
+    );
 
     for (int i = 0; i < listaNome.length; i++) {
       PdfGridRow row = grid.rows.add();
