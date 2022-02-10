@@ -1,8 +1,9 @@
 import 'package:alliance/app/HomePage_Home.dart';
-import 'package:alliance/app/teste_login/google.sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import '../googleLogin/google.sign_in.dart';
 
 // ignore: camel_case_types
 class HomePage_Login extends StatefulWidget {

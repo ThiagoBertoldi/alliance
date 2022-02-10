@@ -26,7 +26,9 @@ class _HomePageState_ProdutosRespondidos
       String empresaJaContem,
       String precoJaContem,
       String empresaNaoContem,
-      String precoNaoContem) async {
+      String precoNaoContem,
+      String marcaJaContem,
+      String marcaNaoContem) async {
     return showDialog<void>(
         barrierDismissible: false,
         context: context,
@@ -46,17 +48,17 @@ class _HomePageState_ProdutosRespondidos
                       style: TextStyle(fontSize: 16)),
                   Text("\n\nDeseja substituir?",
                       style: TextStyle(fontSize: 15)),
-                  Text("\nEmpresa:" + empresaNaoContem,
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                  Text("Preço: R\$" + precoNaoContem,
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                  Text("\npor:"),
                   Text("\nEmpresa: " + empresaJaContem,
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                   Text("Preço: R\$ " + precoJaContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("\npor:"),
+                  Text("\nEmpresa:" + empresaNaoContem,
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                  Text("Preço: R\$" + precoNaoContem,
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                   Row(
@@ -66,19 +68,19 @@ class _HomePageState_ProdutosRespondidos
                       Container(
                         margin: EdgeInsets.only(top: 20),
                         child: ElevatedButton(
-                            onPressed: () {
-                              db
+                            onPressed: () async {
+                              await db
                                   .collection("comprarDe")
                                   .doc(empresaJaContem)
                                   .collection("produtos")
                                   .doc(nomeProduto)
                                   .delete();
 
-                              db
+                              await db
                                   .collection("comprarDe")
                                   .doc(empresaNaoContem)
                                   .set({"empresa": empresaNaoContem});
-                              db
+                              await db
                                   .collection("comprarDe")
                                   .doc(empresaNaoContem)
                                   .collection("produtos")
@@ -86,7 +88,8 @@ class _HomePageState_ProdutosRespondidos
                                   .set({
                                 "nomeProduto": nomeProduto,
                                 "empresa": empresaNaoContem,
-                                "preço": precoNaoContem
+                                "preço": precoNaoContem,
+                                "marca": marcaNaoContem
                               });
 
                               Navigator.pop(context);
@@ -118,7 +121,21 @@ class _HomePageState_ProdutosRespondidos
         });
   }
 
-  comprarDe(String empresa, String nomeProduto, String preco) async {
+  comprarDe(
+      String empresa, String nomeProduto, String preco, String marca) async {
+    db.collection("comprarDe").doc(empresa).set({"empresa": empresa});
+    db
+        .collection("comprarDe")
+        .doc(empresa)
+        .collection("produtos")
+        .doc(nomeProduto)
+        .set({
+      "nomeProduto": nomeProduto,
+      "empresa": empresa,
+      "preço": preco,
+      "marca": marca
+    });
+
     var query = await db.collection("comprarDe").get();
 
     for (var doc in query.docs) {
@@ -131,8 +148,8 @@ class _HomePageState_ProdutosRespondidos
       for (var doc2 in query2.docs) {
         if (doc2['nomeProduto'].contains(nomeProduto) &&
             doc['empresa'] != empresa) {
-          _showDialogCompraProduto(
-              nomeProduto, doc2['empresa'], doc2['preço'], empresa, preco);
+          _showDialogCompraProduto(nomeProduto, doc2['empresa'], doc2['preço'],
+              empresa, preco, doc2['marca'], marca);
         } else {
           db.collection("comprarDe").doc(empresa).set({"empresa": empresa});
           db
@@ -143,7 +160,8 @@ class _HomePageState_ProdutosRespondidos
               .set({
             "nomeProduto": nomeProduto,
             "empresa": empresa,
-            "preço": preco
+            "preço": preco,
+            "marca": marca
           });
         }
       }
@@ -333,7 +351,9 @@ class _HomePageState_ProdutosRespondidos
                                                                           docSnapshot2[
                                                                               'nomeProduto'],
                                                                           docSnapshot2[
-                                                                              'preço']);
+                                                                              'preço'],
+                                                                          docSnapshot2[
+                                                                              'marca']);
                                                                     },
                                                                     child: Icon(
                                                                       Icons

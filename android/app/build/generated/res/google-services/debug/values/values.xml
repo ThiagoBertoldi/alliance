@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">511730493433-hl1jrdc2e208n80lvhapq575ejq5fdrr.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">511730493433</string>
+    <string name="google_api_key" translatable="false">AIzaSyAxFrFsMkRdwXpxSfBbBTJK31GQ8cZjKQE</string>
+    <string name="google_app_id" translatable="false">1:511730493433:android:8c341d98980ac027157f28</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAxFrFsMkRdwXpxSfBbBTJK31GQ8cZjKQE</string>
+    <string name="google_storage_bucket" translatable="false">pac4fase.appspot.com</string>
+    <string name="project_id" translatable="false">pac4fase</string>
+</resources>

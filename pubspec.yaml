@@ -39,7 +39,10 @@ dependencies:
   flutter_staggered_animations: ^1.0.0
   flutter_speed_dial: ^4.6.6
   provider: ^5.0.0
-  
+  syncfusion_flutter_pdf: ^19.4.50-beta
+  open_file: ^3.2.1
+  path_provider: ^2.0.8
+ 
 dev_dependencies:
   flutter_test:
     sdk: flutter

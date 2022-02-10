@@ -1,7 +1,8 @@
+import 'package:alliance/app/views/viewsCliente/geraPDF/mobile.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'homePage_MenuCliente.dart';
 
 // ignore: camel_case_types
@@ -16,6 +17,32 @@ class HomePage_ComprarDe extends StatefulWidget {
 
 // ignore: camel_case_types
 class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
+  List listaNome = [];
+  List listaEmpresa = [];
+  List listaPreco = [];
+  List listaMarca = [];
+
+  implementaListas(
+      String nomeProduto, String empresa, String preco, String marca) {
+    if (listaNome.contains(nomeProduto)) {
+    } else {
+      listaNome.add(nomeProduto);
+      listaPreco.add(preco);
+      listaEmpresa.add(empresa);
+      listaMarca.add(marca);
+    }
+
+    print("Listas implementadas");
+  }
+
+  limpaListas() async {
+    listaNome.clear();
+    listaEmpresa.clear();
+    listaPreco.clear();
+    listaMarca.clear();
+    print("Listas implementadas");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +50,7 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
           title: Text(widget.title, style: TextStyle(color: Colors.white)),
           leading: GestureDetector(
             onTap: () {
+              limpaListas();
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -37,9 +65,25 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
           ),
         ),
         body: ListView(children: [
+          Column(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * .6,
+                height: MediaQuery.of(context).size.height * .06,
+                margin: EdgeInsets.only(top: 35),
+                child: ElevatedButton(
+                  child: Text("Exportar para PDF",
+                      style: TextStyle(fontSize: 15, color: Colors.white)),
+                  onPressed: () {
+                    _createPDF(listaNome, listaEmpresa, listaMarca, listaPreco);
+                  },
+                ),
+              ),
+            ],
+          ),
           Center(
               child: Container(
-            margin: EdgeInsets.only(top: 45),
+            margin: EdgeInsets.only(top: 35),
             child: Text("Lista de compras desta Semana",
                 style: TextStyle(
                     fontSize: 23,
@@ -63,6 +107,7 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
                       itemBuilder: (context, index) {
                         DocumentSnapshot docSnapshot =
                             snapshot.data!.docs[index];
+
                         return Column(
                           children: [
                             Container(
@@ -83,9 +128,14 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
                                         physics: BouncingScrollPhysics(),
                                         shrinkWrap: true,
                                         itemCount: snapshot2.data!.docs.length,
-                                        itemBuilder: (context, index) {
-                                          DocumentSnapshot docSnapshot =
-                                              snapshot2.data!.docs[index];
+                                        itemBuilder: (context, index2) {
+                                          DocumentSnapshot docSnapshot2 =
+                                              snapshot2.data!.docs[index2];
+                                          implementaListas(
+                                              docSnapshot2['nomeProduto'],
+                                              docSnapshot2['empresa'],
+                                              docSnapshot2['preço'],
+                                              docSnapshot2['marca']);
                                           return Column(
                                             children: [
                                               Container(
@@ -113,17 +163,20 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                          docSnapshot[
+                                                          docSnapshot2[
                                                               'nomeProduto'],
                                                           style: TextStyle(
                                                               fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold)),
-                                                      Text(docSnapshot['preço'],
+                                                      Text(
+                                                          "R\$ " +
+                                                              docSnapshot2[
+                                                                  'preço'],
                                                           style: TextStyle(
                                                               color: Colors
-                                                                  .orange))
+                                                                  .orange)),
                                                     ],
                                                   ),
                                                 ),
@@ -141,7 +194,45 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
                 } else {
                   return CircularProgressIndicator();
                 }
-              })
+              }),
         ]));
+  }
+
+  Future<void> _createPDF(List listaNome, List listaEmpresa, List listaMarca,
+      List listaPreco) async {
+    PdfDocument document = PdfDocument();
+    final page = document.pages.add();
+
+    page.graphics.drawString(
+        "Compras desta semana", PdfStandardFont(PdfFontFamily.helvetica, 40));
+
+    PdfGrid grid = PdfGrid();
+    grid.style = PdfGridStyle(
+        font: PdfStandardFont(PdfFontFamily.helvetica, 18),
+        cellPadding: PdfPaddings(left: 5, right: 2, top: 2, bottom: 2));
+
+    grid.columns.add(count: 4);
+    grid.headers.add(1);
+
+    PdfGridRow header = grid.headers[0];
+    header.cells[0].value = 'Produto';
+    header.cells[1].value = 'Empresa';
+    header.cells[2].value = 'Marca';
+    header.cells[3].value = 'Preço';
+
+    for (int i = 0; i < listaNome.length; i++) {
+      PdfGridRow row = grid.rows.add();
+      row.cells[0].value = listaNome[i];
+      row.cells[1].value = listaEmpresa[i];
+      row.cells[2].value = listaMarca[i];
+      row.cells[3].value = "R\$ " + listaPreco[i];
+    }
+    grid.draw(
+        page: document.pages.add(), bounds: const Rect.fromLTWH(0, 0, 0, 0));
+
+    List<int> bytes = document.save();
+    document.dispose();
+
+    saveAndLaunchFile(bytes, "CompraSemanal.pdf");
   }
 }
