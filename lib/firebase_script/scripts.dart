@@ -26,6 +26,8 @@ String tipoUsuario = '';
 String tipoProduto = '';
 List listaPrecos = [];
 String compraAntigaSelecionada = '';
+String quantidadeDeCompra = '';
+String unidadeMedidaComprarDe = '';
 
 final DateTime date = DateTime.now();
 final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
@@ -86,50 +88,145 @@ void deletaProduto(String nomeProduto) async {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void editaNomeProduto(String nomeProduto, String novoNome, String marca,
-    String precoMaisAlto, String precoMaisBaixo, String unidadeMedida) async {
-  // ignore: unnecessary_null_comparison
-  if (novoNome == '') {
-    novoNome = nomeProduto;
+void editaNomeProduto(
+    String nomeProduto,
+    String novoNome,
+    String marca,
+    String precoMaisAlto,
+    String precoMaisBaixo,
+    String unidadeMedida,
+    String tipoProduto) async {
+  if (novoNome == '' || novoNome == nomeProduto) {
+    return;
   }
 
-  var query = await db.collection("precoAtualProduto").get();
+  await db
+      .collection("produtos_")
+      .doc(novoNome)
+      .set({
+        "nomeProduto": novoNome,
+        "marca": marca,
+        "precoMaisAlto": precoMaisAlto,
+        "precoMaisBaixo": precoMaisBaixo,
+        "unidadeMedida": unidadeMedida,
+        "tipoProduto": tipoProduto
+      })
+      .then((value) => db.collection("produtos_").doc(nomeProduto).delete())
+      .onError((error, stackTrace) => "Produto não alterado em \"produtos_\"");
+
+  await db
+      .collection("produtosEmCotacao")
+      .doc(novoNome)
+      .set({"nomeProduto": novoNome, "tipoProduto": tipoProduto}).then(
+          (value) => db
+              .collection("produtosEmCotacao")
+              .doc(nomeProduto)
+              .delete()
+              .onError((error, stackTrace) =>
+                  print("Erro ao modificar em \"produtosEmCotacao\"")));
+
+  await db
+      .collection("precoAtualProduto")
+      .doc(novoNome)
+      .set({"nomeProduto": novoNome});
+
+  var query = await db
+      .collection("precoAtualProduto")
+      .doc(nomeProduto)
+      .collection("empresas")
+      .get();
 
   for (var doc in query.docs) {
-    var query = await db
+    await db
         .collection("precoAtualProduto")
-        .doc(doc['nomeProduto'])
+        .doc(novoNome)
         .collection("empresas")
+        .doc(doc['empresa'])
+        .set({
+          "nomeProduto": novoNome,
+          "empresa": doc['empresa'],
+          "preço": doc['preço']
+        })
+        .then((value) => db
+            .collection("precoAtualProduto")
+            .doc(nomeProduto)
+            .collection("empresas")
+            .doc(doc['empresa'])
+            .delete())
+        .onError((error, stackTrace) =>
+            print("Erro ao modificar em \"precoAtualProduto\""));
+  }
+
+  await db.collection("precoAtualProduto").doc(nomeProduto).delete();
+
+  var query2 = await db.collection("produtosRespondidos").get();
+  for (var doc2 in query2.docs) {
+    var recebeValores = await db
+        .collection("produtosRespondidos")
+        .doc(doc2['empresa'])
+        .collection("produtos")
         .get();
-    for (var doc2 in query.docs) {
-      db
-          .collection("precoAtualProduto")
-          .doc(doc['nomeProduto'])
-          .collection("empresas")
+
+    for (var doc3 in recebeValores.docs) {
+      await db
+          .collection("produtosRespondidos")
           .doc(doc2['empresa'])
-          .delete();
+          .collection("produtos")
+          .doc(novoNome)
+          .set({
+        "nomeProduto": novoNome,
+        "empresa": doc2['empresa'],
+        "marca": doc3['marca'],
+        "preço": doc3['preço'],
+        "unidadeMedida": doc3['unidadeMedida']
+      }).then((value) => db
+              .collection("produtosRespondidos")
+              .doc(doc2['empresa'])
+              .collection("produtos")
+              .doc(nomeProduto)
+              .delete());
+      break;
     }
   }
 
-  await db.collection("produtos_").doc(nomeProduto).delete();
-  await db.collection("precoAtualProduto").doc(nomeProduto).delete();
+  var query3 = await db.collection("produtosRespondidosModal").get();
 
-  await db.collection("produtos_").doc(novoNome).set({
-    "nomeProduto": novoNome,
-    "marca": marca,
-    "precoMaisAlto": precoMaisAlto,
-    "precoMaisBaixo": precoMaisBaixo,
-    "unidadeMedida": unidadeMedida
-  });
+  for (var doc3 in query3.docs) {
+    var query4 = await db
+        .collection("produtosRespondidosModal")
+        .doc(doc3['empresa'])
+        .collection("produtos")
+        .get();
+    for (var doc4 in query4.docs) {
+      await db
+          .collection("produtosRespondidosModal")
+          .doc(doc3['empresa'])
+          .collection("produtos")
+          .doc(novoNome)
+          .set({
+        "nomeProduto": novoNome,
+        "marca": doc4['marca'],
+        "empresa": doc4['empresa'],
+        "preço": doc4['preço'],
+        "unidadeMedida": doc4['unidadeMedida']
+      }).then((value) => db
+              .collection("produtosRespondidosModal")
+              .doc(doc3['empresa'])
+              .collection("produtos")
+              .doc(nomeProduto)
+              .delete());
+      break;
+    }
+  }
 
-  await db.collection("precoAtualProduto").doc(novoNome).set({
-    "nomeProduto": novoNome,
-    "marca": marca,
-    "precoMaisAlto": precoMaisAlto,
-    "precoMaisBaixo": precoMaisBaixo,
-    "unidadeMedida": unidadeMedida
-  });
+  await db
+      .collection("produtosParaCotacao")
+      .doc(novoNome)
+      .set({"nomeProduto": novoNome, "tipoProduto": tipoProduto}).then(
+          (value) =>
+              db.collection("produtosParaCotacao").doc(nomeProduto).delete());
 
+  print("Alteração de nome realizada...");
   novoNome = '';
   novoNomeProduto = '';
 }
@@ -140,7 +237,28 @@ void enviaParaPreCotacao(String nomeProduto, String tipoProduto) async {
       .collection("produtosParaCotacao")
       .doc(nomeProduto)
       .set({"nomeProduto": nomeProduto, "tipoProduto": tipoProduto}).then(
-          (value) => "Colocado em pré-cotação");
+          (value) => print("Colocado em pré-cotação"));
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void deletaPrecosAtuaisProdutos() async {
+  var deletaPrecoAtual = await db.collection("precoAtualProduto").get();
+  for (var doc in deletaPrecoAtual.docs) {
+    var recebeEmpresasPrecoAtualProduto = await db
+        .collection("precoAtualProduto")
+        .doc(doc['nomeProduto'])
+        .collection("empresas")
+        .get();
+    for (var doc2 in recebeEmpresasPrecoAtualProduto.docs) {
+      db
+          .collection("precoAtualProduto")
+          .doc(doc['nomeProduto'])
+          .collection("empresas")
+          .doc(doc2['empresa'])
+          .delete();
+    }
+    db.collection("precoAtualProduto").doc(doc['nomeProduto']).delete();
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,27 +269,12 @@ void enviaParaCotacao() async {
   var produtosRespondidosModal =
       await db.collection("produtosRespondidosModal").get();
   var deletaPrecosProdutos = await db.collection("produtos_").get();
-  var deletaPrecoAtual = await db.collection("precoAtualProduto").get();
+
   var comprarDe = await db.collection("comprarDe").get();
 
   gravaCotacoesAntigas();
 
-  for (var doc5 in deletaPrecoAtual.docs) {
-    var recebeEmpresasPrecoAtualProduto = await db
-        .collection("precoAtualProduto")
-        .doc(doc5['nomeProduto'])
-        .collection("empresas")
-        .get();
-    for (var doc6 in recebeEmpresasPrecoAtualProduto.docs) {
-      db
-          .collection("precoAtualProduto")
-          .doc(doc5['nomeProduto'])
-          .collection("empresas")
-          .doc(doc6['empresa'])
-          .delete();
-    }
-    db.collection("precoAtualProduto").doc(doc5['nomeProduto']).delete();
-  }
+  deletaPrecosAtuaisProdutos();
 
   for (var doc2 in produtosRespondidos.docs) {
     var query = await db
@@ -186,7 +289,8 @@ void enviaParaCotacao() async {
           .collection("produtos")
           .doc(doc['nomeProduto'])
           .delete()
-          .then((value) => "Produto deletado da tabela produtosRespondidos!");
+          .then((value) =>
+              print("Produto deletado da tabela produtosRespondidos!"));
     }
   }
 
@@ -292,7 +396,7 @@ void gravaCotacoesAntigas() async {
       .collection("cotacoesPassadas")
       .doc("$dateFormatted")
       .set({"dataHora": dateFormatted}).then(
-          (value) => "Documento criado no FireBase: " + dateFormatted);
+          (value) => print("Documento criado no FireBase: " + dateFormatted));
   for (int i = 0; i < lista.length; i++) {
     var recebeDados = await db
         .collection("produtosRespondidos")
@@ -380,8 +484,9 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
       .collection("empresas")
       .doc(empresa)
       .set({"nomeProduto": nomeProduto, "preço": preco, "empresa": empresa})
-      .then((value) => "Preço Atual Criado!!!")
-      .onError((error, stackTrace) => "Erro Linha 201 \"scripts.dart:200\"");
+      .then((value) => print("Preço Atual Criado!!!"))
+      .onError((error, stackTrace) =>
+          "Erro ao gravar na collection \"precoAtualProduto\"");
 
   db
       .collection("produtosRespondidosModal")
@@ -399,8 +504,9 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
         "preço": preco,
         "empresa": empresa
       })
-      .then((value) => "Informações Modal OK!!!")
-      .onError((error, stackTrace) => "Erro Linha 218 \"scripts.dart:218\"");
+      .then((value) => print("Informações Modal OK!!!"))
+      .onError(
+          (error, stackTrace) => print("Erro ao incluir informações no modal"));
 
   db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
   db
@@ -416,8 +522,10 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
         "empresa": empresa
       })
       .then((value) => print("Enviada com Sucesso!!!"))
-      .onError((error, stackTrace) => "Erro Linha 233 \"scripts.dart:233\"");
+      .onError((error, stackTrace) => print("Cotação não respondida..."));
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -433,25 +541,44 @@ void calculaPrecos() async {
         .collection("empresas")
         .get();
     for (var doc2 in produtos2.docs) {
-      if (doc2['preço'] == '' || doc2['preço'] == 0) {
+      if (doc2['preço'] == '' || doc2['preço'] == 0 || doc2['preço'] == "-/-") {
         print("Sem preço cadastrado");
       } else {
         print(doc2['nomeProduto'] + ": preço comparado");
         listaPrecos.add(doc2['preço']);
       }
     }
-    listaPrecos.sort();
-    db
-        .collection('produtos_')
-        .doc(doc1['nomeProduto'])
-        .update({'precoMaisAlto': listaPrecos.last});
-    db
-        .collection('produtos_')
-        .doc(doc1['nomeProduto'])
-        .update({'precoMaisBaixo': listaPrecos.first});
+    if (listaPrecos.isEmpty) {
+      print("Esta lista esta vazia");
+    } else {
+      for (int i = 0; i < listaPrecos.length; i++) {
+        listaPrecos[i] = double.parse(listaPrecos[i]);
+      }
+
+      listaPrecos.sort();
+
+      for (int i = 0; i < listaPrecos.length; i++) {
+        listaPrecos[i] = listaPrecos[i].toString();
+      }
+    }
+
+    if (listaPrecos.isEmpty) {
+    } else {
+      db
+          .collection('produtos_')
+          .doc(doc1['nomeProduto'])
+          .update({'precoMaisAlto': listaPrecos.last}).then(
+              (value) => print("Maior preço setado"));
+      db
+          .collection('produtos_')
+          .doc(doc1['nomeProduto'])
+          .update({'precoMaisBaixo': listaPrecos.first}).then(
+              (value) => print("Menor preço setado"));
+    }
+
     listaPrecos.clear();
   }
-  print("Comparação de preços de produtos OK");
+  print("Comparação de preços de produtos terminada...");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////

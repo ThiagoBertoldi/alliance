@@ -39,8 +39,8 @@ android {
         applicationId "com.catolica.alliance"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 7
-        versionName "7.0"
+        versionCode 9
+        versionName "9.0"
 
     signingConfigs {
        release {

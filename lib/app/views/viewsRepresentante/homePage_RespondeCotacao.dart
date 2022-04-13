@@ -1,6 +1,7 @@
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'homePage_MenuRepresentanteMateriaPrima.dart';
@@ -53,6 +54,25 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
       ),
       body: ListView(
         children: [
+          Container(
+            margin: EdgeInsets.all(20),
+            padding: EdgeInsets.all(5),
+            color: Colors.red,
+            child: Column(
+              children: [
+                Text("Atenção: ",
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+                Text("Utilize \' . \' (ponto) para formatação do preço!!!",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
           Container(
               padding: new EdgeInsets.all(30),
               child: Text(
@@ -123,6 +143,10 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                             Center(
                                                                           child:
                                                                               TextFormField(
+                                                                            inputFormatters: [
+                                                                              FilteringTextInputFormatter.allow(RegExp('[0-9.]')),
+                                                                              FilteringTextInputFormatter.deny(RegExp('[,]')),
+                                                                            ],
                                                                             keyboardType:
                                                                                 TextInputType.number,
                                                                             textAlign:
@@ -217,7 +241,7 @@ class HomePage_ResponderCotacao extends State<HomePageState_ResponderCotacao> {
                                                                             },
                                                                             decoration:
                                                                                 InputDecoration(
-                                                                              hintText: "Unidade de Medida",
+                                                                              hintText: "Quantidade / Observações",
                                                                               border: InputBorder.none,
                                                                             ),
                                                                           ),

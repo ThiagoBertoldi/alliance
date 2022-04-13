@@ -21,18 +21,22 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
   List listaEmpresa = [];
   List listaPreco = [];
   List listaMarca = [];
+  List listaQuantidade = [];
+  List listaUnidadeMedida = [];
 
-  implementaListas(
-      String nomeProduto, String empresa, String preco, String marca) {
+  implementaListas(String nomeProduto, String empresa, String preco,
+      String marca, String quantidadeDeCompra, String unidadeMedidaCompra) {
     if (listaNome.contains(nomeProduto)) {
     } else {
       listaNome.add(nomeProduto);
       listaPreco.add(preco);
       listaEmpresa.add(empresa);
       listaMarca.add(marca);
+      listaQuantidade.add(quantidadeDeCompra);
+      listaUnidadeMedida.add(unidadeMedidaCompra);
     }
 
-    print("Listas implementadas");
+    print("As listas foram implementadas");
   }
 
   limpaListas() async {
@@ -40,7 +44,9 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
     listaEmpresa.clear();
     listaPreco.clear();
     listaMarca.clear();
-    print("Listas implementadas");
+    listaQuantidade.clear();
+    listaUnidadeMedida.clear();
+    print("As listas foram limpas");
   }
 
   @override
@@ -75,7 +81,8 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
                   child: Text("Exportar para PDF",
                       style: TextStyle(fontSize: 15, color: Colors.white)),
                   onPressed: () {
-                    _createPDF(listaNome, listaEmpresa, listaMarca, listaPreco);
+                    _createPDF(listaNome, listaEmpresa, listaMarca, listaPreco,
+                        listaQuantidade, listaUnidadeMedida);
                   },
                 ),
               ),
@@ -135,7 +142,11 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
                                               docSnapshot2['nomeProduto'],
                                               docSnapshot2['empresa'],
                                               docSnapshot2['preço'],
-                                              docSnapshot2['marca']);
+                                              docSnapshot2['marca'],
+                                              docSnapshot2[
+                                                  'quantidadeDeCompra'],
+                                              docSnapshot2[
+                                                  'unidadeMedidaCompra']);
                                           return Column(
                                             children: [
                                               Container(
@@ -199,7 +210,7 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
   }
 
   Future<void> _createPDF(List listaNome, List listaEmpresa, List listaMarca,
-      List listaPreco) async {
+      List listaPreco, List listaQuantidade, List listaUnidadeMedida) async {
     PdfDocument document = PdfDocument();
     final page = document.pages.add();
 
@@ -214,7 +225,7 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
         font: PdfStandardFont(PdfFontFamily.helvetica, 18),
         cellPadding: PdfPaddings(left: 5, right: 2, top: 2, bottom: 2));
 
-    grid.columns.add(count: 4);
+    grid.columns.add(count: 6);
     grid.headers.add(1);
 
     PdfGridRow header = grid.headers[0];
@@ -222,6 +233,8 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
     header.cells[1].value = 'Empresa';
     header.cells[2].value = 'Marca';
     header.cells[3].value = 'Preço';
+    header.cells[4].value = 'Quantidade';
+    header.cells[5].value = 'Unidade';
     header.style = PdfGridRowStyle(
       font: PdfStandardFont(PdfFontFamily.helvetica, 22,
           style: PdfFontStyle.bold),
@@ -233,7 +246,10 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
       row.cells[1].value = listaEmpresa[i];
       row.cells[2].value = listaMarca[i];
       row.cells[3].value = "R\$ " + listaPreco[i];
+      row.cells[4].value = listaQuantidade[i];
+      row.cells[5].value = listaUnidadeMedida[i];
     }
+
     grid.draw(
         page: document.pages.add(), bounds: const Rect.fromLTWH(0, 0, 0, 0));
 

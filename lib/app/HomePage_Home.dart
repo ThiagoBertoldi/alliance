@@ -54,7 +54,7 @@ class HomePageState_Home extends State<HomePage_Home> {
                       padding: EdgeInsets.all(15),
                       child: TextFormField(
                         onChanged: (value) {
-                          empresa = value;
+                          empresa = value.toUpperCase();
                         },
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -179,7 +179,7 @@ class HomePageState_Home extends State<HomePage_Home> {
   }
 
   void verificaSenha() async {
-    if (senhaAcessoApp == 'padoka33762723') {
+    if (senhaAcessoApp == 'padoka') {
       calculaPrecos();
       Navigator.push(
           context,

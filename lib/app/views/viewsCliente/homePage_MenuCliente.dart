@@ -27,8 +27,13 @@ class MenuCliente_State extends StatefulWidget {
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
   final DateTime date = DateTime.now();
 
-  Future<void> _showDialogAlteraNomeProduto(String nomeProduto, String marca,
-      String precoMaisAlto, String precoMaisBaixo, String unidadeMedida) async {
+  Future<void> _showDialogAlteraNomeProduto(
+      String nomeProduto,
+      String marca,
+      String precoMaisAlto,
+      String precoMaisBaixo,
+      String unidadeMedida,
+      String tipoProduto) async {
     return showDialog<void>(
         context: context,
         builder: (BuildContext context) {
@@ -79,10 +84,16 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                           primary: Colors.orange,
                           onPrimary: Colors.white),
                       onPressed: () {
-                        editaNomeProduto(nomeProduto, novoNomeProduto, marca,
-                            precoMaisAlto, precoMaisBaixo, unidadeMedida);
+                        editaNomeProduto(
+                            nomeProduto,
+                            novoNomeProduto,
+                            marca,
+                            precoMaisAlto,
+                            precoMaisBaixo,
+                            unidadeMedida,
+                            tipoProduto);
 
-                        Navigator.pop(context);
+                        Navigator.of(context).pop();
                       },
                       child: Text("Salvar"),
                     ),
@@ -101,7 +112,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
       String empresaNaoContem,
       String precoNaoContem,
       String marcaJaContem,
-      String marcaNaoContem) async {
+      String marcaNaoContem,
+      String quantidade) async {
     return showDialog<void>(
         barrierDismissible: false,
         context: context,
@@ -144,13 +156,6 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                             onPressed: () async {
                               await db
                                   .collection("comprarDe")
-                                  .doc(empresaJaContem)
-                                  .collection("produtos")
-                                  .doc(nomeProduto)
-                                  .delete();
-
-                              await db
-                                  .collection("comprarDe")
                                   .doc(empresaNaoContem)
                                   .set({"empresa": empresaNaoContem});
                               await db
@@ -162,8 +167,14 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                 "nomeProduto": nomeProduto,
                                 "empresa": empresaNaoContem,
                                 "preço": precoNaoContem,
-                                "marca": marcaNaoContem
-                              });
+                                "marca": marcaNaoContem,
+                                "quantidade": quantidade
+                              }).then((value) => db
+                                      .collection("comprarDe")
+                                      .doc(empresaJaContem)
+                                      .collection("produtos")
+                                      .doc(nomeProduto)
+                                      .delete());
 
                               Navigator.pop(context);
                             },
@@ -194,8 +205,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         });
   }
 
-  comprarDe(
-      String empresa, String nomeProduto, String preco, String marca) async {
+  comprarDe(String empresa, String nomeProduto, String preco, String marca,
+      String quantidade) async {
     db.collection("comprarDe").doc(empresa).set({"empresa": empresa});
     db
         .collection("comprarDe")
@@ -206,7 +217,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
       "nomeProduto": nomeProduto,
       "empresa": empresa,
       "preço": preco,
-      "marca": marca
+      "marca": marca,
+      "quantidade": quantidade
     });
 
     var query = await db.collection("comprarDe").get();
@@ -222,7 +234,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
         if (doc2['nomeProduto'].contains(nomeProduto) &&
             doc['empresa'] != empresa) {
           _showDialogCompraProduto(nomeProduto, doc2['empresa'], doc2['preço'],
-              empresa, preco, doc2['marca'], marca);
+              empresa, preco, doc2['marca'], marca, quantidade);
         } else {
           db.collection("comprarDe").doc(empresa).set({"empresa": empresa});
           db
@@ -234,7 +246,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             "nomeProduto": nomeProduto,
             "empresa": empresa,
             "preço": preco,
-            "marca": marca
+            "marca": marca,
+            "quantidade": quantidade
           });
         }
       }
@@ -387,7 +400,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                         icon: const Icon(Icons.edit),
                                                                                         color: Colors.white,
                                                                                         onPressed: () {
-                                                                                          _showDialogAlteraNomeProduto(docSnapshot['nomeProduto'], docSnapshot['marca'], docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo'], docSnapshot['unidadeMedida']);
+                                                                                          _showDialogAlteraNomeProduto(docSnapshot['nomeProduto'], docSnapshot['marca'], docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo'], docSnapshot['unidadeMedida'], docSnapshot['tipoProduto']);
                                                                                         },
                                                                                       ),
                                                                                     ),
@@ -458,7 +471,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                                                 shape: RoundedRectangleBorder(
                                                                                                                                   borderRadius: BorderRadius.circular(15.0),
                                                                                                                                 ),
-                                                                                                                                child: Center(child: Text(docSnapshot3['preço'], style: TextStyle(fontSize: 18, color: Colors.orange))),
+                                                                                                                                child: Center(child: Text("R\$ " + docSnapshot3['preço'], style: TextStyle(fontSize: 18, color: Colors.orange))),
                                                                                                                               )),
                                                                                                                           Container(
                                                                                                                             margin: EdgeInsets.only(top: 5),
@@ -496,7 +509,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                                                                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                                                                                                               ),
                                                                                                                               onPressed: () {
-                                                                                                                                comprarDe(docSnapshot2['empresa'], docSnapshot3['nomeProduto'], docSnapshot3['preço'], docSnapshot3['marca']);
+                                                                                                                                comprarDe(docSnapshot2['empresa'], docSnapshot3['nomeProduto'], docSnapshot3['preço'], docSnapshot3['marca'], quantidadeDeCompra);
                                                                                                                                 Navigator.pop(context);
                                                                                                                               },
                                                                                                                             ),
