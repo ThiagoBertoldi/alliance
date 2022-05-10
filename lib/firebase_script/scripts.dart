@@ -1,5 +1,5 @@
+import 'package:alliance/firebase_script/ordenador.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:intl/intl.dart';
 
 var db = FirebaseFirestore.instance;
@@ -24,10 +24,9 @@ String senhaAcessoApp = '';
 String novoNomeProduto = '';
 String tipoUsuario = '';
 String tipoProduto = '';
-List listaPrecos = [];
 String compraAntigaSelecionada = '';
 String quantidadeDeCompra = '';
-String unidadeMedidaComprarDe = '';
+String unidadeMedidaComprarDe = 'Outro';
 
 final DateTime date = DateTime.now();
 final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
@@ -35,56 +34,91 @@ final String dateFormatted = formatter.format(date);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoProduto(String nomeProduto, String tipoProduto) {
   if (nomeProduto != '' || tipoProduto != '') {
-    db.collection("produtos_").doc(nomeProduto).set({
-      "nomeProduto": nomeProduto,
-      "marca": "-/-",
-      "unidadeMedida": "-/-",
-      "precoMaisBaixo": "-/-",
-      "precoMaisAlto": "-/-",
-      "tipoProduto": tipoProduto
-    }).then((value) => print("Cadastrado!!!"));
-  } else {
-    print("Algo deu errado, você pode tentar de novo...");
+    db
+        .collection("produtos_")
+        .doc(nomeProduto)
+        .set({
+          "nomeProduto": nomeProduto,
+          "marca": "-/-",
+          "unidadeMedida": "-/-",
+          "precoMaisBaixo": "-/-",
+          "precoMaisAlto": "-/-",
+          "tipoProduto": tipoProduto,
+          "empresaPrecoAlto": "-/-",
+          "empresaPrecoBaixo": "-/-"
+        })
+        .then((value) => print("Cadastrado!!!"))
+        .onError((error, stackTrace) => print("Erro ao cadastrar produto: " +
+            nomeProduto +
+            " || " +
+            error.toString()));
   }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void deletaProduto(String nomeProduto) async {
-  var query = await db
-      .collection("precoAtualProduto")
-      .doc(nomeProduto)
-      .collection("empresas")
-      .get();
-
-  for (var doc in query.docs) {
-    await db
+  try {
+    var query = await db
         .collection("precoAtualProduto")
         .doc(nomeProduto)
         .collection("empresas")
-        .doc(doc['empresa'])
-        .delete();
-  }
+        .get();
 
-  await db
-      .collection("produtosEmCotacao")
-      .doc(nomeProduto)
-      .delete()
-      .then((value) => "Produto deletado da cotação");
-  await db
-      .collection("produtosParaCotacao")
-      .doc(nomeProduto)
-      .delete()
-      .then((value) => "Produto deletado da pré-cotação");
-  await db
-      .collection("precoAtualProduto")
-      .doc(nomeProduto)
-      .delete()
-      .then((value) => "Produto deletado dos preços atuais");
-  await db
-      .collection("produtos_")
-      .doc(nomeProduto)
-      .delete()
-      .then((value) => "Produto Deletado");
+    for (var doc in query.docs) {
+      await db
+          .collection("precoAtualProduto")
+          .doc(nomeProduto)
+          .collection("empresas")
+          .doc(doc['empresa'])
+          .delete();
+    }
+
+    await db
+        .collection("precoAtualProduto")
+        .doc(nomeProduto)
+        .delete()
+        .then((value) => print("Produto deletado dos preços atuais"))
+        .onError((error, stackTrace) => print(
+            "Produto não deletado de \"precoAtualProduto\": " +
+                nomeProduto +
+                " || " +
+                error.toString()));
+
+    await db
+        .collection("produtosEmCotacao")
+        .doc(nomeProduto)
+        .delete()
+        .then((value) => print("Produto deletado da cotação"))
+        .onError((error, stackTrace) => print(
+            "Erro ao deletar produto de \"produtosEmCotacao\": " +
+                nomeProduto +
+                " || " +
+                error.toString()));
+
+    await db
+        .collection("produtosParaCotacao")
+        .doc(nomeProduto)
+        .delete()
+        .then((value) => print("Produto deletado da pré-cotação"))
+        .onError((error, stackTrace) => print(
+            "Erro ao deletar produto de \"produtosParaCotacao\": " +
+                nomeProduto +
+                " || " +
+                error.toString()));
+
+    await db
+        .collection("produtos_")
+        .doc(nomeProduto)
+        .delete()
+        .then((value) => print("Produto Deletado"))
+        .onError((error, stackTrace) => print(
+            "Erro ao deletar produto de \"produtos_\": " +
+                nomeProduto +
+                " || " +
+                error.toString()));
+  } catch (error) {
+    print("Não foi possível deletar -> " + error.toString());
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,7 +129,9 @@ void editaNomeProduto(
     String precoMaisAlto,
     String precoMaisBaixo,
     String unidadeMedida,
-    String tipoProduto) async {
+    String tipoProduto,
+    String empresaPrecoAlto,
+    String empresaPrecoBaixo) async {
   if (novoNome == '' || novoNome == nomeProduto) {
     return;
   }
@@ -109,10 +145,16 @@ void editaNomeProduto(
         "precoMaisAlto": precoMaisAlto,
         "precoMaisBaixo": precoMaisBaixo,
         "unidadeMedida": unidadeMedida,
-        "tipoProduto": tipoProduto
+        "tipoProduto": tipoProduto,
+        "empresaPrecoAlto": empresaPrecoAlto,
+        "empresaPrecoBaixo": empresaPrecoBaixo
       })
       .then((value) => db.collection("produtos_").doc(nomeProduto).delete())
-      .onError((error, stackTrace) => "Produto não alterado em \"produtos_\"");
+      .onError((error, stackTrace) => print(
+          "Produto não alterado em \"produtos_\":" +
+              nomeProduto +
+              " || " +
+              error.toString()));
 
   await db
       .collection("produtosEmCotacao")
@@ -122,8 +164,11 @@ void editaNomeProduto(
               .collection("produtosEmCotacao")
               .doc(nomeProduto)
               .delete()
-              .onError((error, stackTrace) =>
-                  print("Erro ao modificar em \"produtosEmCotacao\"")));
+              .onError((error, stackTrace) => print(
+                  "Erro ao modificar em \"produtosEmCotacao\": " +
+                      nomeProduto +
+                      " || " +
+                      error.toString())));
 
   await db
       .collection("precoAtualProduto")
@@ -219,26 +264,61 @@ void editaNomeProduto(
     }
   }
 
-  await db
-      .collection("produtosParaCotacao")
-      .doc(novoNome)
-      .set({"nomeProduto": novoNome, "tipoProduto": tipoProduto}).then(
-          (value) =>
-              db.collection("produtosParaCotacao").doc(nomeProduto).delete());
+  await db.collection("produtosParaCotacao").doc(nomeProduto).delete();
 
   print("Alteração de nome realizada...");
+
   novoNome = '';
   novoNomeProduto = '';
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+insereNaCotacao(String nomeProduto, String tipoProduto) async {
+  await db
+      .collection("produtosEmCotacao")
+      .doc(nomeProduto)
+      .set({"nomeProduto": nomeProduto, "tipoProduto": tipoProduto})
+      .then((value) => print(nomeProduto + " inserido na cotação"))
+      .onError((error, stackTrace) => print("Erro ao inserir " +
+          nomeProduto +
+          " na cotação: " +
+          error.toString()));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void enviaParaPreCotacao(String nomeProduto, String tipoProduto) async {
   await db
       .collection("produtosParaCotacao")
       .doc(nomeProduto)
-      .set({"nomeProduto": nomeProduto, "tipoProduto": tipoProduto}).then(
-          (value) => print("Colocado em pré-cotação"));
+      .set({"nomeProduto": nomeProduto, "tipoProduto": tipoProduto})
+      .then((value) => print("Colocado em pré-cotação"))
+      .onError((error, stackTrace) => print(
+          nomeProduto + " não inserido na pré-cotação: " + error.toString()));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+enviaTudoParaCotacao() async {
+  var query = await db.collection("produtos_").get();
+
+  for (var doc in query.docs) {
+    await db
+        .collection("produtosParaCotacao")
+        .doc(doc['nomeProduto'])
+        .set({
+          "nomeProduto": doc['nomeProduto'],
+          "tipoProduto": doc['tipoProduto']
+        })
+        .then(
+            (value) => print("Enviado para pré-cotação: " + doc['nomeProduto']))
+        .onError((error, stackTrace) => print(doc['nomeProduto'] +
+            " não enviado para pré-cotação: " +
+            error.toString()));
+  }
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void deletaPrecosAtuaisProdutos() async {
@@ -269,7 +349,6 @@ void enviaParaCotacao() async {
   var produtosRespondidosModal =
       await db.collection("produtosRespondidosModal").get();
   var deletaPrecosProdutos = await db.collection("produtos_").get();
-
   var comprarDe = await db.collection("comprarDe").get();
 
   gravaCotacoesAntigas();
@@ -290,7 +369,7 @@ void enviaParaCotacao() async {
           .doc(doc['nomeProduto'])
           .delete()
           .then((value) =>
-              print("Produto deletado da tabela produtosRespondidos!"));
+              print("Produto deletado da tabela \"produtosRespondidos\"!"));
     }
   }
 
@@ -323,11 +402,11 @@ void enviaParaCotacao() async {
     db
         .collection("produtos_")
         .doc(doc4['nomeProduto'])
-        .update({"precoMaisAlto": "0,00"});
+        .update({"precoMaisAlto": "0.00"});
     db
         .collection("produtos_")
         .doc(doc4['nomeProduto'])
-        .update({"precoMaisBaixo": "0,00"});
+        .update({"precoMaisBaixo": "0.00"});
   }
   for (var doc in produtoEmCotacaoAntiga.docs) {
     db.collection("produtosEmCotacao").doc(doc['nomeProduto']).delete();
@@ -438,8 +517,8 @@ void gravaCotacoesAntigas() async {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void removeDaPreCotacao(String nomeProduto) {
-  db.collection("produtosParaCotacao").doc(nomeProduto).delete();
+void removeDaPreCotacao(String nomeProduto) async {
+  await db.collection("produtosParaCotacao").doc(nomeProduto).delete();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -527,12 +606,11 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void calculaPrecos() async {
+Future<void> calculaPrecos() async {
   print("Iniciando comparação de preços dos produtos...");
   var produtos = await db.collection("precoAtualProduto").get();
-  listaPrecos = [];
+  int countLog = 0;
+  List<Ordenador> listaOrdenador = [];
 
   for (var doc1 in produtos.docs) {
     var produtos2 = await db
@@ -543,41 +621,81 @@ void calculaPrecos() async {
     for (var doc2 in produtos2.docs) {
       if (doc2['preço'] == '' || doc2['preço'] == 0 || doc2['preço'] == "-/-") {
         print("Sem preço cadastrado");
+        continue;
       } else {
-        print(doc2['nomeProduto'] + ": preço comparado");
-        listaPrecos.add(doc2['preço']);
-      }
-    }
-    if (listaPrecos.isEmpty) {
-      print("Esta lista esta vazia");
-    } else {
-      for (int i = 0; i < listaPrecos.length; i++) {
-        listaPrecos[i] = double.parse(listaPrecos[i]);
-      }
-
-      listaPrecos.sort();
-
-      for (int i = 0; i < listaPrecos.length; i++) {
-        listaPrecos[i] = listaPrecos[i].toString();
+        listaOrdenador
+            .add(Ordenador(doc2['empresa'], double.parse(doc2['preço'])));
       }
     }
 
-    if (listaPrecos.isEmpty) {
-    } else {
+    listaOrdenador.sort((a, b) => a.getPreco().compareTo(b.getPreco()));
+
+    if (listaOrdenador.length < 2) {
       db
           .collection('produtos_')
           .doc(doc1['nomeProduto'])
-          .update({'precoMaisAlto': listaPrecos.last}).then(
-              (value) => print("Maior preço setado"));
-      db
+          .update({
+            'precoMaisBaixo': listaOrdenador.first.getPreco().toString(),
+            'empresaPrecoBaixo': listaOrdenador.first.getEmpresa(),
+            'empresaPrecoAlto': "-/-"
+          })
+          .then((value) =>
+              print("Preço único setado para: " + doc1['nomeProduto']))
+          .onError((error, stackTrace) => print(
+              "Erro ao setar preço únicopara: " +
+                  doc1['nomeProduto'] +
+                  " || " +
+                  error.toString()));
+      countLog++;
+    } else if (listaOrdenador.length >= 2) {
+      await db
           .collection('produtos_')
           .doc(doc1['nomeProduto'])
-          .update({'precoMaisBaixo': listaPrecos.first}).then(
-              (value) => print("Menor preço setado"));
+          .update({
+            'precoMaisAlto': listaOrdenador.last.getPreco().toString(),
+            'empresaPrecoAlto': listaOrdenador.last.getEmpresa()
+          })
+          .then((value) =>
+              print("Maior preço setado para: " + doc1['nomeProduto']))
+          .onError((error, stackTrace) => print(
+              "Erro ao setar maior preço para: " +
+                  doc1['nomeProduto'] +
+                  " || " +
+                  error.toString()));
+      await db
+          .collection('produtos_')
+          .doc(doc1['nomeProduto'])
+          .update({
+            'precoMaisBaixo': listaOrdenador.first.getPreco().toString(),
+            'empresaPrecoBaixo': listaOrdenador.first.getEmpresa()
+          })
+          .then((value) =>
+              print("Menor preço setado para: " + doc1['nomeProduto']))
+          .onError((error, stackTrace) => print(
+              "Erro ao setar menor preço para: " +
+                  doc1['nomeProduto'] +
+                  " || " +
+                  error.toString()));
+      countLog += 2;
+    } else {
+      continue;
     }
 
-    listaPrecos.clear();
+    listaOrdenador.clear();
   }
+  await db
+      .collection("logBD")
+      .doc("setaPrecos")
+      .set({"nome": "setaPrecos"}).then((value) => db
+          .collection("logBD")
+          .doc("setaPrecos")
+          .collection("contadores")
+          .doc(dateFormatted)
+          .set({"hora": dateFormatted, "produtosVerificados": countLog})
+          .then((value) => print("logDB gerado para \"calculaPrecos()\""))
+          .onError((error, stackTrace) =>
+              print("Erro ao gerar logDB: " + error.toString())));
+
   print("Comparação de preços de produtos terminada...");
 }
 

@@ -76,6 +76,7 @@ class _MyHomePageState extends State<HomePage_CadastroProdutos> {
                       child: TextFormField(
                         onChanged: (text) {
                           nomeProduto = text;
+                          nomeProduto.toUpperCase();
                         },
                         decoration: InputDecoration(
                           labelText: 'Nome do Produto',

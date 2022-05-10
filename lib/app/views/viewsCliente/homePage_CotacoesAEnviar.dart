@@ -36,6 +36,72 @@ class HomePage_Cotacoes extends StatefulWidget {
 
 // ignore: camel_case_types
 class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
+  Future<void> enviarTodosOsProdutos() {
+    return showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+              child: Container(
+                  width: MediaQuery.of(context).size.width * .8,
+                  height: MediaQuery.of(context).size.height * .45,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Atenção, você enviará todos ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 19),
+                        ),
+                        Text(
+                          "os produtos para cotação!!",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 19),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(
+                            "Prosseguir?",
+                            style: TextStyle(fontSize: 19),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .20,
+                                  height:
+                                      MediaQuery.of(context).size.height * .05,
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        enviaTudoParaCotacao();
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Sim",
+                                          style:
+                                              TextStyle(color: Colors.white)))),
+                              Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .20,
+                                  height:
+                                      MediaQuery.of(context).size.height * .05,
+                                  child: ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("Não",
+                                          style:
+                                              TextStyle(color: Colors.white)))),
+                            ],
+                          ),
+                        )
+                      ])));
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,16 +133,40 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                   curve: Curves.fastLinearToSlowEaseIn,
                   child: FadeInAnimation(
                       child: Container(
-                    padding: new EdgeInsets.all(30),
-                    child: Center(
-                      child: Text("Produtos a enviar para cotação",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.orange,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  )))),
+                          padding: new EdgeInsets.all(30),
+                          child: Column(
+                            children: [
+                              Center(
+                                child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
+                                  height: 50,
+                                  margin:
+                                      new EdgeInsets.only(top: 10, bottom: 30),
+                                  child: ElevatedButton(
+                                      child: Text(
+                                        "Enviar TODOS os produtos para cotação",
+                                        style: TextStyle(
+                                            fontSize: 16, color: Colors.white),
+                                      ),
+                                      onPressed: () => enviarTodosOsProdutos()),
+                                ),
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width * 1,
+                                  height: 2,
+                                  color: Colors.black,
+                                  margin: EdgeInsets.only(top: 20, bottom: 20)),
+                              Center(
+                                child: Text("Produtos a enviar para cotação",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        color: Colors.orange,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ],
+                          ))))),
           StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection("produtosParaCotacao")
@@ -231,6 +321,11 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                 ),
               ),
               Container(
+                  width: MediaQuery.of(context).size.width * .85,
+                  height: 2,
+                  color: Colors.black,
+                  margin: EdgeInsets.only(top: 20, bottom: 20)),
+              Container(
                 margin: new EdgeInsets.only(top: 25, bottom: 15),
                 child: Text("Produtos em cotação atualmente",
                     textAlign: TextAlign.center,
@@ -250,45 +345,62 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot docSnapshot =
                                 snapshot.data!.docs[index];
-                            return Column(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  height: 75,
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    color: Colors.white,
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                        top: 10,
-                                        right: 15,
-                                        left: 15,
-                                        bottom: 10,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            child: Text(
-                                                docSnapshot['nomeProduto'],
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
+                            return AnimationConfiguration.staggeredList(
+                                position: index,
+                                delay: Duration(milliseconds: 100),
+                                child: SlideAnimation(
+                                    duration: Duration(milliseconds: 2500),
+                                    curve: Curves.fastLinearToSlowEaseIn,
+                                    child: FadeInAnimation(
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                        duration: Duration(milliseconds: 2500),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.9,
+                                              height: 75,
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                ),
+                                                color: Colors.white,
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                    top: 10,
+                                                    right: 15,
+                                                    left: 15,
+                                                    bottom: 10,
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        child: Text(
+                                                            docSnapshot[
+                                                                'nomeProduto'],
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ))));
                           });
                     } else {
                       return CircularProgressIndicator();

@@ -4,6 +4,7 @@ A Flutter project.
 
 ## Updates
 
-Quantidade de compra implementada na tabela PDF
-Edita nome não deleta mais atributos
-Bugs corrigidos
+Alterações de Layout;
+Adicionado button enviar todos os produtos para pré-cotação;
+Adicionado button inserir produtos em uma cotação existente;
+Adicionado nome das empresas junto ao preço dos Cards de produtos no menuCliente;

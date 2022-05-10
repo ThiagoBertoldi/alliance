@@ -40,17 +40,12 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
           child: Container(
         width: width,
         height: screenHeight,
-        color: Colors.orange,
         child: Column(
           children: [
             Container(
               width: width,
               height: screenHeight * 0.29,
-              color: Colors.white,
               child: Material(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: const Radius.circular(125.0),
-                ),
                 child: Container(
                     width: width,
                     height: screenHeight * 0.29,
@@ -63,7 +58,7 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                               top: 20, left: 20, right: 100, bottom: 10),
                           child: Text("Panificadora",
                               style: TextStyle(
-                                fontSize: 45,
+                                fontSize: 43,
                                 color: Colors.white,
                               )),
                         ),
@@ -73,7 +68,7 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                           ),
                           child: Text("Aliança",
                               style: TextStyle(
-                                fontSize: 45,
+                                fontSize: 43,
                                 color: Colors.white,
                               )),
                         ),
@@ -83,33 +78,18 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                       border: Border.all(width: 0, color: Colors.orange),
                       color: Colors.orange,
                       borderRadius: BorderRadius.only(
-                        bottomLeft: const Radius.circular(125.0),
-                      ),
+                          bottomLeft: const Radius.circular(85),
+                          bottomRight: const Radius.circular(85)),
                     )),
               ),
             ),
             Container(
               width: width,
               height: screenHeight * .66,
-              color: Colors.orange,
-              alignment: Alignment.centerLeft,
               child: Container(
                 width: width * .9,
                 height: screenHeight * .66,
-                decoration: new BoxDecoration(
-                  border: Border.all(width: 0, color: Colors.white),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topRight: const Radius.circular(125.0),
-                      bottomRight: const Radius.circular(125.0)),
-                ),
                 child: Container(
-                  decoration: new BoxDecoration(
-                    border: Border.all(width: 0, color: Colors.white),
-                    borderRadius: BorderRadius.only(
-                        topRight: const Radius.circular(125.0),
-                        bottomRight: const Radius.circular(125.0)),
-                  ),
                   alignment: Alignment.center,
                   child: Container(
                     width: width * .55,
@@ -118,8 +98,8 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(2),
-                                    topLeft: Radius.circular(2),
+                                    bottomLeft: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
                                     topRight: Radius.circular(20),
                                     bottomRight: Radius.circular(20))),
                             primary: Colors.orange,
@@ -150,8 +130,8 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                     border: Border.all(width: 0, color: Colors.orange),
                     color: Colors.orange,
                     borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(125.0),
-                    ),
+                        topLeft: const Radius.circular(25),
+                        topRight: const Radius.circular(25)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

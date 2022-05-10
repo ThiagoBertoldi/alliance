@@ -43,9 +43,7 @@ class _MyHomePageState extends State<HomePage_MenuRepresentanteEmbalagem> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) => Home()));
           },
-          child: Icon(
-            Icons.arrow_back,
-          ),
+          child: Icon(Icons.arrow_back, color: Colors.white),
         ),
       ),
       body: Center(

@@ -180,14 +180,13 @@ class HomePageState_Home extends State<HomePage_Home> {
 
   void verificaSenha() async {
     if (senhaAcessoApp == 'padoka') {
-      calculaPrecos();
-      Navigator.push(
+      empresa = "Aliança LTDA";
+      await calculaPrecos().then((value) => Navigator.push(
           context,
           MaterialPageRoute(
               builder: (BuildContext context) => MenuCliente_State(
                     title: 'ALLIANCE',
-                  )));
-      empresa = "Aliança LTDA";
+                  ))));
     }
   }
 
