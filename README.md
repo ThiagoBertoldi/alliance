@@ -4,7 +4,8 @@ A Flutter project.
 
 ## Updates
 
+Erros e Bugs corrigidos;
 Alterações de Layout;
-Adicionado button enviar todos os produtos para pré-cotação;
-Adicionado button inserir produtos em uma cotação existente;
-Adicionado nome das empresas junto ao preço dos Cards de produtos no menuCliente;
+Página de cotaçõesRespondidas agora ordena por produto e não mais por empresa;
+Páginas MenuRepresentanteEmbalagem, MenuRepresentanteMateriaPrima e MenuRepresentanteMercearia, agora são a mesma página;
+Adicionado BKP de produtos;

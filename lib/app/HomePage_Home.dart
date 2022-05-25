@@ -1,7 +1,5 @@
 import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentanteEmbalagem.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentanteMateriaPrima.dart';
-import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentanteMercearia.dart';
+import 'package:alliance/app/views/viewsRepresentante/homePage_MenuRepresentante.dart';
 import 'package:alliance/firebase_script/scripts.dart';
 import 'package:flutter/material.dart';
 
@@ -83,27 +81,14 @@ class HomePageState_Home extends State<HomePage_Home> {
                           onPressed: () {
                             if (empresa == '') return;
 
-                            if (tipoUsuario == 'Matéria Prima') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          PaginaRepresentanteMateriaPrima()));
-                            } else if (tipoUsuario == 'Mercearia') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          PaginaRepresentanteMercearia()));
-                            } else if (tipoUsuario == 'Embalagem') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          PaginaRepresentanteEmbalagem()));
-                            } else {
-                              return;
-                            }
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomePage_MenuRepresentante(
+                                          title: "Alliance",
+                                          tipoUsuario: tipoUsuario,
+                                        )));
                           },
                           child: Text("Entrar")),
                     )
@@ -125,6 +110,7 @@ class HomePageState_Home extends State<HomePage_Home> {
             child: Column(
               children: [
                 Container(
+                  margin: EdgeInsets.only(top: 42),
                   padding: EdgeInsets.all(15),
                   child: Text("Digite a senha para continuar",
                       style:
@@ -146,14 +132,7 @@ class HomePageState_Home extends State<HomePage_Home> {
                       senhaAcessoApp = value;
                     },
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(30),
-                                topLeft: Radius.circular(5),
-                                topRight: Radius.circular(5),
-                                bottomRight: Radius.circular(5))),
-                        icon: Icon(Icons.password),
-                        hintText: 'Senha'),
+                        icon: Icon(Icons.password), hintText: 'Senha'),
                   ),
                 ),
                 Container(
@@ -161,14 +140,7 @@ class HomePageState_Home extends State<HomePage_Home> {
                   height: MediaQuery.of(context).size.height * 0.07,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5),
-                                  bottomRight: Radius.circular(5))),
-                          primary: Colors.orange,
-                          onPrimary: Colors.white),
+                          primary: Colors.orange, onPrimary: Colors.white),
                       onPressed: () => verificaSenha(),
                       child: Text("Entrar")),
                 )
@@ -180,6 +152,7 @@ class HomePageState_Home extends State<HomePage_Home> {
 
   void verificaSenha() async {
     if (senhaAcessoApp == 'padoka') {
+      senhaAcessoApp = '';
       empresa = "Aliança LTDA";
       await calculaPrecos().then((value) => Navigator.push(
           context,
@@ -187,7 +160,44 @@ class HomePageState_Home extends State<HomePage_Home> {
               builder: (BuildContext context) => MenuCliente_State(
                     title: 'ALLIANCE',
                   ))));
+    } else {
+      _showDialogSenhaErrada();
     }
+  }
+
+  Future<void> _showDialogSenhaErrada() async {
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Container(
+              width: 150,
+              height: 250,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                      child: Text("A senha está incorreta!!",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold))),
+                  Container(
+                    child: Text("Tente novamente...",
+                        style: TextStyle(fontSize: 14)),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: ElevatedButton(
+                      child: Text("Tentar novamente",
+                          style: TextStyle(color: Colors.white)),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override

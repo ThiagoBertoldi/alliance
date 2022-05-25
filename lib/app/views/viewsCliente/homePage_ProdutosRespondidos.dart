@@ -309,7 +309,7 @@ class _HomePageState_ProdutosRespondidos
             ],
           ),
           StreamBuilder<QuerySnapshot>(
-              stream: db.collection("produtosRespondidos").snapshots(),
+              stream: db.collection("produtosRespondidoss").snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -322,8 +322,9 @@ class _HomePageState_ProdutosRespondidos
                         return Column(
                           children: [
                             Container(
+                              margin: EdgeInsets.only(right: 65),
                               padding: EdgeInsets.only(top: 25),
-                              child: Text(docSnapshot['empresa'],
+                              child: Text(docSnapshot['nomeProduto'],
                                   style: TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
@@ -331,9 +332,9 @@ class _HomePageState_ProdutosRespondidos
                             ),
                             StreamBuilder<QuerySnapshot>(
                                 stream: db
-                                    .collection("produtosRespondidos")
-                                    .doc(docSnapshot['empresa'])
-                                    .collection("produtos")
+                                    .collection("produtosRespondidoss")
+                                    .doc(docSnapshot['nomeProduto'])
+                                    .collection("empresas")
                                     .snapshots(),
                                 builder: (context, snapshot2) {
                                   if (snapshot2.hasData) {
@@ -397,7 +398,7 @@ class _HomePageState_ProdutosRespondidos
                                                                           children: [
                                                                             Container(
                                                                               padding: new EdgeInsets.only(top: 7),
-                                                                              child: Text(docSnapshot2['nomeProduto'], style: TextStyle(fontSize: 18)),
+                                                                              child: Text(docSnapshot2['empresa'], style: TextStyle(fontSize: 15)),
                                                                             ),
                                                                             Container(
                                                                               padding: new EdgeInsets.all(2),
@@ -428,8 +429,8 @@ class _HomePageState_ProdutosRespondidos
                                                                         ElevatedButton(
                                                                       onPressed:
                                                                           () {
-                                                                        quantidadeASerComprada(docSnapshot['empresa'], docSnapshot2['nomeProduto']).then((value) => comprarDe(
-                                                                            docSnapshot['empresa'],
+                                                                        quantidadeASerComprada(docSnapshot2['empresa'], docSnapshot2['nomeProduto']).then((value) => comprarDe(
+                                                                            docSnapshot2['empresa'],
                                                                             docSnapshot2['nomeProduto'],
                                                                             docSnapshot2['preço'],
                                                                             docSnapshot2['marca'],

@@ -1,5 +1,6 @@
-import 'package:alliance/firebase_script/ordenador.dart';
+import 'package:alliance/firebase_script/ordenadorDePrecos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 var db = FirebaseFirestore.instance;
@@ -31,6 +32,7 @@ String unidadeMedidaComprarDe = 'Outro';
 final DateTime date = DateTime.now();
 final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
 final String dateFormatted = formatter.format(date);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoProduto(String nomeProduto, String tipoProduto) {
   if (nomeProduto != '' || tipoProduto != '') {
@@ -39,15 +41,20 @@ void gravaNovoProduto(String nomeProduto, String tipoProduto) {
         .doc(nomeProduto)
         .set({
           "nomeProduto": nomeProduto,
-          "marca": "-/-",
-          "unidadeMedida": "-/-",
           "precoMaisBaixo": "-/-",
           "precoMaisAlto": "-/-",
           "tipoProduto": tipoProduto,
           "empresaPrecoAlto": "-/-",
           "empresaPrecoBaixo": "-/-"
         })
-        .then((value) => print("Cadastrado!!!"))
+        .then((value) => db.collection("bkpProdutos_").doc(nomeProduto).set({
+              "nomeProduto": nomeProduto,
+              "precoMaisBaixo": "-/-",
+              "precoMaisAlto": "-/-",
+              "tipoProduto": tipoProduto,
+              "empresaPrecoAlto": "-/-",
+              "empresaPrecoBaixo": "-/-"
+            }))
         .onError((error, stackTrace) => print("Erro ao cadastrar produto: " +
             nomeProduto +
             " || " +
@@ -141,10 +148,8 @@ void editaNomeProduto(
       .doc(novoNome)
       .set({
         "nomeProduto": novoNome,
-        "marca": marca,
         "precoMaisAlto": precoMaisAlto,
         "precoMaisBaixo": precoMaisBaixo,
-        "unidadeMedida": unidadeMedida,
         "tipoProduto": tipoProduto,
         "empresaPrecoAlto": empresaPrecoAlto,
         "empresaPrecoBaixo": empresaPrecoBaixo
@@ -330,14 +335,17 @@ void deletaPrecosAtuaisProdutos() async {
         .collection("empresas")
         .get();
     for (var doc2 in recebeEmpresasPrecoAtualProduto.docs) {
-      db
+      await db
           .collection("precoAtualProduto")
           .doc(doc['nomeProduto'])
           .collection("empresas")
           .doc(doc2['empresa'])
-          .delete();
+          .delete()
+          .then((value) => db
+              .collection("precoAtualProduto")
+              .doc(doc['nomeProduto'])
+              .delete());
     }
-    db.collection("precoAtualProduto").doc(doc['nomeProduto']).delete();
   }
 }
 
@@ -399,14 +407,12 @@ void enviaParaCotacao() async {
   }
 
   for (var doc4 in deletaPrecosProdutos.docs) {
-    db
-        .collection("produtos_")
-        .doc(doc4['nomeProduto'])
-        .update({"precoMaisAlto": "0.00"});
-    db
-        .collection("produtos_")
-        .doc(doc4['nomeProduto'])
-        .update({"precoMaisBaixo": "0.00"});
+    db.collection("produtos_").doc(doc4['nomeProduto']).update({
+      "precoMaisAlto": "0.00",
+      "precoMaisBaixo": "0.00",
+      "empresaPrecoAlto": "-/-",
+      "empresaPrecoBaixo": "-/-"
+    });
   }
   for (var doc in produtoEmCotacaoAntiga.docs) {
     db.collection("produtosEmCotacao").doc(doc['nomeProduto']).delete();
@@ -537,41 +543,85 @@ void resetaCotacao() async {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void respondeCotacao(String nomeProduto, String preco, String marca,
-    String unidadeMedida, var empresa) {
+Future<void> respondeCotacao(String nomeProduto, String preco, String marca,
+    String unidadeMedida, var empresa, BuildContext context) async {
   if (marca == '') {
     marca = '-/-';
   }
-  if (preco == '') {
-    preco = '-/-';
+  if (preco == '' ||
+      preco == "0.00" ||
+      preco == "0,00" ||
+      double.parse(preco) == 0.00) {
+    AlertDialog alertPrecoInvalido = AlertDialog(
+      title: Text("Aviso"),
+      content: Container(
+        height: MediaQuery.of(context).size.height * 0.2,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                Text("Preço inválido,"),
+                Text(
+                  nomeProduto + " não gravado",
+                ),
+                Text("Tente novamente")
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              child: Column(
+                children: [
+                  Text("Exemplo para formatação de preço: "),
+                  Text("1.23", style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertPrecoInvalido;
+      },
+    );
+    return;
   }
   if (unidadeMedida == '') {
     unidadeMedida = '-/-';
   }
 
   if (empresa == '') {
-    empresa = '-/-';
+    return;
   }
 
-  db
+  await db
       .collection("precoAtualProduto")
       .doc(nomeProduto)
       .set({"nomeProduto": nomeProduto});
-  db
+  await db
       .collection("precoAtualProduto")
       .doc(nomeProduto)
       .collection("empresas")
       .doc(empresa)
       .set({"nomeProduto": nomeProduto, "preço": preco, "empresa": empresa})
       .then((value) => print("Preço Atual Criado!!!"))
-      .onError((error, stackTrace) =>
-          "Erro ao gravar na collection \"precoAtualProduto\"");
+      .onError((error, stackTrace) => db
+          .collection("logErros")
+          .doc("respondeCotacao")
+          .collection("errors")
+          .doc(dateFormatted)
+          .set({"precoAtualProduto": error.toString(), "hora": dateFormatted}));
 
-  db
+  await db
       .collection("produtosRespondidosModal")
       .doc(empresa)
       .set({"empresa": empresa});
-  db
+  await db
       .collection("produtosRespondidosModal")
       .doc(empresa)
       .collection("produtos")
@@ -584,11 +634,44 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
         "empresa": empresa
       })
       .then((value) => print("Informações Modal OK!!!"))
-      .onError(
-          (error, stackTrace) => print("Erro ao incluir informações no modal"));
+      .onError((error, stackTrace) => db
+              .collection("logErros")
+              .doc("respondeCotacao")
+              .collection("errors")
+              .doc(dateFormatted)
+              .set({
+            "produtosRespondidosModal": error.toString(),
+            "hora": dateFormatted
+          }));
 
-  db.collection("produtosRespondidos").doc(empresa).set({"empresa": empresa});
-  db
+  await db
+      .collection("produtosRespondidoss")
+      .doc(nomeProduto)
+      .set({"nomeProduto": nomeProduto})
+      .then((value) => db
+              .collection("produtosRespondidoss")
+              .doc(nomeProduto)
+              .collection("empresas")
+              .doc(empresa)
+              .set({
+            "nomeProduto": nomeProduto,
+            "marca": marca,
+            "unidadeMedida": unidadeMedida,
+            "preço": preco,
+            "empresa": empresa
+          }))
+      .onError((error, stackTrace) => db
+          .collection("logErros")
+          .doc("respondeCotacao")
+          .collection("errors")
+          .doc(error.toString())
+          .set({"erro": error.toString(), "hora": dateFormatted}));
+
+  await db
+      .collection("produtosRespondidos")
+      .doc(empresa)
+      .set({"empresa": empresa});
+  await db
       .collection("produtosRespondidos")
       .doc(empresa)
       .collection("produtos")
@@ -601,7 +684,12 @@ void respondeCotacao(String nomeProduto, String preco, String marca,
         "empresa": empresa
       })
       .then((value) => print("Enviada com Sucesso!!!"))
-      .onError((error, stackTrace) => print("Cotação não respondida..."));
+      .onError((error, stackTrace) => db
+          .collection("logErros")
+          .doc("respondeCotacao")
+          .collection("errors")
+          .doc(error.toString())
+          .set({"erro": error.toString(), "hora": dateFormatted}));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -619,7 +707,7 @@ Future<void> calculaPrecos() async {
         .collection("empresas")
         .get();
     for (var doc2 in produtos2.docs) {
-      if (doc2['preço'] == '' || doc2['preço'] == 0 || doc2['preço'] == "-/-") {
+      if (doc2['preço'] == '' || doc2['preço'] == 0) {
         print("Sem preço cadastrado");
         continue;
       } else {
@@ -630,8 +718,11 @@ Future<void> calculaPrecos() async {
 
     listaOrdenador.sort((a, b) => a.getPreco().compareTo(b.getPreco()));
 
-    if (listaOrdenador.length < 2) {
-      db
+    if (listaOrdenador.isEmpty) {
+      print("Lista vazia");
+      continue;
+    } else if (listaOrdenador.length < 2 && listaOrdenador.length > 0) {
+      await db
           .collection('produtos_')
           .doc(doc1['nomeProduto'])
           .update({
@@ -641,11 +732,13 @@ Future<void> calculaPrecos() async {
           })
           .then((value) =>
               print("Preço único setado para: " + doc1['nomeProduto']))
-          .onError((error, stackTrace) => print(
-              "Erro ao setar preço únicopara: " +
-                  doc1['nomeProduto'] +
-                  " || " +
-                  error.toString()));
+          .onError((error, stackTrace) => db
+              .collection("logErros")
+              .doc("calculaPrecos")
+              .collection("errors")
+              .doc(dateFormatted)
+              .set(
+                  {"setaPrecoUnico": error.toString(), "hora": dateFormatted}));
       countLog++;
     } else if (listaOrdenador.length >= 2) {
       await db
@@ -657,11 +750,13 @@ Future<void> calculaPrecos() async {
           })
           .then((value) =>
               print("Maior preço setado para: " + doc1['nomeProduto']))
-          .onError((error, stackTrace) => print(
-              "Erro ao setar maior preço para: " +
-                  doc1['nomeProduto'] +
-                  " || " +
-                  error.toString()));
+          .onError((error, stackTrace) => db
+              .collection("logErros")
+              .doc("calculaPrecos")
+              .collection("errors")
+              .doc(dateFormatted)
+              .set(
+                  {"setaMaiorPreco": error.toString(), "hora": dateFormatted}));
       await db
           .collection('produtos_')
           .doc(doc1['nomeProduto'])
@@ -671,11 +766,13 @@ Future<void> calculaPrecos() async {
           })
           .then((value) =>
               print("Menor preço setado para: " + doc1['nomeProduto']))
-          .onError((error, stackTrace) => print(
-              "Erro ao setar menor preço para: " +
-                  doc1['nomeProduto'] +
-                  " || " +
-                  error.toString()));
+          .onError((error, stackTrace) => db
+              .collection("logErros")
+              .doc("calculaPrecos")
+              .collection("errors")
+              .doc(dateFormatted)
+              .set(
+                  {"setaMenorPreco": error.toString(), "hora": dateFormatted}));
       countLog += 2;
     } else {
       continue;
@@ -693,10 +790,16 @@ Future<void> calculaPrecos() async {
           .doc(dateFormatted)
           .set({"hora": dateFormatted, "produtosVerificados": countLog})
           .then((value) => print("logDB gerado para \"calculaPrecos()\""))
-          .onError((error, stackTrace) =>
-              print("Erro ao gerar logDB: " + error.toString())));
+          .onError((error, stackTrace) => db
+              .collection("logErros")
+              .doc("calculaPrecos")
+              .collection("errors")
+              .doc(dateFormatted)
+              .set({"logDB": error.toString(), "hora": dateFormatted})));
 
   print("Comparação de preços de produtos terminada...");
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
+///

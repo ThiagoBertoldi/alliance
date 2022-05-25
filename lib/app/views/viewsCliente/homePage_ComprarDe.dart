@@ -214,11 +214,8 @@ class _HomePageState_ComprarDe extends State<HomePage_ComprarDe> {
     PdfDocument document = PdfDocument();
     final page = document.pages.add();
 
-    page.graphics.drawString(
-        "Compras desta semana", PdfStandardFont(PdfFontFamily.helvetica, 40));
-
-    //page.graphics.drawString(
-    //    dateFormatted, PdfStandardFont(PdfFontFamily.helvetica, 40));
+    page.graphics.drawString("Compras desta semana\n " + dateFormatted,
+        PdfStandardFont(PdfFontFamily.helvetica, 40));
 
     PdfGrid grid = PdfGrid();
     grid.style = PdfGridStyle(

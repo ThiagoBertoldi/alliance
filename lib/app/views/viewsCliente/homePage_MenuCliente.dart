@@ -8,7 +8,7 @@ import 'homePage_ComprarDe.dart';
 import 'homePage_ComprasPassadas.dart';
 import 'homePage_CotacoesAEnviar.dart';
 import 'homePage_CadastroProdutos.dart';
-import '../homePage_InfoCadastradas.dart';
+import 'homePage_InfoCadastradas.dart';
 import 'homePage_CotacoesPassadas.dart';
 import 'homePage_ProdutosRespondidos.dart';
 import 'homePage_RepresentantesCadastrados.dart';
@@ -323,11 +323,22 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
             ),
             Column(
               children: [
+                /*Container(
+                  margin: EdgeInsets.only(top: 15),
+                  child: Text("Embalagens",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold)),
+                ),*/
                 Container(
                   width: MediaQuery.of(context).size.width * 0.95,
                   padding: new EdgeInsets.only(top: 20),
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: db.collection("produtos_").snapshots(),
+                      stream: db
+                          .collection("produtos_")
+                          .orderBy("tipoProduto")
+                          .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Container(

@@ -4,25 +4,10 @@ import 'package:flutter/material.dart';
 import '../../HomePage_Home.dart';
 import 'homePage_RespondeCotacao.dart';
 
-class PaginaRepresentanteMateriaPrima extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'FlutterApp',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: HomePage_MenuRepresentanteMateriaPrima(
-        title: 'ALLIANCE',
-      ),
-    );
-  }
-}
-
 // ignore: camel_case_types
-class HomePage_MenuRepresentanteMateriaPrima extends StatefulWidget {
-  HomePage_MenuRepresentanteMateriaPrima({Key? key, required this.title})
+class HomePage_MenuRepresentante extends StatefulWidget {
+  HomePage_MenuRepresentante(
+      {Key? key, required this.title, required tipoUsuario})
       : super(key: key);
 
   final String title;
@@ -31,12 +16,13 @@ class HomePage_MenuRepresentanteMateriaPrima extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<HomePage_MenuRepresentanteMateriaPrima> {
+class _MyHomePageState extends State<HomePage_MenuRepresentante> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        // automaticallyImplyLeading: false,
         leading: GestureDetector(
           onTap: () {
             Navigator.push(context,
@@ -44,7 +30,6 @@ class _MyHomePageState extends State<HomePage_MenuRepresentanteMateriaPrima> {
           },
           child: Icon(Icons.arrow_back, color: Colors.white),
         ),
-        // automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Container(
@@ -93,6 +78,7 @@ class _MyHomePageState extends State<HomePage_MenuRepresentanteMateriaPrima> {
                           Text("Cotação Semanal",
                               style: TextStyle(
                                   fontSize: 21, fontWeight: FontWeight.bold)),
+                          Text(tipoUsuario, style: TextStyle(fontSize: 18))
                         ],
                       ),
                     ),
