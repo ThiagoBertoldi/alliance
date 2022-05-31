@@ -1,5 +1,6 @@
 import 'package:alliance/app/HomePage_Home.dart';
 import 'package:alliance/app/auth_services/google.sign_in.dart';
+import 'package:alliance/firebase_script/scripts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -107,11 +108,17 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                           final provider = Provider.of<GoogleSignInProvider>(
                               context,
                               listen: false);
-                          provider.googleLogin().then((value) => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      HomePage_Home(title: "ALLIANCE"))));
+
+                          provider.googleLogin();
+                          if (email != provider.user.email) {
+                            return;
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomePage_Home(title: "ALLIANCE")));
+                          }
                         },
                         child: Text(
                           "Entrar com Google",

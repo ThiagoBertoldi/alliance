@@ -1,3 +1,4 @@
+import 'package:alliance/app/views/viewsCliente/homePage_MenuCliente.dart';
 import 'package:alliance/firebase_script/ordenadorDePrecos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -694,7 +695,7 @@ Future<void> respondeCotacao(String nomeProduto, String preco, String marca,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Future<void> calculaPrecos() async {
+Future<int> calculaPrecos() async {
   print("Iniciando comparação de preços dos produtos...");
   var produtos = await db.collection("precoAtualProduto").get();
   int countLog = 0;
@@ -798,9 +799,87 @@ Future<void> calculaPrecos() async {
               .set({"logDB": error.toString(), "hora": dateFormatted})));
 
   print("Comparação de preços de produtos terminada...");
+  return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-///
-///
 
+Future<void> widgetCalculaPrecos(BuildContext context) async {
+  AlertDialog loadingCalculaPrecos = AlertDialog(
+    content: Container(
+        height: MediaQuery.of(context).size.height * 0.2,
+        child: Column(
+          children: [
+            FutureBuilder(
+              future: calculaPrecos(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Text("Preços Comparados!!",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 19))),
+                      Center(
+                          child: Text("Clique para entrar",
+                              style: TextStyle(fontSize: 16))),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .8,
+                        height: MediaQuery.of(context).size.height * .08,
+                        margin: EdgeInsets.only(top: 30),
+                        child: ElevatedButton(
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        MenuCliente_State(title: "ALLIANCE"))),
+                            child: Text(
+                              "Entrar",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            )),
+                      ),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("Algo deu errado...");
+                } else {
+                  return Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Text("Calculando Preços...",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 19))),
+                      Center(
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: 15),
+                            child: Text("Aguarde")),
+                      ),
+                      Container(
+                          width: 50,
+                          height: 50,
+                          margin: EdgeInsets.only(top: 20),
+                          child: CircularProgressIndicator()),
+                    ],
+                  ));
+                }
+              },
+            ),
+          ],
+        )),
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return loadingCalculaPrecos;
+    },
+  );
+}

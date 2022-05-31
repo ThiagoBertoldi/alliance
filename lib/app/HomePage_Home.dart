@@ -154,12 +154,7 @@ class HomePageState_Home extends State<HomePage_Home> {
     if (senhaAcessoApp == 'padoka') {
       senhaAcessoApp = '';
       empresa = "Aliança LTDA";
-      await calculaPrecos().then((value) => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => MenuCliente_State(
-                    title: 'ALLIANCE',
-                  ))));
+      await widgetCalculaPrecos(context);
     } else {
       _showDialogSenhaErrada();
     }
@@ -186,6 +181,8 @@ class HomePageState_Home extends State<HomePage_Home> {
                         style: TextStyle(fontSize: 14)),
                   ),
                   Container(
+                    width: MediaQuery.of(context).size.width * .6,
+                    height: MediaQuery.of(context).size.height * .06,
                     margin: EdgeInsets.only(top: 20),
                     child: ElevatedButton(
                       child: Text("Tentar novamente",
