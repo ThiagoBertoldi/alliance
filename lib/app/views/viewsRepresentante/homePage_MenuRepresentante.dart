@@ -37,6 +37,22 @@ class _MyHomePageState extends State<HomePage_MenuRepresentante> {
           child: ListView(
             children: [
               Container(
+                  padding: EdgeInsets.only(top: 50, bottom: 15),
+                  child: Center(
+                      child: Text(
+                    empresa,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        color: Colors.orange,
+                        shadows: <Shadow>[
+                          Shadow(
+                              offset: Offset(1, 1),
+                              blurRadius: 3,
+                              color: Color.fromARGB(100, 100, 100, 100))
+                        ]),
+                  ))),
+              Container(
                 padding: new EdgeInsets.all(30),
                 child: Center(
                   child: Text("Cotações a Responder",
