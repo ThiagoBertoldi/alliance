@@ -609,7 +609,7 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                HomePage_Cotacoes(title: "ALLIANCE")));
+                                HomePage_Cotacoes()));
                   }),
               SpeedDialChild(
                   child: Icon(Icons.add, color: Colors.orange),

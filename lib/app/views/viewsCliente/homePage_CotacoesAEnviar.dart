@@ -17,18 +17,14 @@ class PaginaCadastroProdutos extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: HomePage_Cotacoes(
-        title: 'ALLIANCE',
-      ),
+      home: HomePage_Cotacoes(),
     );
   }
 }
 
 // ignore: camel_case_types
 class HomePage_Cotacoes extends StatefulWidget {
-  HomePage_Cotacoes({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  HomePage_Cotacoes({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState_Cotacoes createState() => _MyHomePageState_Cotacoes();
@@ -36,77 +32,11 @@ class HomePage_Cotacoes extends StatefulWidget {
 
 // ignore: camel_case_types
 class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
-  Future<void> enviarTodosOsProdutos() {
-    return showDialog(
-        barrierDismissible: true,
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-              child: Container(
-                  width: MediaQuery.of(context).size.width * .8,
-                  height: MediaQuery.of(context).size.height * .45,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Atenção, você enviará todos ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 19),
-                        ),
-                        Text(
-                          "os produtos para cotação!!",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 19),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: Text(
-                            "Prosseguir?",
-                            style: TextStyle(fontSize: 19),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * .20,
-                                  height:
-                                      MediaQuery.of(context).size.height * .05,
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        enviaTudoParaCotacao();
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text("Sim",
-                                          style:
-                                              TextStyle(color: Colors.white)))),
-                              Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * .20,
-                                  height:
-                                      MediaQuery.of(context).size.height * .05,
-                                  child: ElevatedButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text("Não",
-                                          style:
-                                              TextStyle(color: Colors.white)))),
-                            ],
-                          ),
-                        )
-                      ])));
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Colors.white)),
+        title: Text("ALLIANCE", style: TextStyle(color: Colors.white)),
         leading: GestureDetector(
           onTap: () {
             Navigator.push(
@@ -149,7 +79,8 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                                         style: TextStyle(
                                             fontSize: 16, color: Colors.white),
                                       ),
-                                      onPressed: () => enviarTodosOsProdutos()),
+                                      onPressed: () =>
+                                          enviarTodosOsProdutos(context)),
                                 ),
                               ),
                               Container(
@@ -315,8 +246,8 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                     'Enviar para Cotação',
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
-                  onPressed: () {
-                    enviaParaCotacao();
+                  onPressed: () async {
+                    await widgetEnviaParaCotacao(context);
                   },
                 ),
               ),
@@ -335,7 +266,10 @@ class _MyHomePageState_Cotacoes extends State<HomePage_Cotacoes> {
                         fontWeight: FontWeight.bold)),
               ),
               StreamBuilder<QuerySnapshot>(
-                  stream: db.collection("produtosEmCotacao").snapshots(),
+                  stream: db
+                      .collection("produtosEmCotacao")
+                      .orderBy("tipoProduto")
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(

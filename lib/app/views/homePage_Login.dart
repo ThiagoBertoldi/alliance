@@ -109,16 +109,14 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                               context,
                               listen: false);
 
-                          provider.googleLogin();
-                          if (email != provider.user.email) {
-                            return;
-                          } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        HomePage_Home(title: "ALLIANCE")));
-                          }
+                          provider
+                              .googleLogin()
+                              .then((value) => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          HomePage_Home(title: "ALLIANCE"))))
+                              .onError((error, stackTrace) => print("Erro OK"));
                         },
                         child: Text(
                           "Entrar com Google",

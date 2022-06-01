@@ -10,17 +10,11 @@ String nome = '';
 String email = '';
 String empresa = '';
 String idToken = '';
-String telefone = '';
-String permissao = '';
 String marca = '';
 String preco = '';
 String unidadeMedida = '';
 String procuraProduto = '';
-var userCredential;
-String userName = '';
-String userEmail = '';
 String cotacaoSelecionada = '';
-String senhaRedefinicao = '';
 String nomeProduto = '';
 String senhaAcessoApp = '';
 String novoNomeProduto = '';
@@ -306,7 +300,8 @@ void enviaParaPreCotacao(String nomeProduto, String tipoProduto) async {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-enviaTudoParaCotacao() async {
+Future<int> enviaTudoParaPreCotacao() async {
+  print("Iniciando envio de produtos para pre cotacao...");
   var query = await db.collection("produtos_").get();
 
   for (var doc in query.docs) {
@@ -323,6 +318,88 @@ enviaTudoParaCotacao() async {
             " não enviado para pré-cotação: " +
             error.toString()));
   }
+  print("Terminando envio de produtos para pre cotacao...");
+  return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Future<void> widgetEnviaTudoParaCotacao(BuildContext context) async {
+  AlertDialog loadingEnviaParaPreCotacao = AlertDialog(
+    content: Container(
+        width: MediaQuery.of(context).size.width * .8,
+        height: MediaQuery.of(context).size.height * 0.3,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            FutureBuilder(
+              future: enviaTudoParaPreCotacao(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Text("Produtos colocados em pré-cotação!",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 19))),
+                      Center(
+                          child: Text("Toque para fechar",
+                              style: TextStyle(fontSize: 16))),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .8,
+                        height: MediaQuery.of(context).size.height * .08,
+                        margin: EdgeInsets.only(top: 30),
+                        child: ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              "Fechar",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            )),
+                      ),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("Algo deu errado...");
+                } else {
+                  return Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Text("Enviando produtos...",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 19))),
+                      Center(
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: 15),
+                            child: Text("Aguarde")),
+                      ),
+                      Container(
+                          width: 50,
+                          height: 50,
+                          margin: EdgeInsets.only(top: 20),
+                          child: CircularProgressIndicator()),
+                    ],
+                  ));
+                }
+              },
+            ),
+          ],
+        )),
+  );
+
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return loadingEnviaParaPreCotacao;
+    },
+  );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -351,7 +428,7 @@ void deletaPrecosAtuaisProdutos() async {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void enviaParaCotacao() async {
+Future<int> enviaParaCotacao() async {
   var produtoEmPreCotacao = await db.collection("produtosParaCotacao").get();
   var produtoEmCotacaoAntiga = await db.collection("produtosEmCotacao").get();
   var produtosRespondidos = await db.collection("produtosRespondidos").get();
@@ -371,7 +448,7 @@ void enviaParaCotacao() async {
         .collection("produtos")
         .get();
     for (var doc in query.docs) {
-      db
+      await db
           .collection("produtosRespondidos")
           .doc(doc2['empresa'])
           .collection("produtos")
@@ -383,7 +460,7 @@ void enviaParaCotacao() async {
   }
 
   for (var doc in produtosRespondidos.docs) {
-    db.collection("produtosRespondidos").doc(doc['empresa']).delete();
+    await db.collection("produtosRespondidos").doc(doc['empresa']).delete();
   }
 
   for (var doc3 in produtosRespondidosModal.docs) {
@@ -394,7 +471,7 @@ void enviaParaCotacao() async {
         .get();
 
     for (var doc in query.docs) {
-      db
+      await db
           .collection("produtosRespondidosModal")
           .doc(doc3['empresa'])
           .collection("produtos")
@@ -404,11 +481,14 @@ void enviaParaCotacao() async {
   }
 
   for (var doc in produtosRespondidosModal.docs) {
-    db.collection("produtosRespondidosModal").doc(doc['empresa']).delete();
+    await db
+        .collection("produtosRespondidosModal")
+        .doc(doc['empresa'])
+        .delete();
   }
 
   for (var doc4 in deletaPrecosProdutos.docs) {
-    db.collection("produtos_").doc(doc4['nomeProduto']).update({
+    await db.collection("produtos_").doc(doc4['nomeProduto']).update({
       "precoMaisAlto": "0.00",
       "precoMaisBaixo": "0.00",
       "empresaPrecoAlto": "-/-",
@@ -416,23 +496,23 @@ void enviaParaCotacao() async {
     });
   }
   for (var doc in produtoEmCotacaoAntiga.docs) {
-    db.collection("produtosEmCotacao").doc(doc['nomeProduto']).delete();
+    await db.collection("produtosEmCotacao").doc(doc['nomeProduto']).delete();
   }
   for (var doc in produtoEmPreCotacao.docs) {
-    db.collection("produtosEmCotacao").doc(doc['nomeProduto']).set({
+    await db.collection("produtosEmCotacao").doc(doc['nomeProduto']).set({
       "nomeProduto": doc['nomeProduto'],
       "tipoProduto": doc['tipoProduto']
     }).then((value) => print("Produto enviado para cotação!!!"));
 
-    db.collection("produtosParaCotacao").doc(doc['nomeProduto']).delete();
+    await db.collection("produtosParaCotacao").doc(doc['nomeProduto']).delete();
   }
 
   for (var doc in comprarDe.docs) {
-    db
+    await db
         .collection("comprasPassadas")
         .doc(dateFormatted)
         .set({"dataHora": dateFormatted});
-    db
+    await db
         .collection("comprasPassadas")
         .doc(dateFormatted)
         .collection("empresas")
@@ -445,7 +525,7 @@ void enviaParaCotacao() async {
         .collection("produtos")
         .get();
     for (var doc2 in query2.docs) {
-      db
+      await db
           .collection("comprasPassadas")
           .doc(dateFormatted)
           .collection("empresas")
@@ -458,18 +538,97 @@ void enviaParaCotacao() async {
         "preço": doc2['preço']
       });
 
-      db
+      await db
           .collection("comprarDe")
           .doc(doc['empresa'])
           .collection("produtos")
           .doc(doc2['nomeProduto'])
           .delete();
     }
-    db.collection("comprarDe").doc(doc['empresa']).delete();
+    await db.collection("comprarDe").doc(doc['empresa']).delete();
   }
+
+  return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Future<void> widgetEnviaParaCotacao(BuildContext context) async {
+  AlertDialog widget = AlertDialog(
+    content: Container(
+      width: MediaQuery.of(context).size.width * .8,
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          FutureBuilder(
+              future: enviaParaCotacao(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      Center(
+                        child: Text("Produtos enviados para cotação!",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      Center(
+                        child: Text("Toque para fechar"),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * .8,
+                        height: MediaQuery.of(context).size.height * .08,
+                        margin: EdgeInsets.only(top: 30),
+                        child: ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              "Fechar",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            )),
+                      ),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("Algo deu Errado");
+                } else {
+                  return Center(
+                      child: Column(
+                    children: [
+                      Center(
+                          child: Text("Enviando para cotação...",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 19))),
+                      Center(
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: 15),
+                            child: Text("Aguarde")),
+                      ),
+                      Container(
+                          width: 50,
+                          height: 50,
+                          margin: EdgeInsets.only(top: 20),
+                          child: CircularProgressIndicator()),
+                    ],
+                  ));
+                }
+              })
+        ],
+      ),
+    ),
+  );
+
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return widget;
+      });
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void gravaCotacoesAntigas() async {
   List lista = [];
 
@@ -807,8 +966,11 @@ Future<int> calculaPrecos() async {
 Future<void> widgetCalculaPrecos(BuildContext context) async {
   AlertDialog loadingCalculaPrecos = AlertDialog(
     content: Container(
-        height: MediaQuery.of(context).size.height * 0.2,
+        width: MediaQuery.of(context).size.width * .8,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             FutureBuilder(
               future: calculaPrecos(),
@@ -882,4 +1044,70 @@ Future<void> widgetCalculaPrecos(BuildContext context) async {
       return loadingCalculaPrecos;
     },
   );
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Future<void> enviarTodosOsProdutos(BuildContext context) async {
+  return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+            child: Container(
+                width: MediaQuery.of(context).size.width * .8,
+                height: MediaQuery.of(context).size.height * .35,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Atenção, você enviará todos ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 19),
+                      ),
+                      Text(
+                        "os produtos para pré-cotação!",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 19),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 20),
+                        child: Text(
+                          "Prosseguir?",
+                          style: TextStyle(fontSize: 19),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width * .20,
+                                height:
+                                    MediaQuery.of(context).size.height * .05,
+                                child: ElevatedButton(
+                                    onPressed: () async {
+                                      await widgetEnviaTudoParaCotacao(context);
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Sim",
+                                        style:
+                                            TextStyle(color: Colors.white)))),
+                            Container(
+                                width: MediaQuery.of(context).size.width * .20,
+                                height:
+                                    MediaQuery.of(context).size.height * .05,
+                                child: ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text("Não",
+                                        style:
+                                            TextStyle(color: Colors.white)))),
+                          ],
+                        ),
+                      )
+                    ])));
+      });
 }
