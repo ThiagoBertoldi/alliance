@@ -116,7 +116,8 @@ class _MyHomePageState_Login extends State<HomePage_Login> {
                                   MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           HomePage_Home(title: "ALLIANCE"))))
-                              .onError((error, stackTrace) => print("Erro OK"));
+                              .onError(
+                                  (error, stackTrace) => erroLogin(context));
                         },
                         child: Text(
                           "Entrar com Google",

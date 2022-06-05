@@ -27,95 +27,6 @@ class MenuCliente_State extends StatefulWidget {
 class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
   final DateTime date = DateTime.now();
 
-  Future<void> _showDialogAlteraNomeProduto(
-      String nomeProduto,
-      String marca,
-      String precoMaisAlto,
-      String precoMaisBaixo,
-      String unidadeMedida,
-      String tipoProduto,
-      String empresaPrecoAlto,
-      String empresaPrecoBaixo) async {
-    return showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.35,
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 30),
-                    child: Text("Qual o novo nome?",
-                        style: TextStyle(
-                            fontSize: 19,
-                            color: Colors.orange,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Text(
-                        nomeProduto,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                  Container(
-                    margin: EdgeInsets.only(top: 25),
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    child: TextFormField(
-                      initialValue: nomeProduto,
-                      onChanged: (text) {
-                        novoNomeProduto = text;
-                      },
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5),
-                                  bottomRight: Radius.circular(5))),
-                          icon: Icon(Icons.fastfood),
-                          hintText: 'Novo Nome'),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 25),
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5),
-                                  bottomRight: Radius.circular(5))),
-                          primary: Colors.orange,
-                          onPrimary: Colors.white),
-                      onPressed: () {
-                        editaNomeProduto(
-                            nomeProduto,
-                            novoNomeProduto,
-                            marca,
-                            precoMaisAlto,
-                            precoMaisBaixo,
-                            unidadeMedida,
-                            tipoProduto,
-                            empresaPrecoAlto,
-                            empresaPrecoBaixo);
-
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("Salvar"),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
   @override
   Widget build(
     BuildContext context,
@@ -261,8 +172,8 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                             icon: const Icon(Icons.delete),
                                                                                             color: Colors.white,
                                                                                             onPressed: () {
-                                                                                              deletaProduto(docSnapshot['nomeProduto']);
                                                                                               Navigator.pop(context);
+                                                                                              deletaProduto(docSnapshot['nomeProduto']);
                                                                                             },
                                                                                           ),
                                                                                         ),
@@ -290,7 +201,9 @@ class _MyHomePageState_MenuCliente extends State<MenuCliente_State> {
                                                                                             icon: const Icon(Icons.edit),
                                                                                             color: Colors.white,
                                                                                             onPressed: () {
-                                                                                              _showDialogAlteraNomeProduto(docSnapshot['nomeProduto'], docSnapshot['marca'], docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo'], docSnapshot['unidadeMedida'], docSnapshot['tipoProduto'], docSnapshot['empresaPrecoAlto'], docSnapshot['empresaPrecoBaixo']);
+                                                                                              Navigator.pop(context);
+
+                                                                                              showDialogAlteraNomeProduto(docSnapshot['nomeProduto'], docSnapshot['precoMaisAlto'], docSnapshot['precoMaisBaixo'], docSnapshot['tipoProduto'], docSnapshot['empresaPrecoAlto'], docSnapshot['empresaPrecoBaixo'], context);
                                                                                             },
                                                                                           ),
                                                                                         ),

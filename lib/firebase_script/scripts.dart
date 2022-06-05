@@ -28,6 +28,33 @@ final DateTime date = DateTime.now();
 final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
 final String dateFormatted = formatter.format(date);
 
+Future<void> erroLogin(BuildContext context) async {
+  AlertDialog widget = AlertDialog(
+      content: Container(
+    width: MediaQuery.of(context).size.width * .8,
+    height: MediaQuery.of(context).size.height * .1,
+    child: Column(
+      children: [
+        Center(
+          child: Text(
+            "Algo de errado!",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        Center(
+          child: Text("Reinicie o app e tente novamente..."),
+        )
+      ],
+    ),
+  ));
+
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return widget;
+      });
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void gravaNovoProduto(String nomeProduto, String tipoProduto) {
   if (nomeProduto != '' || tipoProduto != '') {
@@ -127,149 +154,121 @@ void deletaProduto(String nomeProduto) async {
 void editaNomeProduto(
     String nomeProduto,
     String novoNome,
-    String marca,
     String precoMaisAlto,
     String precoMaisBaixo,
-    String unidadeMedida,
     String tipoProduto,
     String empresaPrecoAlto,
-    String empresaPrecoBaixo) async {
+    String empresaPrecoBaixo,
+    BuildContext context) async {
   if (novoNome == '' || novoNome == nomeProduto) {
     return;
   }
 
-  await db
+  await db.collection("produtos_").doc(novoNome).set({
+    "nomeProduto": novoNome,
+    "precoMaisAlto": precoMaisAlto,
+    "precoMaisBaixo": precoMaisBaixo,
+    "tipoProduto": tipoProduto,
+    "empresaPrecoAlto": empresaPrecoAlto,
+    "empresaPrecoBaixo": empresaPrecoBaixo
+  }).then((value) async => await db
       .collection("produtos_")
-      .doc(novoNome)
-      .set({
-        "nomeProduto": novoNome,
-        "precoMaisAlto": precoMaisAlto,
-        "precoMaisBaixo": precoMaisBaixo,
-        "tipoProduto": tipoProduto,
-        "empresaPrecoAlto": empresaPrecoAlto,
-        "empresaPrecoBaixo": empresaPrecoBaixo
-      })
-      .then((value) => db.collection("produtos_").doc(nomeProduto).delete())
-      .onError((error, stackTrace) => print(
-          "Produto não alterado em \"produtos_\":" +
-              nomeProduto +
-              " || " +
-              error.toString()));
-
-  await db
-      .collection("produtosEmCotacao")
-      .doc(novoNome)
-      .set({"nomeProduto": novoNome, "tipoProduto": tipoProduto}).then(
-          (value) => db
-              .collection("produtosEmCotacao")
-              .doc(nomeProduto)
-              .delete()
-              .onError((error, stackTrace) => print(
-                  "Erro ao modificar em \"produtosEmCotacao\": " +
-                      nomeProduto +
-                      " || " +
-                      error.toString())));
-
-  await db
-      .collection("precoAtualProduto")
-      .doc(novoNome)
-      .set({"nomeProduto": novoNome});
-
-  var query = await db
-      .collection("precoAtualProduto")
       .doc(nomeProduto)
-      .collection("empresas")
-      .get();
-
-  for (var doc in query.docs) {
-    await db
-        .collection("precoAtualProduto")
-        .doc(novoNome)
-        .collection("empresas")
-        .doc(doc['empresa'])
-        .set({
-          "nomeProduto": novoNome,
-          "empresa": doc['empresa'],
-          "preço": doc['preço']
-        })
-        .then((value) => db
-            .collection("precoAtualProduto")
-            .doc(nomeProduto)
-            .collection("empresas")
-            .doc(doc['empresa'])
-            .delete())
-        .onError((error, stackTrace) =>
-            print("Erro ao modificar em \"precoAtualProduto\""));
-  }
-
-  await db.collection("precoAtualProduto").doc(nomeProduto).delete();
-
-  var query2 = await db.collection("produtosRespondidos").get();
-  for (var doc2 in query2.docs) {
-    var recebeValores = await db
-        .collection("produtosRespondidos")
-        .doc(doc2['empresa'])
-        .collection("produtos")
-        .get();
-
-    for (var doc3 in recebeValores.docs) {
-      await db
-          .collection("produtosRespondidos")
-          .doc(doc2['empresa'])
-          .collection("produtos")
-          .doc(novoNome)
-          .set({
-        "nomeProduto": novoNome,
-        "empresa": doc2['empresa'],
-        "marca": doc3['marca'],
-        "preço": doc3['preço'],
-        "unidadeMedida": doc3['unidadeMedida']
-      }).then((value) => db
-              .collection("produtosRespondidos")
-              .doc(doc2['empresa'])
-              .collection("produtos")
-              .doc(nomeProduto)
-              .delete());
-      break;
-    }
-  }
-
-  var query3 = await db.collection("produtosRespondidosModal").get();
-
-  for (var doc3 in query3.docs) {
-    var query4 = await db
-        .collection("produtosRespondidosModal")
-        .doc(doc3['empresa'])
-        .collection("produtos")
-        .get();
-    for (var doc4 in query4.docs) {
-      await db
-          .collection("produtosRespondidosModal")
-          .doc(doc3['empresa'])
-          .collection("produtos")
-          .doc(novoNome)
-          .set({
-        "nomeProduto": novoNome,
-        "marca": doc4['marca'],
-        "empresa": doc4['empresa'],
-        "preço": doc4['preço'],
-        "unidadeMedida": doc4['unidadeMedida']
-      }).then((value) => db
-              .collection("produtosRespondidosModal")
-              .doc(doc3['empresa'])
-              .collection("produtos")
-              .doc(nomeProduto)
-              .delete());
-      break;
-    }
-  }
-
-  await db.collection("produtosParaCotacao").doc(nomeProduto).delete();
+      .delete()
+      .then((value) => print("Nome alterado"))
+      .onError((error, stackTrace) => print("Nome não alterado")));
 
   print("Alteração de nome realizada...");
 
   novoNome = '';
   novoNomeProduto = '';
+}
+
+Future<void> showDialogAlteraNomeProduto(
+    String nomeProduto,
+    String precoMaisAlto,
+    String precoMaisBaixo,
+    String tipoProduto,
+    String empresaPrecoAlto,
+    String empresaPrecoBaixo,
+    BuildContext context) async {
+  return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.35,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 30),
+                  child: Text("Qual o novo nome?",
+                      style: TextStyle(
+                          fontSize: 19,
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold)),
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: Text(
+                      nomeProduto,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                Container(
+                  margin: EdgeInsets.only(top: 25),
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  child: TextFormField(
+                    initialValue: nomeProduto,
+                    onChanged: (text) {
+                      novoNomeProduto = text;
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5),
+                                bottomRight: Radius.circular(5))),
+                        icon: Icon(Icons.fastfood),
+                        hintText: 'Novo Nome'),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 25),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5),
+                                bottomRight: Radius.circular(5))),
+                        primary: Colors.orange,
+                        onPrimary: Colors.white),
+                    onPressed: () {
+                      editaNomeProduto(
+                          nomeProduto,
+                          novoNomeProduto,
+                          precoMaisAlto,
+                          precoMaisBaixo,
+                          tipoProduto,
+                          empresaPrecoAlto,
+                          empresaPrecoBaixo,
+                          context);
+
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Salvar"),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -436,6 +435,7 @@ Future<int> enviaParaCotacao() async {
       await db.collection("produtosRespondidosModal").get();
   var deletaPrecosProdutos = await db.collection("produtos_").get();
   var comprarDe = await db.collection("comprarDe").get();
+  var produtosRespondidoss = await db.collection("produtosRespondidoss").get();
 
   gravaCotacoesAntigas();
 
@@ -543,9 +543,53 @@ Future<int> enviaParaCotacao() async {
           .doc(doc['empresa'])
           .collection("produtos")
           .doc(doc2['nomeProduto'])
-          .delete();
+          .delete()
+          .then((value) async =>
+              await db.collection("comprarDe").doc(doc['empresa']).delete());
     }
-    await db.collection("comprarDe").doc(doc['empresa']).delete();
+  }
+
+  for (var doc in produtosRespondidoss.docs) {
+    var query = await db
+        .collection("produtosRespondidoss")
+        .doc(doc['nomeProduto'])
+        .collection("empresas")
+        .get();
+    for (var doc in query.docs) {
+      await db
+          .collection("bKPCotacoesPassadas")
+          .doc(dateFormatted)
+          .set({"data": dateFormatted}).then((value) async => await db
+              .collection("bKPCotacoesPassadas")
+              .doc(dateFormatted)
+              .collection("bKPCotacoesPassadas")
+              .doc(doc['nomeProduto'])
+              .set({'nomeProduto': doc['nomeProduto']})
+              .then((value) async => await db
+                      .collection("bKPCotacoesPassadas")
+                      .doc(dateFormatted)
+                      .collection("bKPCotacoesPassadas")
+                      .doc(doc['nomeProduto'])
+                      .collection("empresas")
+                      .doc(doc['empresa'])
+                      .set({
+                    "empresa": doc['empresa'],
+                    "marca": doc['marca'],
+                    "nomeProduto": doc['nomeProduto'],
+                    "preço": doc['preço'],
+                    "unidadeMedida": doc['unidadeMedida']
+                  }))
+              .then((value) async => await db
+                  .collection("produtosRespondidoss")
+                  .doc(doc['nomeProduto'])
+                  .collection("empresas")
+                  .doc(doc['empresa'])
+                  .delete()
+                  .then((value) async => await db
+                      .collection("produtosRespondidoss")
+                      .doc(doc['nomeProduto'])
+                      .delete())));
+    }
   }
 
   return 0;
